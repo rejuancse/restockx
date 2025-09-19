@@ -1,0 +1,2 @@
+# alertx
+simple wordpress plugin
