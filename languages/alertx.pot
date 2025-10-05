@@ -1,0 +1,193 @@
+# Copyright (C) 2025 TheBitCraft
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: AlertX 1.0.8\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/alertx\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-02-22T07:55:27+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: alertx\n"
+
+#. Plugin Name of the plugin
+#: alertx.php
+msgid "AlertX"
+msgstr ""
+
+#. Description of the plugin
+#: alertx.php
+msgid "AlertX is a WordPress plugin to find and remove unused media files, manage duplicates, and optimize your media library for better performance."
+msgstr ""
+
+#. Author of the plugin
+#: alertx.php
+msgid "TheBitCraft"
+msgstr ""
+
+#. Author URI of the plugin
+#: alertx.php
+msgid "https://thebitcraft.com/"
+msgstr ""
+
+#: includes/Admin/Duplicate_Images.php:39
+#: includes/Admin/Duplicate_Images.php:242
+msgid "Select Filter"
+msgstr ""
+
+#: includes/Admin/Duplicate_Images.php:41
+#: includes/Admin/Duplicate_Images.php:243
+msgid "Duplicate Images"
+msgstr ""
+
+#: includes/Admin/Duplicate_Images.php:266
+msgid "No duplicate images found"
+msgstr ""
+
+#: includes/Admin/Duplicate_Images.php:270
+msgid "Error fetching duplicate images"
+msgstr ""
+
+#: includes/Admin/Media_Usage.php:25
+msgid "Media Usage"
+msgstr ""
+
+#: includes/Admin/Media_Usage.php:49
+msgid "Site Icon (Favicon)"
+msgstr ""
+
+#: includes/Admin/Media_Usage.php:140
+msgid "#"
+msgstr ""
+
+#: includes/Admin/Media_Usage.php:141
+msgid "Title"
+msgstr ""
+
+#: includes/Admin/Media_Usage.php:142
+msgid "Type"
+msgstr ""
+
+#: includes/Admin/Media_Usage.php:143
+msgid "Date Added"
+msgstr ""
+
+#: includes/Admin/Media_Usage.php:144
+msgid "Actions"
+msgstr ""
+
+#: includes/Admin/Media_Usage.php:157
+msgid "System Setting"
+msgstr ""
+
+#: includes/Admin/Media_Usage.php:160
+msgid "Customize Site Icon"
+msgstr ""
+
+#. Translators: This is a time difference string
+#: includes/Admin/Media_Usage.php:170
+msgid "%s ago"
+msgstr ""
+
+#: includes/Admin/Media_Usage.php:192
+msgid "Admin View"
+msgstr ""
+
+#: includes/Admin/Media_Usage.php:193
+msgid "Frontend View"
+msgstr ""
+
+#: includes/Admin/Media_Usage.php:201
+msgid "No posts or pages found using this media file."
+msgstr ""
+
+#: includes/Admin/Menu.php:31
+#: includes/Admin/Menu.php:32
+msgid "Unused Media"
+msgstr ""
+
+#: includes/Admin/Menu.php:78
+msgid "Number of items per page:"
+msgstr ""
+
+#: includes/Admin/Unused_Media_List.php:52
+msgid "File"
+msgstr ""
+
+#: includes/Admin/Unused_Media_List.php:53
+msgid "Author"
+msgstr ""
+
+#: includes/Admin/Unused_Media_List.php:54
+msgid "Size"
+msgstr ""
+
+#: includes/Admin/Unused_Media_List.php:55
+msgid "Date"
+msgstr ""
+
+#: includes/Admin/Unused_Media_List.php:80
+msgid "Edit"
+msgstr ""
+
+#: includes/Admin/Unused_Media_List.php:81
+msgid "View"
+msgstr ""
+
+#: includes/Admin/Unused_Media_List.php:82
+msgid "Delete Permanently"
+msgstr ""
+
+#. translators: %s: post title
+#: includes/Admin/Unused_Media_List.php:86
+msgid "“%s” (Edit)"
+msgstr ""
+
+#: includes/Admin/Unused_Media_List.php:95
+msgid "File name:"
+msgstr ""
+
+#: includes/Admin/Unused_Media_List.php:376
+msgid "Delete permanently"
+msgstr ""
+
+#. translators: %d: number of deleted media files
+#: includes/Admin/Unused_Media_List.php:402
+msgid "%d media file(s) deleted successfully."
+msgstr ""
+
+#: includes/Admin/views/unused-media-list.php:8
+msgid "Unused Media Files"
+msgstr ""
+
+#: includes/Admin/views/unused-media-list.php:16
+msgid "unused media found!"
+msgstr ""
+
+#: includes/Admin/views/unused-media-list.php:20
+msgid "Search Media"
+msgstr ""
+
+#: includes/Installer.php:55
+msgid "AlertX Plugin Feedback"
+msgstr ""
+
+#: includes/Installer.php:73
+msgid "If you have a moment, we'd love to know why you're deactivating the AlertX plugin!"
+msgstr ""
+
+#: includes/Installer.php:77
+msgid "Enter your feedback here..."
+msgstr ""
+
+#: includes/Installer.php:81
+msgid "Skip & Deactivate"
+msgstr ""
+
+#: includes/Installer.php:82
+msgid "Submit & Deactivate"
+msgstr ""
