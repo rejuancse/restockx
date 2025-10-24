@@ -63,10 +63,23 @@ final class Alertx {
         define( 'MEDIA_TRACKER_VERSION', self::version );
         define( 'MEDIA_TRACKER_FILE', __FILE__ );
         define( 'MEDIA_TRACKER_PATH', __DIR__ );
+        define('ALERTX_PLUGIN_DIR', plugin_dir_path(__FILE__));
         define( 'MEDIA_TRACKER_URL', plugins_url( '', MEDIA_TRACKER_FILE ) );
         define( 'MEDIA_TRACKER_ASSETS', MEDIA_TRACKER_URL . '/assets' );
         define( 'MEDIA_TRACKER_BASENAME', plugin_basename(__FILE__) );
     }
+
+    /**
+     * Include required files
+     */
+    private function includes() {
+        require_once ALERTX_PLUGIN_DIR . 'includes/class-alertx-system-monitor.php';
+        require_once ALERTX_PLUGIN_DIR . 'includes/class-alertx-security-monitor.php';
+        // require_once ALERTX_PLUGIN_DIR . 'includes/class-alertx-woocommerce-monitor.php';
+        require_once ALERTX_PLUGIN_DIR . 'includes/class-alertx-notifications.php';
+        // require_once ALERTX_PLUGIN_DIR . 'admin/class-alertx-admin.php';
+    }
+
 
     /**
      * Do stuff upon plugin activation
