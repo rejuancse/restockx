@@ -1,0 +1,404 @@
+.wrap.stock-notifications {
+    margin: 20px auto;
+    padding: 0 30px 0 10px;
+    background: transparent;
+    box-shadow: none;
+
+    .notifications-list-tablenav {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 15px;
+
+        select {
+            padding: 5px 24px 5px 8px;
+        }
+    }
+
+    .stock-header {
+        h1 {
+            color: #23282d;
+            font-size: 24px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+    }
+
+    td {
+        line-height: 0;
+    }
+
+    .button {
+        background-color: #007cba;
+        color: #ffffff;
+        border: none;
+        padding: 7px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 13px;
+        line-height: 2;
+        min-height: 30px;
+        margin: 0;
+        transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+        background-color: #006ba1;
+    }
+
+    .button.button-secondary {
+        background-color: #f8f9fa;
+        color: #23282d;
+        border: 1px solid #007cba;
+    }
+
+    .button.button-secondary:hover {
+        background-color: #007cba;
+        color: #ffffff;
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 200px;
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .form-table {
+        margin-top: 20px;
+    }
+
+    .form-table th {
+        width: 200px;
+        padding: 20px 10px 20px 0;
+        vertical-align: top;
+        text-align: left;
+    }
+
+    .form-table td {
+        padding: 15px 10px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    /* Dashboard Widget Styles */
+    #stock_notification_dashboard_widget .inside {
+        margin: 0;
+        padding: 0;
+    }
+
+    .stock-notification-stats {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+    }
+
+    .tablenav {
+        clear: both;
+        height: 30px;
+        margin: 20px 0 0;
+        padding: 0;
+        display: block;
+
+        .tablenav-pages {
+            margin: 0;
+        }
+    }
+
+    /* Pagination Container Styles */
+    .pagination-container {
+        text-align: center;
+        margin: 20px 0 0;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .pagination-container .page-numbers {
+        padding: 10px 15px;
+        margin: 0 5px;
+        font-size: 14px;
+        color: #0073aa;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .pagination-container .page-numbers:hover {
+        background-color: #0073aa;
+        color: #fff;
+        border-color: #0073aa;
+    }
+
+    .pagination-container .current {
+        background-color: #0073aa;
+        color: #fff;
+        border-color: #0073aa;
+        pointer-events: none;
+    }
+
+    .pagination-container .next,
+    .pagination-container .prev {
+        font-weight: bold;
+    }
+
+    .pagination-container .page-numbers.disabled {
+        color: #ccc;
+        pointer-events: none;
+        background-color: #f1f1f1;
+        border-color: #ddd;
+    }
+
+    .pagination-container .page-numbers.next,
+    .pagination-container .page-numbers.prev {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .pagination-container .page-numbers.next:hover,
+    .pagination-container .page-numbers.prev:hover {
+        background-color: #005a8f;
+        border-color: #005a8f;
+    }
+
+    /* Styling for the table */
+    .wp-list-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 0px;
+        overflow: hidden;
+        border: none;
+
+        .check-column {
+            align-items: center;
+            height: 100%;
+            padding: 22px 15px;
+            border-right: 1px solid #fafafa;
+        }
+
+        .subscribed {
+            color: #7ad03a;
+        }
+    }
+
+    /* Styling for table headers */
+    .wp-list-table thead th {
+        background-color: #f8f9fa;
+        color: #495057;
+        padding: 10px 15px;
+        text-align: left;
+        border-bottom: 2px solid #dee2e6;
+        font-weight: 600;
+    }
+
+    /* Styling for table rows */
+    .wp-list-table tbody tr {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    /* Styling for table cells */
+    .wp-list-table td {
+        padding: 10px 15px;
+        vertical-align: middle;
+        color: #495057;
+        font-weight: 600;
+    }
+
+    /* Styling for product images */
+    .wp-list-table img {
+        border-radius: 4px;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
+    /* Styling for product links */
+    .wp-list-table a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .wp-list-table a:hover {
+        text-decoration: underline;
+    }
+
+    .no-info {
+        padding: 30px 15px !important;
+    }
+}
+
+/* WC Stock Notification Admin Styles */
+.stock-notifications {
+    .wp-list-table {
+        a {
+            transition: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 700;
+        }
+    }
+}
+
+/* General Wrap Styles */
+.wrap.stock-notification-settings {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    max-width: 900px;
+
+    /* Headings */
+    h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #444;
+        margin: 0 0 15px;
+    }
+
+    .submit {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.notifications-list-tablenav {
+    .notification-count {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+    }
+}
+
+/* Notification Threshold Section */
+.notification-threshold {
+    margin-bottom: 25px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.notification-threshold label {
+    display: block;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.notification-threshold input[type="number"] {
+    width: 100%;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+.notification-threshold input[type="number"]:focus {
+    border-color: #007cba;
+}
+
+.notification-threshold .description {
+    font-size: 13px;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Email Template Guidelines */
+.template-guide-line {
+    margin-bottom: 25px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+
+    .guidelines {
+        margin-bottom: 30px;
+    }
+}
+
+.template-guide-line .guidelines p {
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.template-guide-line .guidelines ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.template-guide-line .guidelines li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #555;
+    position: relative;
+    padding-left: 20px;
+}
+
+.template-guide-line .guidelines li:before {
+    content: "\2022";
+    color: #007cba;
+    position: absolute;
+    left: 0;
+    font-size: 18px;
+}
+
+.template-guide-line code {
+    background-color: #f1f1f1;
+    padding: 2px 4px;
+    font-size: 90%;
+    color: #d9534f;
+    border-radius: 3px;
+}
+
+.wp-editor-container {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+/* Save Button */
+.submit input[type="submit"] {
+    background-color: #007cba;
+    border: none;
+    color: #fff;
+    padding: 6px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit input[type="submit"]:hover {
+    background-color: #006ba1;
+}
+
+.submit input[type="submit"]:focus {
+    outline: none;
+    background-color: #005f91;
+}

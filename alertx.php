@@ -1,13 +1,12 @@
 <?php
 /**
- * Plugin Name: AlertX
- * Description: AlertX is a WordPress plugin to find and remove unused media files, manage duplicates, and optimize your media library for better performance.
- * Author: TheBitCraft
- * Author URI: https://thebitcraft.com/
+ * Plugin Name: AlertX for WooCommerce
+ * Description: Inform customers when out-of-stock WooCommerce products return to stock. "Notify Me" functionality and automatic email reminders.
+ * Author: Rejuan Ahamed
  * Version: 1.0.0
- * Requires PHP: 7.4
  * Requires at least: 5.9
- * Tested up to: 6.8.3
+ * Requires PHP: 7.4
+ * Tested up to: 7.0
  * Text Domain: alertx
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -20,34 +19,42 @@ require_once __DIR__ . '/vendor/autoload.php';
 /**
  * The main plugin class
  */
-final class Alertx {
+final class AlertX {
 
     /**
      * Plugin version
      *
      * @var string
      */
-    const version = '1.1.0';
+    const version = '1.0.0';
 
     /**
-     * Class constructor
+     * Class construcotr
      */
     private function __construct() {
         $this->define_constants();
+        add_action( 'init', array( $this, 'stock_alert_language_load' ) );
         register_activation_hook( __FILE__, array( $this, 'activate' ) );
         add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
+        add_action( 'wp_enqueue_scripts', array( $this, 'frontend_script' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'admin_script' ) );
-        Alertx\Installer::deactivate();
+    }
+
+    /**
+    * Load Text Domain Language
+    */
+    function stock_alert_language_load(){
+        load_plugin_textdomain( 'alertx', false, basename( dirname( __FILE__ ) ).'/languages/' );
     }
 
     /**
      * Initialize a singleton instance
-     * @return \Alertx
+     * @return \AlertX
      */
     public static function init() {
         static $instance = false;
 
-        if ( ! $instance ) {
+        if( ! $instance ) {
             $instance = new self();
         }
 
@@ -60,26 +67,12 @@ final class Alertx {
      * @return void
      */
     public function define_constants() {
-        define( 'MEDIA_TRACKER_VERSION', self::version );
-        define( 'MEDIA_TRACKER_FILE', __FILE__ );
-        define( 'MEDIA_TRACKER_PATH', __DIR__ );
-        define('ALERTX_PLUGIN_DIR', plugin_dir_path(__FILE__));
-        define( 'MEDIA_TRACKER_URL', plugins_url( '', MEDIA_TRACKER_FILE ) );
-        define( 'MEDIA_TRACKER_ASSETS', MEDIA_TRACKER_URL . '/assets' );
-        define( 'MEDIA_TRACKER_BASENAME', plugin_basename(__FILE__) );
+        define( 'ALERTX_VERSION', self::version );
+        define( 'ALERTX_FILE', __FILE__ );
+        define( 'ALERTX_PATH', plugin_dir_path( ALERTX_FILE ) ); // Correct path to the plugin's directory
+        define( 'ALERTX_URL', plugin_dir_url( ALERTX_FILE ) );   // Correct URL for the plugin's assets
+        define( 'ALERTX_ASSETS', ALERTX_URL . 'assets' );        // URL for the plugin's assets directory
     }
-
-    /**
-     * Include required files
-     */
-    private function includes() {
-        require_once ALERTX_PLUGIN_DIR . 'includes/class-alertx-system-monitor.php';
-        require_once ALERTX_PLUGIN_DIR . 'includes/class-alertx-security-monitor.php';
-        // require_once ALERTX_PLUGIN_DIR . 'includes/class-alertx-woocommerce-monitor.php';
-        require_once ALERTX_PLUGIN_DIR . 'includes/class-alertx-notifications.php';
-        // require_once ALERTX_PLUGIN_DIR . 'admin/class-alertx-admin.php';
-    }
-
 
     /**
      * Do stuff upon plugin activation
@@ -87,7 +80,7 @@ final class Alertx {
      * @return void
      */
     public function activate() {
-        $installer = new Alertx\Installer();
+        $installer = new AlertX\Installer();
         $installer->run();
     }
 
@@ -97,34 +90,45 @@ final class Alertx {
      * @return void
      */
     public function init_plugin() {
-        new Alertx\Alertx_i18n();
-
-        if ( is_admin() ) {
-            new Alertx\Admin();
+        // Ensure DB schema is up to date
+        if ( class_exists( 'AlertX\Installer' ) ) {
+            $installer = new AlertX\Installer();
+            $installer->maybe_upgrade_schema();
         }
+        new AlertX\Admin();
+        new AlertX\Frontend();
     }
 
     /**
-     * Register necessary CSS and JS
+     * Registering necessary js and css
+     * @ Frontend
+     */
+    public function frontend_script(){
+        wp_enqueue_style( 'alertx-front', ALERTX_URL .'/assets/dist/css/notify-style.css', false, ALERTX_VERSION );
+
+        #JS
+        wp_enqueue_script( 'alertx-notify-script', ALERTX_URL .'/assets/dist/js/notify-script.js', array('jquery'), ALERTX_VERSION, true );
+        wp_localize_script( 'alertx-notify-script', 'notify_ajax', array(
+            'ajax_url' => admin_url( 'admin-ajax.php' ),
+            'nonce' => wp_create_nonce( 'stock_notification_nonce' )
+        ) );
+    }
+
+    /**
+     * Registering necessary js and css
      * @ Admin
      */
-    public function admin_script() {
-        wp_enqueue_style( 'mt-admin-style', MEDIA_TRACKER_URL . '/assets/dist/css/mt-admin.css', false, MEDIA_TRACKER_VERSION );
-        wp_enqueue_script( 'mt-admin-script', MEDIA_TRACKER_URL . '/assets/dist/js/mt-admin.js', array( 'jquery' ), MEDIA_TRACKER_VERSION, true );
-        wp_localize_script( 'mt-admin-script', 'mediaTacker', array(
-            'ajax_url' => admin_url( 'admin-ajax.php' ),
-            'nonce'    => wp_create_nonce( 'mediaTacker_nonce' ),
-            'security' => wp_create_nonce('media_tracker_nonce'),
-        ));
+    public function admin_script(){
+        wp_enqueue_style( 'alertx-admin', ALERTX_URL .'/assets/dist/css/stock-admin.css', false, ALERTX_VERSION );
     }
 }
 
 /**
- * Initialize the main plugin
+ * Initilizes the main plugin
  */
-function media_tracker_list() {
-    return Alertx::init();
+function alertx_get_alert() {
+    return AlertX::init();
 }
 
 // Kick-off the plugin
-media_tracker_list();
+alertx_get_alert();

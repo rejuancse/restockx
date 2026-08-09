@@ -165,30 +165,6 @@ gulp.task("customJS", () => {
 });
 
 /**
- * Task: `images`.
- *
- * Minifies PNG, JPEG, GIF and SVG images.
- *
- * This task does the following:
- *     1. Gets the source of images raw folder
- *     2. Minifies PNG, JPEG, GIF and SVG images
- *     3. Generates and saves the optimized images
- *
- * This task will run only once, if you want to run it
- * again, do it with the command `gulp images`.
- *
- * Read the following to change these options.
- */
-gulp.task("images", async () => {
-  return gulp
-    .src(config.imgSRC)
-    .pipe(gulp.dest(config.imgDST))
-    .on("end", () => {
-      console.log("\n\n===> Images Optimized\n");
-    });
-});
-
-/**
  * Task: `clear-images-cache`.
  *
  * Deletes the images cache. By running the next "images" task,
@@ -205,10 +181,9 @@ gulp.task("clearCache", function (done) {
  */
 gulp.task(
   "default",
-  gulp.parallel("styles", "customJS", "images", () => {
+  gulp.parallel("styles", "customJS", () => {
     gulp.watch(config.watchStyles, gulp.parallel("styles")); // Reload on SCSS file changes.
     gulp.watch(config.watchJsCustom, gulp.series("customJS")); // Reload on customJS file changes.
-    gulp.watch(config.imgSRC, gulp.series("images")); // Reload on customJS file changes.
   })
 );
 
@@ -217,4 +192,4 @@ gulp.task(
  *
  * Watches for file changes and runs specific tasks.
  */
-gulp.task("production", gulp.parallel("styles", "customJS", "images"));
+gulp.task("production", gulp.parallel("styles", "customJS"));

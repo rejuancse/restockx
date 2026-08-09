@@ -1,0 +1,67 @@
+/* Frontend Styles */
+/* File: frontend/assets/css/notify-styles.css */
+
+.stock-notification-container {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.notify-me-button-wrap {
+    margin-bottom: 20px;
+
+    #notify-me-button {
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    #notify-me-form {
+        margin-top: 15px;
+        margin-bottom: 20px;
+
+        .error-message {
+            margin: 0;
+        }
+    }
+
+    #notify-email {
+        width: 61%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 3px;
+        font-size: 16px;
+        box-shadow: none;
+        font-weight: 500;
+    }
+
+    #notify-me-form {
+        .form-fields {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    }
+
+    #submit-notify {
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .success-message {
+        color: #0f834d;
+    }
+
+    .error-message{
+        color: #e2401c;
+    }
+}

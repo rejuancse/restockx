@@ -27,10 +27,6 @@ module.exports = {
 	jsCustomSRC: './assets/src/js/**/*.js', // Path to JS custom scripts folder.
 	jsCustomDestination: './assets/dist/js/', // Path to place the compiled JS custom scripts file.
 
-	// Images options.
-	imgSRC: './assets/src/images/**/*', // Source folder of images which should be optimized and watched. You can also specify types e.g. raw/**.{png,jpg,gif} in the glob.
-	imgDST: './assets/dist/images/', // Destination folder of optimized images. Must be different from the imagesSRC folder.
-
 	// Watch files paths.
 	watchStyles: './assets/src/scss/**/*.scss', // Path to all *.scss files inside css folder and inside them.
 	watchJsCustom: './assets/src/js/**/*.js', // Path to all custom JS files.

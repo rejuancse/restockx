@@ -13,6 +13,7 @@
 
 # ignore node dependency directories (used by grunt)
 node_modules/
+package-lock.json
 
 # /vendor/
 **/.DS_Store

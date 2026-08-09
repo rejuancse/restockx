@@ -3,7 +3,7 @@
         'name' => 'thebitcraft/alertx',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '31b8e85609b6e2e9ffc1125251ffcfbbaacff72e',
+        'reference' => '2c5b81e3d71c0086e708957870f1c9223c85c850',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'thebitcraft/alertx' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '31b8e85609b6e2e9ffc1125251ffcfbbaacff72e',
+            'reference' => '2c5b81e3d71c0086e708957870f1c9223c85c850',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -1,10 +1,16 @@
 <?php
 
-namespace Alertx;
+namespace AlertX;
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Installer class
+ *
+ * @package AlertX
+ * @since 1.0.0
  */
+// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, PluginCheck.Security.DirectDB.UnescapedDBParameter
 class Installer {
 
     /**
@@ -12,77 +18,79 @@ class Installer {
      *
      * @since   1.0.0
      * @access  public
-     * @param   none
      * @return  void
      */
     public function run() {
         $this->add_version();
+        $this->create_tables();
     }
 
     /**
-     * Add time and version on DB
+     * Add time and version to the database
      *
      * @since   1.0.0
      * @access  public
-     * @param   none
      * @return  void
      */
     public function add_version() {
-        $installed = get_option( 'media_tracker_installed' );
+        $installed = get_option( 'stock_availability_alert_installed' );
 
         if ( ! $installed ) {
-            update_option( 'media_tracker_installed', time() );
+            update_option( 'stock_availability_alert_installed', time() );
         }
 
-        update_option( 'media_tracker_version', MEDIA_TRACKER_VERSION );
-    }
-
-    public static function deactivate() {
-        add_action( 'wp_ajax_mt_save_feedback', array( __CLASS__, 'save_feedback' ) );
-        add_action( 'admin_footer', array( __CLASS__, 'feedback_modal_html' ) );
+        update_option( 'stock_availability_alert_version', ALERTX_VERSION );
     }
 
     /**
-     * AJAX handler to save feedback
+     * Create necessary tables
+     *
+     * @since 1.0.0
+     * @access public
+     * @return void
      */
-    public static function save_feedback() {
-        check_ajax_referer('mediaTacker_nonce', 'nonce');
+    public function create_tables() {
+        global $wpdb;
 
-        $feedback = isset($_POST['feedback']) ? sanitize_textarea_field(wp_unslash($_POST['feedback'])) : '';
+        $table_name = $wpdb->prefix . 'stock_notifications';
+        $charset_collate = $wpdb->get_charset_collate();
 
-        if (!empty($feedback)) {
-            $to = 'hello@thebitcraft.com';
-            $subject = __( 'AlertX Plugin Feedback', 'alertx' );
-            $message = "Feedback:\n\n" . $feedback;
-            $headers = array('Content-Type: text/plain; charset=UTF-8');
+        $sql = "CREATE TABLE $table_name (
+            id mediumint(9) NOT NULL AUTO_INCREMENT,
+            email varchar(100) NOT NULL,
+            product_id bigint(20) NOT NULL,
+            date_added datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+            status varchar(20) DEFAULT 'pending' NOT NULL,
+            token varchar(64) DEFAULT '' NOT NULL,
+            PRIMARY KEY  (id)
+        ) $charset_collate;";
 
-            wp_mail($to, $subject, $message, $headers);
-
-            wp_send_json_success();
-        }
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta($sql);
     }
 
     /**
-     * Output HTML for feedback modal
+     * Upgrade table schema if missing columns
      */
-    public static function feedback_modal_html() { ?>
-        <div id="mt-feedback-modal">
-            <div class="mt-feedback-modal-content">
-                <header class="mt-feedback-modal-header">
-                    <span class="close">&times;</span>
-                    <h3><?php esc_html_e( "If you have a moment, we'd love to know why you're deactivating the AlertX plugin!", "alertx" ); ?></h3>
-                </header>
+    public function maybe_upgrade_schema() {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'stock_notifications';
 
-                <div class="mt-feedback-modal-body">
-                    <textarea name="feedback" placeholder="<?php esc_html_e( 'Enter your feedback here...', 'alertx' ) ?>"></textarea>
-                </div>
+        // Check for 'status' column
+        $has_status = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM `$table_name` LIKE %s", 'status' ) );
+        // Check for 'token' column
+        $has_token = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM `$table_name` LIKE %s", 'token' ) );
 
-                <footer class="mt-feedback-modal-footer">
-                    <button id="mt-skip-feedback"><?php esc_html_e( 'Skip & Deactivate', 'alertx' ); ?></button>
-                    <button id="mt-submit-feedback"><?php esc_html_e( 'Submit & Deactivate', 'alertx' ); ?></button>
-                </footer>
-            </div>
-        </div>
-        <?php
+        if ( empty( $has_status ) ) {
+            $wpdb->query( "ALTER TABLE `$table_name` ADD COLUMN `status` varchar(20) NOT NULL DEFAULT 'pending' AFTER `date_added`" );
+        }
+
+        if ( empty( $has_token ) ) {
+            $wpdb->query( "ALTER TABLE `$table_name` ADD COLUMN `token` varchar(64) NOT NULL DEFAULT '' AFTER `status`" );
+        }
     }
 }
+// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, PluginCheck.Security.DirectDB.UnescapedDBParameter
+
+// Register the activation hook in the main plugin file
+register_activation_hook( __FILE__, array( 'AlertX\Installer', 'run' ) );
