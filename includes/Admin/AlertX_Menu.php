@@ -79,7 +79,7 @@ class Alertx_Menu {
             'manage_options',
             'alertx',
             array( $this, 'admin_page' ),
-            ALERTX_URL . 'assets/src/img/logo.png'
+            ALERTX_URL . 'assets/src/img/icon.png'
         );
 
         add_submenu_page(

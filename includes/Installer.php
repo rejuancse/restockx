@@ -33,13 +33,13 @@ class Installer {
      * @return  void
      */
     public function add_version() {
-        $installed = get_option( 'stock_availability_alert_installed' );
+        $installed = get_option( 'alertx_installed' );
 
         if ( ! $installed ) {
-            update_option( 'stock_availability_alert_installed', time() );
+            update_option( 'alertx_installed', time() );
         }
 
-        update_option( 'stock_availability_alert_version', ALERTX_VERSION );
+        update_option( 'alertx_version', ALERTX_VERSION );
     }
 
     /**

@@ -21,7 +21,6 @@ class Admin {
         $this->wpdb = $wpdb;
         $this->table_name = $this->wpdb->prefix . 'stock_notifications';
 
-        new Admin\Initial_Setup();
         new Admin\Alertx_Menu();
 
         add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
