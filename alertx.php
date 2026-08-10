@@ -33,7 +33,8 @@ final class AlertX {
      */
     private function __construct() {
         $this->define_constants();
-        add_action( 'init', array( $this, 'stock_alert_language_load' ) );
+
+        add_action( 'init', array( $this, 'alertx_language_load' ) );
         register_activation_hook( __FILE__, array( $this, 'activate' ) );
         add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
         add_action( 'wp_enqueue_scripts', array( $this, 'frontend_script' ) );
@@ -43,7 +44,7 @@ final class AlertX {
     /**
     * Load Text Domain Language
     */
-    function stock_alert_language_load(){
+    function alertx_language_load(){
         load_plugin_textdomain( 'alertx', false, basename( dirname( __FILE__ ) ).'/languages/' );
     }
 

@@ -5,12 +5,12 @@ namespace AlertX\Admin;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class AlertX_Menu
+ * Class Alertx_Menu
  *
  * Handles the admin menu for stock notifications and associated functionalities.
  */
 // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, PluginCheck.Security.DirectDB.UnescapedDBParameter
-class AlertX_Menu {
+class Alertx_Menu {
     private static $instance = null;
     /**
      * Simple logger for debugging alert triggers.
@@ -18,18 +18,18 @@ class AlertX_Menu {
     private function log_debug( $message, $context = array() ) {
         if ( function_exists( 'wc_get_logger' ) ) {
             $logger = \wc_get_logger();
-            $logger->info( is_string( $message ) ? $message : wp_json_encode( $message ), array_merge( array( 'source' => 'stock-availability-alert' ), (array) $context ) );
+            $logger->info( is_string( $message ) ? $message : wp_json_encode( $message ), array_merge( array( 'source' => 'alertx' ), (array) $context ) );
         } else {
             // Fallback for environments without WooCommerce logger
             // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
-            error_log( '[stock-availability-alert] ' . ( is_string( $message ) ? $message : wp_json_encode( $message ) ) );
+            error_log( '[alertx] ' . ( is_string( $message ) ? $message : wp_json_encode( $message ) ) );
         }
     }
 
     /**
      * Retrieves the singleton instance of the class.
      *
-     * @return AlertX_Menu Singleton instance.
+     * @return Alertx_Menu Singleton instance.
      */
     public static function get_instance() {
         if (null === self::$instance) {
@@ -77,17 +77,26 @@ class AlertX_Menu {
             __( 'AlertX', 'alertx' ),
             __( 'AlertX', 'alertx' ),
             'manage_options',
-            'stock-availability-alert',
+            'alertx',
             array( $this, 'admin_page' ),
-            'dashicons-email-alt'
+            ALERTX_URL . 'assets/src/img/logo.png'
         );
 
         add_submenu_page(
-            'stock-availability-alert',
-            __( 'Alert Settings', 'alertx' ),
+            'alertx',
+            __( 'Notifications', 'alertx' ),
+            __( 'Notifications', 'alertx' ),
+            'manage_options',
+            'notifications',
+            array( $this, 'admin_notifications' )
+        );
+
+        add_submenu_page(
+            'alertx',
+            __( 'Settings', 'alertx' ),
             __( 'Settings', 'alertx' ),
             'manage_options',
-            'stock-availability-alert-settings',
+            'alertx-settings',
             array( $this, 'settings_page' )
         );
     }
@@ -101,6 +110,27 @@ class AlertX_Menu {
      * @return void
      */
     public function admin_page() {
+        if ( ! current_user_can( 'manage_woocommerce' ) ) {
+            wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'multi-order-tracker' ) );
+        }
+
+        $template_path = ALERTX_PATH . 'views/admin-dashboard.php';
+        if ( file_exists( $template_path ) ) {
+            include $template_path;
+        } else {
+            echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'multi-order-tracker' ) . '</p></div>';
+        }
+    }
+
+    /**
+     * Displays the admin page for managing stock notifications.
+     *
+     * This method handles CSV export requests, fetches stock notifications from the database,
+     * and includes the admin page template to render the notifications list.
+     *
+     * @return void
+     */
+    public function admin_notifications() {
         global $wpdb;
 
         // Handle CSV export if the export button was clicked.
@@ -147,7 +177,6 @@ class AlertX_Menu {
             echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'alertx' ) . '</p></div>';
         }
     }
-
     /**
      * Generates a CSV file of stock notifications and initiates a download.
      *

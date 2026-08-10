@@ -22,7 +22,7 @@ class Admin {
         $this->table_name = $this->wpdb->prefix . 'stock_notifications';
 
         new Admin\Initial_Setup();
-        new Admin\AlertX_Menu();
+        new Admin\Alertx_Menu();
 
         add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
 
@@ -81,7 +81,7 @@ class Admin {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading URL parameter for conditional display, not processing form data
         $page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
-        if ( 'stock-availability-alert' === $page || 'stock-availability-alert-settings' === $page ) {
+        if ( 'alertx' === $page || 'alertx-settings' === $page ) {
             // Remove all admin notices except our own
             remove_all_actions( 'admin_notices' );
             remove_all_actions( 'all_admin_notices' );

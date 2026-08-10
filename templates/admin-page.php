@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin page template for stock notifications
  *
- * Variables passed from AlertX_Menu::admin_page():
+ * Variables passed from Alertx_Menu::admin_page():
  * @var int $total_notifications Total number of notifications
  * @var array $notifications Array of notification objects
  * @var int $items_per_page Number of items per page
