@@ -23,6 +23,7 @@ class Assets {
 	 */
 	public function admin_script( $hook_suffix ) {
 		wp_enqueue_style( 'alertx-admin', ALERTX_URL .'/assets/dist/css/stock-admin.css', false, ALERTX_VERSION );
+		wp_enqueue_style( 'alertx_admin', ALERTX_URL .'/assets/dist/css/admin.css', false, ALERTX_VERSION );
 		// wp_enqueue_style( 'wp-color-picker' );
 
 		// $screen = get_current_screen();
