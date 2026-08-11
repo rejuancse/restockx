@@ -93,12 +93,80 @@ class Alertx_Menu {
 
         add_submenu_page(
             'alertx',
+            __( 'Subscribers', 'alertx' ),
+            __( 'Subscribers', 'alertx' ),
+            'manage_options',
+            'subscribers',
+            array( $this, 'admin_subscribers' )
+        );
+
+        add_submenu_page(
+            'alertx',
+            __( 'Email Templates', 'alertx' ),
+            __( 'Email Templates', 'alertx' ),
+            'manage_options',
+            'email-templates',
+            array( $this, 'admin_email_templates' )
+        );
+
+        add_submenu_page(
+            'alertx',
             __( 'Settings', 'alertx' ),
             __( 'Settings', 'alertx' ),
             'manage_options',
             'alertx-settings',
             array( $this, 'settings_page' )
         );
+    }
+
+
+    public function admin_subscribers() {
+        // Path to the settings page template
+        $template_path = ALERTX_PATH . 'views/subscribers.php';
+
+        // Check if the settings page template exists and include it
+        if (file_exists($template_path)) {
+            include($template_path);
+        } else {
+            // Display an error message if the template file does not exist
+            echo '<div class="error"><p>' . esc_html__('Subscribers Templates page not found.', 'alertx') . '</p></div>';
+        }
+    }
+
+
+    public function admin_email_templates() {
+        if ( isset( $_POST['submit_settings'] ) ) {
+            // Verify nonce for security
+            if ( ! isset( $_POST['settings_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['settings_nonce'] ) ), 'save_settings_action' ) ) {
+                wp_die( esc_html__( 'Security check failed.', 'alertx' ) );
+            }
+
+            if ( isset( $_POST['notification_threshold'] ) ) {
+                update_option( 'stock_notification_threshold', intval( sanitize_text_field( wp_unslash( $_POST['notification_threshold'] ) ) ) );
+            }
+
+            if ( isset( $_POST['email_templates'] ) ) {
+                update_option( 'stock_notification_email_templates', wp_kses_post( wp_unslash( $_POST['email_templates'] ) ) );
+            }
+
+            // Display success message
+            echo '<div class="updated"><p>' . esc_html__( 'Settings saved.', 'alertx' ) . '</p></div>';
+        }
+
+        // Retrieve current saved options; use defaults if not set
+        $threshold = get_option('stock_notification_threshold', 1);
+        $email_templates = get_option('stock_notification_email_templates', $this->get_default_email_templates());
+
+        // Path to the settings page template
+        $template_path = ALERTX_PATH . 'views/email-templates.php';
+
+        // Check if the settings page template exists and include it
+        if (file_exists($template_path)) {
+            include($template_path);
+        } else {
+            // Display an error message if the template file does not exist
+            echo '<div class="error"><p>' . esc_html__('Email Templates page not found.', 'alertx') . '</p></div>';
+        }
     }
 
     /**
@@ -167,7 +235,7 @@ class Alertx_Menu {
         );
 
         // Path to the admin page template file.
-        $template_path = ALERTX_PATH . 'templates/admin-page.php';
+        $template_path = ALERTX_PATH . 'views/notifications.php';
 
         // Check if the template exists before including it.
         if ( file_exists( $template_path ) ) {
@@ -223,37 +291,12 @@ class Alertx_Menu {
      * @return void
      */
     public function settings_page() {
-        if ( isset( $_POST['submit_settings'] ) ) {
-            // Verify nonce for security
-            if ( ! isset( $_POST['settings_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['settings_nonce'] ) ), 'save_settings_action' ) ) {
-                wp_die( esc_html__( 'Security check failed.', 'alertx' ) );
-            }
-
-            if ( isset( $_POST['notification_threshold'] ) ) {
-                update_option( 'stock_notification_threshold', intval( sanitize_text_field( wp_unslash( $_POST['notification_threshold'] ) ) ) );
-            }
-
-            if ( isset( $_POST['email_templates'] ) ) {
-                update_option( 'stock_notification_email_templates', wp_kses_post( wp_unslash( $_POST['email_templates'] ) ) );
-            }
-
-            // Display success message
-            echo '<div class="updated"><p>' . esc_html__( 'Settings saved.', 'alertx' ) . '</p></div>';
-        }
-
-        // Retrieve current saved options; use defaults if not set
-        $threshold = get_option('stock_notification_threshold', 1);
-        $email_templates = get_option('stock_notification_email_templates', $this->get_default_email_templates());
-
-        // Path to the settings page template
-        $template_path = ALERTX_PATH . 'templates/settings-page.php';
-
-        // Check if the settings page template exists and include it
-        if (file_exists($template_path)) {
-            include($template_path);
+        // Settings
+        $template_path = ALERTX_PATH . 'views/admin-settings.php';
+        if ( file_exists( $template_path ) ) {
+            include $template_path;
         } else {
-            // Display an error message if the template file does not exist
-            echo '<div class="error"><p>' . esc_html__('Settings page template not found.', 'alertx') . '</p></div>';
+            echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'multi-order-tracker' ) . '</p></div>';
         }
     }
 
@@ -274,7 +317,7 @@ class Alertx_Menu {
                             <tbody>
                                 <tr>
                                     <td style="padding: 0;">
-                                        <div style="background-color: #34495e; color: #f1c40f; padding: 20px; text-align: center;">
+                                        <div style="background: linear-gradient(135deg, #5212E8, #3C06C5); color: #fff; padding: 20px; text-align: center;">
                                             <h1 style="margin: 0; font-size: 20px; font-weight: 600;">' . esc_html__('Product Back in Stock', 'alertx') . '</h1>
                                         </div>
                                     </td>
@@ -288,7 +331,7 @@ class Alertx_Menu {
                                         <div class="success">
                                             <p class="text-large" style="color: #444; font-family: Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; font-size: 14px;">' . esc_html__('Hello,', 'alertx') . '</p>
                                             <p class="text-large" style="color: #444; font-family: Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; font-size: 14px;">' . wp_kses_post(__('Great news! The product <strong>{product_name}</strong> is now back in stock at <strong>{site_name}</strong>.', 'alertx')) . '</p>
-                                            <p class="text-large" style="color: #444; font-family: Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; font-size: 14px;">' . esc_html__('You can purchase it here:', 'alertx') . ' <a style="padding: 10px 20px; margin: 10px 0; background-color: #f1c40f; color: #ffffff; text-decoration: none; border-radius: 4px; font-weight: bold;" href="{product_url}">' . esc_html__('Buy Now', 'alertx') . '</a></p>
+                                            <p class="text-large" style="color: #444; font-family: Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; font-size: 14px;">' . esc_html__('You can purchase it here:', 'alertx') . ' <a style="padding: 10px 20px; margin: 10px 0; background: linear-gradient(135deg, #5212E8, #3C06C5); color: #ffffff; text-decoration: none; border-radius: 4px; font-weight: bold;" href="{product_url}">' . esc_html__('Buy Now', 'alertx') . '</a></p>
                                             <p class="text-large" style="color: #444; font-family: Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; font-size: 14px;">' . esc_html__('Thank you for your patience and interest in our products.', 'alertx') . '</p>
                                             <p class="text-large" style="color: #444; font-family: Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; font-size: 14px;">' . esc_html__('Best Regards,', 'alertx') . '</p>
                                             <p class="text-large" style="color: #444; font-family: Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; font-size: 14px;">' . esc_html__('The {site_name} Team', 'alertx') . '</p>
