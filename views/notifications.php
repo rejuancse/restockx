@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  */
 ?>
 
-<div id="alertx" class="main wrap stock-notifications">
+<div id="alertx" class="alertx main wrap stock-notifications">
     <?php include_once ALERTX_PATH .'/views/global/header.php'; ?>
 
     <main class="page">

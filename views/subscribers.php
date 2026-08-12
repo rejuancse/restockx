@@ -1,5 +1,5 @@
 
-<div id="alertx" class="main wrap">
+<div id="alertx" class="alertx main wrap">
     <?php include_once ALERTX_PATH .'/views/global/header.php'; ?>
 
     <section class="page" id="page-subscribers">
@@ -18,6 +18,11 @@
                     </svg> Export CSV </button>
             </div>
         </div>
+
+
+
+
+
         <section class="mini-stat-row">
             <div class="mini-stat">
                 <div class="val">12,847</div>

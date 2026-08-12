@@ -1,6 +1,6 @@
 <?php defined('ABSPATH') || exit; ?>
 
-<div id="alertx" class="main wrap">
+<div id="alertx" class="alertx main wrap">
     <?php include_once ALERTX_PATH .'/views/global/header.php'; ?>
 
     <main class="page">

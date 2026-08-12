@@ -20,7 +20,6 @@ class Alertx_Menu {
             $logger = \wc_get_logger();
             $logger->info( is_string( $message ) ? $message : wp_json_encode( $message ), array_merge( array( 'source' => 'alertx' ), (array) $context ) );
         } else {
-            // Fallback for environments without WooCommerce logger
             // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
             error_log( '[alertx] ' . ( is_string( $message ) ? $message : wp_json_encode( $message ) ) );
         }
@@ -117,8 +116,28 @@ class Alertx_Menu {
             'alertx-settings',
             array( $this, 'settings_page' )
         );
+
+        add_submenu_page(
+            'alertx',
+            __( 'Documentation', 'alertx' ),
+            __( 'Documentation', 'alertx' ),
+            'manage_options',
+            'alertx-documentation',
+            array( $this, 'settings_documentation' )
+        );
     }
 
+    public function settings_documentation() {
+        $template_path = ALERTX_PATH . 'views/documentation.php';
+
+        // Check if the settings page template exists and include it
+        if (file_exists($template_path)) {
+            include($template_path);
+        } else {
+            // Display an error message if the template file does not exist
+            echo '<div class="error"><p>' . esc_html__('Documentation Templates page not found.', 'alertx') . '</p></div>';
+        }
+    }
 
     public function admin_subscribers() {
         // Path to the settings page template
@@ -132,7 +151,6 @@ class Alertx_Menu {
             echo '<div class="error"><p>' . esc_html__('Subscribers Templates page not found.', 'alertx') . '</p></div>';
         }
     }
-
 
     public function admin_email_templates() {
         if ( isset( $_POST['submit_settings'] ) ) {

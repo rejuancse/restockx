@@ -7,7 +7,7 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 
-<div id="alertx" class="main wrap">
+<div id="alertx" class="alertx main wrap">
 	<?php include_once ALERTX_PATH .'/views/global/header.php'; ?>
 
 	<section class="page active" id="page-dashboard">

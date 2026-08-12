@@ -501,7 +501,6 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 16px;
     border-radius: 999px;
     background: var(--alertx-bg-tint);
     color: var(--alertx-body-text);
@@ -1289,16 +1288,6 @@ body {
     transform: translateX(2px);
 }
 
-.rtl #alertx .alertx-resource-link img {
-    margin-left: 0;
-    margin-right: 6px;
-    transform: rotate(180deg);
-}
-
-.rtl #alertx .alertx-resource-link:hover img {
-    transform: rotate(180deg) translateX(2px);
-}
-
 /* --------------------------------------------------------------------
    Misc
    -------------------------------------------------------------------- */
@@ -1307,5 +1296,3 @@ body {
     box-shadow: none;
     outline: 0;
 }
-
-/*# sourceMappingURL=mt-admin.css.map */
