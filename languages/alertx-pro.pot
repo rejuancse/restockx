@@ -1,0 +1,1020 @@
+# Copyright (C) 2026 Rejuan Ahamed
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Alertx for WooCommerce 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/alertx-pro\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-05T09:35:49+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: alertx-pro\n"
+
+#. Plugin Name of the plugin
+#: alertx.php
+msgid "Alertx for WooCommerce"
+msgstr ""
+
+#. Description of the plugin
+#: alertx.php
+msgid "Inform customers when out-of-stock WooCommerce products return to stock. \"Notify Me\" functionality and automatic email reminders."
+msgstr ""
+
+#. Author of the plugin
+#: alertx.php
+msgid "Rejuan Ahamed"
+msgstr ""
+
+#: includes/Admin.php:39
+msgid "AlertX Notification Statistics"
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:97
+#: includes/Admin/Alertx_Menu.php:98
+msgid "AlertX"
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:107
+#: includes/Admin/Alertx_Menu.php:108
+#: views/admin-new-campaign.php:65
+#: views/admin-subscribers.php:46
+msgid "Subscribers"
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:116
+#: includes/Admin/Alertx_Menu.php:117
+msgid "Email Templates"
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:125
+#: includes/Admin/Alertx_Menu.php:126
+#: views/admin-campaigns.php:33
+msgid "Campaigns"
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:134
+#: includes/Admin/Alertx_Menu.php:135
+msgid "New Campaign"
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:143
+#: includes/Admin/Alertx_Menu.php:144
+#: views/admin-settings.php:28
+msgid "Settings"
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:166
+msgid "Security token is missing. Please refresh the page and try again."
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:176
+msgid "Security check failed. Please refresh the page and try again."
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:181
+msgid "Error: Product/Variation ID not found. Please select a variation (if applicable) or refresh the page and try again."
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:191
+msgid "Too many requests. Please try again later."
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:216
+msgid "Invalid email address"
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:233
+msgid "Invalid product ID"
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:271
+msgid "You have already subscribed to notifications for this product."
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:278
+msgid "Your notification subscription has been renewed for this product."
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:346
+#: includes/Admin/Alertx_Menu.php:375
+#: includes/Admin/Alertx_Menu.php:399
+#: includes/Admin/Alertx_Menu.php:454
+msgid "this product"
+msgstr ""
+
+#. translators: %s: product name
+#: includes/Admin/Alertx_Menu.php:351
+#, php-format
+msgid "You have been subscribed to notifications for <strong>%s</strong>. We will notify you when it is back in stock."
+msgstr ""
+
+#. translators: %s: product name
+#: includes/Admin/Alertx_Menu.php:380
+#, php-format
+msgid "Almost done! Confirm your subscription via email to get notified when <strong>%s</strong> is back in stock."
+msgstr ""
+
+#. translators: %s: Product name
+#: includes/Admin/Alertx_Menu.php:412
+#, php-format
+msgid "Confirm your stock alert for %s"
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:418
+#: includes/Admin/Alertx_Menu.php:461
+#: includes/Admin/Alertx_Menu.php:707
+msgid "Stock Alerts"
+msgstr ""
+
+#. translators: 1: Product name, 2: Confirmation URL
+#: includes/Admin/Alertx_Menu.php:423
+#, php-format
+msgid "Please confirm your subscription to be notified when %1$s is back in stock. <a href=\"%2$s\">Click here to confirm</a>."
+msgstr ""
+
+#. translators: %s: Product name
+#: includes/Admin/Alertx_Menu.php:458
+#, php-format
+msgid "You are subscribed: %s stock alerts"
+msgstr ""
+
+#. translators: 1: Product name, 2: Site name, 3: Product URL
+#: includes/Admin/Alertx_Menu.php:465
+#, php-format
+msgid "You will receive an email as soon as <strong>%1$s</strong> is back in stock at %2$s.<br><br><a href=\"%3$s\">View product</a>"
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:493
+msgid "Invalid confirmation request."
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:507
+msgid "Subscription not found or already confirmed."
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:513
+msgid "Your subscription has been confirmed. Thank you!"
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:524
+msgid "Invalid unsubscribe request."
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:538
+msgid "Subscription not found."
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:550
+msgid "You have been unsubscribed from stock alerts."
+msgstr ""
+
+#. translators: %s: product name
+#: includes/Admin/Alertx_Menu.php:724
+#, php-format
+msgid "Product Back in Stock: %s"
+msgstr ""
+
+#: includes/Admin/Alertx_Menu.php:1438
+msgid "Selected notifications have been deleted."
+msgstr ""
+
+#: includes/Admin/Campaign_Ajax.php:375
+#: includes/Admin/Campaign_Ajax.php:871
+msgid "Subscriber"
+msgstr ""
+
+#: includes/Admin/Campaign_Ajax.php:1214
+msgid "All Products Discount"
+msgstr ""
+
+#: includes/Admin/Campaign_Ajax.php:1291
+#: includes/Admin/Pages/Email_Templates_Page.php:101
+msgid "Buy Now"
+msgstr ""
+
+#: includes/Admin/Pages/Campaigns_Page.php:205
+#: includes/Admin/Pages/Dashboard_Page.php:58
+#: includes/Admin/Pages/Dashboard_Page.php:503
+#: includes/Admin/Pages/New_Campaign_Page.php:34
+#: includes/Admin/Pages/Settings_Page.php:109
+#: includes/Admin/Pages/Subscribers_Page.php:165
+msgid "Template file not found."
+msgstr ""
+
+#: includes/Admin/Pages/Dashboard_Page.php:404
+#: views/admin-campaigns.php:225
+msgid "Draft"
+msgstr ""
+
+#: includes/Admin/Pages/Dashboard_Page.php:405
+#: views/admin-campaigns.php:80
+#: views/admin-campaigns.php:226
+msgid "Scheduled"
+msgstr ""
+
+#: includes/Admin/Pages/Dashboard_Page.php:406
+#: includes/Admin/Pages/Dashboard_Page.php:407
+#: views/admin-campaigns.php:227
+#: views/admin-campaigns.php:228
+msgid "Sent"
+msgstr ""
+
+#: includes/Admin/Pages/Dashboard_Page.php:408
+#: views/admin-campaigns.php:229
+msgid "Failed"
+msgstr ""
+
+#: includes/Admin/Pages/Dashboard_Page.php:409
+#: views/admin-campaigns.php:230
+msgid "Cancelled"
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:35
+#: includes/Admin/Pages/Subscribers_Page.php:118
+msgid "Security check failed."
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:51
+msgid "Settings saved."
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:66
+msgid "Settings page template not found."
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:88
+msgid "Product Back in Stock"
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:99
+msgid "Hello,"
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:100
+msgid "Great news! The product <strong>{product_name}</strong> is now back in stock at <strong>{site_name}</strong>."
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:101
+msgid "You can purchase it here:"
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:102
+msgid "Thank you for your patience and interest in our products."
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:103
+msgid "Best Regards,"
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:104
+msgid "The {site_name} Team"
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:115
+msgid "All rights reserved."
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:127
+msgid "If you no longer wish to receive alerts, you can"
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:127
+msgid "unsubscribe here"
+msgstr ""
+
+#: includes/Admin/Pages/Settings_Page.php:35
+msgid "You are not allowed to do this."
+msgstr ""
+
+#: includes/Admin/Pages/Settings_Page.php:41
+msgid "Invalid settings payload."
+msgstr ""
+
+#: includes/Admin/Pages/Settings_Page.php:81
+msgid "Invalid sender email address."
+msgstr ""
+
+#: includes/Admin/Pages/Settings_Page.php:88
+msgid "Settings saved successfully."
+msgstr ""
+
+#: includes/Admin/Pages/Subscribers_Page.php:214
+#: views/admin-subscribers.php:182
+msgid "Product not found"
+msgstr ""
+
+#: includes/Frontend/Add_Notify_Me_Button.php:33
+msgid "Notify Me When Available"
+msgstr ""
+
+#: includes/Frontend/Add_Notify_Me_Button.php:34
+msgid "We will email you as soon as this product is back in stock."
+msgstr ""
+
+#: includes/Frontend/Add_Notify_Me_Button.php:247
+#: includes/Frontend/Add_Notify_Me_Button.php:292
+msgid "Enter your email"
+msgstr ""
+
+#: includes/Frontend/Add_Notify_Me_Button.php:251
+#: includes/Frontend/Add_Notify_Me_Button.php:295
+#: views/admin-settings.php:43
+msgid "Notify Me"
+msgstr ""
+
+#: views/admin-campaigns.php:35
+msgid "Manual emails you've sent to subscriber lists — restocks, discounts, updates."
+msgstr ""
+
+#: views/admin-campaigns.php:41
+#: views/admin-dashboard.php:30
+#: views/admin-subscribers.php:57
+#: views/email-templates.php:27
+msgid "New campaign"
+msgstr ""
+
+#: views/admin-campaigns.php:59
+msgid "Active Campaigns"
+msgstr ""
+
+#: views/admin-campaigns.php:98
+msgid "Emails Delivered"
+msgstr ""
+
+#: views/admin-campaigns.php:119
+msgid "Coupon Uses This Month"
+msgstr ""
+
+#: views/admin-campaigns.php:134
+#: views/admin-subscribers.php:89
+msgid "Bulk Actions"
+msgstr ""
+
+#: views/admin-campaigns.php:135
+#: views/admin-campaigns.php:293
+#: views/admin-subscribers.php:90
+msgid "Delete"
+msgstr ""
+
+#. Translators: %d is the number of campaigns
+#. Translators: %d is the number of notifications
+#: views/admin-campaigns.php:147
+#: views/admin-subscribers.php:102
+#, php-format
+msgid "%d item"
+msgid_plural "%d items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/admin-campaigns.php:161
+msgid "Campaign"
+msgstr ""
+
+#: views/admin-campaigns.php:162
+msgid "Recipients"
+msgstr ""
+
+#: views/admin-campaigns.php:163
+msgid "Products"
+msgstr ""
+
+#: views/admin-campaigns.php:164
+msgid "Discount"
+msgstr ""
+
+#: views/admin-campaigns.php:165
+msgid "Schedule"
+msgstr ""
+
+#: views/admin-campaigns.php:166
+#: views/admin-subscribers.php:131
+msgid "Status"
+msgstr ""
+
+#: views/admin-campaigns.php:167
+msgid "Statistics"
+msgstr ""
+
+#: views/admin-campaigns.php:168
+msgid "Actions"
+msgstr ""
+
+#: views/admin-campaigns.php:179
+msgid "subscribers"
+msgstr ""
+
+#: views/admin-campaigns.php:181
+msgid "from CSV"
+msgstr ""
+
+#: views/admin-campaigns.php:183
+msgid "specific"
+msgstr ""
+
+#: views/admin-campaigns.php:189
+msgid "All products"
+msgstr ""
+
+#: views/admin-campaigns.php:192
+#: views/admin-campaigns.php:197
+msgid "product"
+msgid_plural "products"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/admin-campaigns.php:258
+msgid "Publish campaign"
+msgstr ""
+
+#: views/admin-campaigns.php:258
+msgid "Move back to draft"
+msgstr ""
+
+#: views/admin-campaigns.php:281
+msgid "Quick view"
+msgstr ""
+
+#: views/admin-campaigns.php:285
+msgid "Edit"
+msgstr ""
+
+#: views/admin-campaigns.php:289
+msgid "Duplicate"
+msgstr ""
+
+#: views/admin-campaigns.php:302
+msgid "No campaigns found. Create your first campaign!"
+msgstr ""
+
+#: views/admin-campaigns.php:314
+#: views/admin-subscribers.php:213
+msgid "&laquo; Previous"
+msgstr ""
+
+#: views/admin-campaigns.php:315
+#: views/admin-subscribers.php:214
+msgid "Next &raquo;"
+msgstr ""
+
+#: views/admin-campaigns.php:335
+msgid "Campaign Preview"
+msgstr ""
+
+#: views/admin-campaigns.php:346
+msgid "Note"
+msgstr ""
+
+#: views/admin-campaigns.php:347
+msgid "This is how the email will appear to your customers."
+msgstr ""
+
+#: views/admin-campaigns.php:350
+msgid "Close"
+msgstr ""
+
+#: views/admin-dashboard.php:16
+msgid "Dashboard"
+msgstr ""
+
+#: views/admin-dashboard.php:18
+#: views/admin-subscribers.php:49
+msgid "Track waitlists, alerts and conversions in real time"
+msgstr ""
+
+#: views/admin-dashboard.php:25
+msgid "Documentations"
+msgstr ""
+
+#: views/admin-dashboard.php:75
+msgid "Demand ranking"
+msgstr ""
+
+#: views/admin-dashboard.php:78
+msgid "Out-of-stock products with the most people waiting"
+msgstr ""
+
+#: views/admin-dashboard.php:83
+msgid "View subscribers →"
+msgstr ""
+
+#: views/admin-dashboard.php:103
+msgid "waiting"
+msgstr ""
+
+#: views/admin-dashboard.php:110
+msgid "No demand data available"
+msgstr ""
+
+#: views/admin-dashboard.php:121
+msgid "Recent activity"
+msgstr ""
+
+#: views/admin-dashboard.php:124
+msgid "Live from the notification queue"
+msgstr ""
+
+#: views/admin-dashboard.php:128
+#: views/admin-dashboard.php:218
+msgid "View all"
+msgstr ""
+
+#: views/admin-dashboard.php:154
+msgid "No recent activity"
+msgstr ""
+
+#: views/admin-dashboard.php:170
+msgid "Recent Campaign"
+msgstr ""
+
+#: views/admin-dashboard.php:173
+msgid "Your 5 latest email campaigns and their delivery status"
+msgstr ""
+
+#: views/admin-dashboard.php:178
+msgid "View Campaign →"
+msgstr ""
+
+#: views/admin-dashboard.php:193
+msgid "sent"
+msgstr ""
+
+#: views/admin-dashboard.php:200
+msgid "No campaigns yet"
+msgstr ""
+
+#: views/admin-dashboard.php:211
+msgid "Recent Subscribers"
+msgstr ""
+
+#: views/admin-dashboard.php:214
+msgid "Latest stock alert subscriptions with their status"
+msgstr ""
+
+#: views/admin-dashboard.php:249
+msgid "No subscribers yet"
+msgstr ""
+
+#: views/admin-new-campaign.php:21
+msgid "Edit Campaign"
+msgstr ""
+
+#: views/admin-new-campaign.php:21
+msgid "Create New Campaign"
+msgstr ""
+
+#: views/admin-new-campaign.php:22
+msgid "Send targeted email campaigns to your subscribers"
+msgstr ""
+
+#: views/admin-new-campaign.php:26
+msgid "Back to Campaigns"
+msgstr ""
+
+#: views/admin-new-campaign.php:41
+msgid "Campaign Title"
+msgstr ""
+
+#: views/admin-new-campaign.php:46
+msgid "e.g., Summer Sale 2026"
+msgstr ""
+
+#: views/admin-new-campaign.php:47
+msgid "Internal name for this campaign (not shown to recipients)"
+msgstr ""
+
+#: views/admin-new-campaign.php:52
+msgid "Email Subject Line"
+msgstr ""
+
+#: views/admin-new-campaign.php:54
+msgid "e.g., Special Offer Just for You!"
+msgstr ""
+
+#: views/admin-new-campaign.php:55
+msgid "This will be the subject line of your email"
+msgstr ""
+
+#: views/admin-new-campaign.php:60
+msgid "Select Recipients"
+msgstr ""
+
+#: views/admin-new-campaign.php:67
+msgid "Send to all confirmed AlertX subscribers"
+msgstr ""
+
+#: views/admin-new-campaign.php:71
+msgid "CSV Import"
+msgstr ""
+
+#: views/admin-new-campaign.php:81
+msgid "Drop CSV file here or click to upload"
+msgstr ""
+
+#: views/admin-new-campaign.php:82
+msgid "File should contain email addresses"
+msgstr ""
+
+#: views/admin-new-campaign.php:86
+msgid "Import Successful!"
+msgstr ""
+
+#: views/admin-new-campaign.php:93
+msgid "Specific Emails"
+msgstr ""
+
+#: views/admin-new-campaign.php:98
+msgid "Enter email address"
+msgstr ""
+
+#: views/admin-new-campaign.php:99
+msgid "Add"
+msgstr ""
+
+#: views/admin-new-campaign.php:102
+msgid "No emails added yet"
+msgstr ""
+
+#: views/admin-new-campaign.php:110
+msgid "Add Discount Code"
+msgstr ""
+
+#: views/admin-new-campaign.php:114
+msgid "Include discount code in email"
+msgstr ""
+
+#: views/admin-new-campaign.php:119
+msgid "Coupon Code"
+msgstr ""
+
+#: views/admin-new-campaign.php:120
+msgid "e.g., SUMMER20"
+msgstr ""
+
+#: views/admin-new-campaign.php:125
+msgid "Expires After"
+msgstr ""
+
+#: views/admin-new-campaign.php:135
+msgid "Schedule Campaign"
+msgstr ""
+
+#: views/admin-new-campaign.php:140
+msgid "Send Now"
+msgstr ""
+
+#: views/admin-new-campaign.php:145
+msgid "Schedule for Later"
+msgstr ""
+
+#: views/admin-new-campaign.php:149
+msgid "Schedule Date & Time"
+msgstr ""
+
+#: views/admin-new-campaign.php:157
+msgid "Select Email Template"
+msgstr ""
+
+#: views/admin-new-campaign.php:169
+msgid "Default Template"
+msgstr ""
+
+#: views/admin-new-campaign.php:170
+msgid "Clean and professional design"
+msgstr ""
+
+#: views/admin-new-campaign.php:188
+msgid "Modern Template"
+msgstr ""
+
+#: views/admin-new-campaign.php:189
+msgid "Bold and eye-catching design"
+msgstr ""
+
+#: views/admin-new-campaign.php:211
+msgid "Minimal Template"
+msgstr ""
+
+#: views/admin-new-campaign.php:212
+msgid "Simple text-focused design"
+msgstr ""
+
+#: views/admin-new-campaign.php:231
+msgid "Product Showcase"
+msgstr ""
+
+#: views/admin-new-campaign.php:232
+msgid "Highlight products with images"
+msgstr ""
+
+#: views/admin-new-campaign.php:246
+msgid "Email Message"
+msgstr ""
+
+#: views/admin-new-campaign.php:279
+msgid "Available placeholders: {campaign_title}, {first_name}, {discount_code}, {discount_amount}, {discount_expiry}, {product_list} (coupon products), {cta_button} (All Products Discount), {site_name}"
+msgstr ""
+
+#: views/admin-new-campaign.php:286
+msgid "Are you sure you want to cancel? Any unsaved changes will be lost."
+msgstr ""
+
+#: views/admin-new-campaign.php:287
+msgid "Cancel"
+msgstr ""
+
+#: views/admin-new-campaign.php:290
+msgid "Save Draft"
+msgstr ""
+
+#: views/admin-new-campaign.php:293
+msgid "Send Campaign"
+msgstr ""
+
+#: views/admin-new-campaign.php:305
+msgid "Template Preview"
+msgstr ""
+
+#: views/admin-new-campaign.php:313
+msgid "Subject:"
+msgstr ""
+
+#: views/admin-new-campaign.php:314
+msgid "Your email subject will appear here"
+msgstr ""
+
+#: views/admin-settings.php:13
+msgid "No icon"
+msgstr ""
+
+#: views/admin-settings.php:14
+msgid "Bell"
+msgstr ""
+
+#: views/admin-settings.php:15
+msgid "Clock"
+msgstr ""
+
+#: views/admin-settings.php:16
+msgid "Envelope"
+msgstr ""
+
+#: views/admin-settings.php:17
+msgid "Tag"
+msgstr ""
+
+#: views/admin-settings.php:31
+msgid "Channels, branding, GDPR and developer access, all in one place."
+msgstr ""
+
+#: views/admin-settings.php:50
+msgid "Channels"
+msgstr ""
+
+#: views/admin-settings.php:57
+msgid "Notify Me button"
+msgstr ""
+
+#: views/admin-settings.php:60
+msgid "Customize the text, tooltip and appearance of the \"Notify Me\" button shown on out-of-stock products."
+msgstr ""
+
+#: views/admin-settings.php:66
+msgid "Live preview"
+msgstr ""
+
+#: views/admin-settings.php:75
+msgid "Hover over the ? icon to preview the tooltip."
+msgstr ""
+
+#: views/admin-settings.php:82
+msgid "Texts"
+msgstr ""
+
+#: views/admin-settings.php:86
+msgid "Button text"
+msgstr ""
+
+#: views/admin-settings.php:92
+msgid "Tooltip text"
+msgstr ""
+
+#: views/admin-settings.php:96
+msgid "Short helper message shown next to the button."
+msgstr ""
+
+#: views/admin-settings.php:104
+msgid "Colors & typography"
+msgstr ""
+
+#: views/admin-settings.php:109
+msgid "Text color"
+msgstr ""
+
+#: views/admin-settings.php:118
+msgid "Font family"
+msgstr ""
+
+#: views/admin-settings.php:128
+msgid "Background color"
+msgstr ""
+
+#: views/admin-settings.php:137
+msgid "Hover background color"
+msgstr ""
+
+#: views/admin-settings.php:147
+msgid "Font size (px)"
+msgstr ""
+
+#: views/admin-settings.php:156
+#: views/admin-settings.php:161
+msgid "Icon"
+msgstr ""
+
+#: views/admin-settings.php:171
+msgid "Icon position"
+msgstr ""
+
+#: views/admin-settings.php:184
+msgid "Spacing (px)"
+msgstr ""
+
+#: views/admin-settings.php:188
+msgid "Padding"
+msgstr ""
+
+#: views/admin-settings.php:191
+#: views/admin-settings.php:200
+msgid "Top"
+msgstr ""
+
+#: views/admin-settings.php:192
+#: views/admin-settings.php:201
+msgid "Right"
+msgstr ""
+
+#: views/admin-settings.php:193
+#: views/admin-settings.php:202
+msgid "Bottom"
+msgstr ""
+
+#: views/admin-settings.php:194
+#: views/admin-settings.php:203
+msgid "Left"
+msgstr ""
+
+#: views/admin-settings.php:198
+msgid "Margin"
+msgstr ""
+
+#: views/admin-settings.php:211
+msgid "Border (px)"
+msgstr ""
+
+#: views/admin-settings.php:216
+msgid "Border width"
+msgstr ""
+
+#: views/admin-settings.php:221
+msgid "Border radius"
+msgstr ""
+
+#: views/admin-settings.php:226
+msgid "Border color"
+msgstr ""
+
+#: views/admin-settings.php:239
+msgid "Notification channels"
+msgstr ""
+
+#: views/admin-settings.php:242
+msgid "Choose how subscribers hear from you."
+msgstr ""
+
+#: views/admin-settings.php:246
+msgid "Sender email address"
+msgstr ""
+
+#: views/admin-settings.php:250
+msgid "Use an address on your site domain (e.g. alerts@yourstore.com) for best delivery. Personal addresses (Gmail, Outlook) are used as the Reply-To instead, because sending From them gets blocked by mail providers."
+msgstr ""
+
+#: views/admin-settings.php:258
+msgid "Discard"
+msgstr ""
+
+#: views/admin-settings.php:261
+msgid "Save changes"
+msgstr ""
+
+#: views/admin-subscribers.php:92
+msgid "Apply"
+msgstr ""
+
+#: views/admin-subscribers.php:116
+msgid "Export to CSV"
+msgstr ""
+
+#: views/admin-subscribers.php:128
+msgid "Product"
+msgstr ""
+
+#: views/admin-subscribers.php:129
+msgid "Email"
+msgstr ""
+
+#: views/admin-subscribers.php:130
+msgid "Date"
+msgstr ""
+
+#: views/admin-subscribers.php:201
+msgid "No notifications found."
+msgstr ""
+
+#. Translators: This is the total number of notifications.
+#: views/dashboard-widget.php:8
+#, php-format
+msgid "Total Notifications: %d"
+msgstr ""
+
+#. Translators: This is the total number of unique products.
+#: views/dashboard-widget.php:15
+#, php-format
+msgid "Unique Products: %d"
+msgstr ""
+
+#. Translators: This is the total number of unique subscribers.
+#: views/dashboard-widget.php:22
+#, php-format
+msgid "Unique Subscribers: %d"
+msgstr ""
+
+#: views/email-templates.php:17
+msgid "Email Template"
+msgstr ""
+
+#: views/email-templates.php:20
+msgid "Configure the email your customers receive when a product comes back in stock."
+msgstr ""
+
+#: views/email-templates.php:39
+msgid "Configure Email Template"
+msgstr ""
+
+#: views/email-templates.php:42
+msgid "Customize the email sent to customers when a product is back in stock. You can use the following placeholders:"
+msgstr ""
+
+#: views/email-templates.php:48
+msgid "The name of the product"
+msgstr ""
+
+#: views/email-templates.php:49
+msgid "The URL of the product page"
+msgstr ""
+
+#: views/email-templates.php:50
+msgid "The name of your website"
+msgstr ""
+
+#: views/email-templates.php:73
+msgid "Notification Threshold"
+msgstr ""
+
+#: views/email-templates.php:79
+msgid "Notifications go out once stock reaches or exceeds this number."
+msgstr ""
+
+#: views/email-templates.php:91
+msgid "When stock reaches this many units, everyone on the waitlist gets emailed at once."
+msgstr ""
+
+#: views/email-templates.php:99
+msgid "Email Settings"
+msgstr ""
+
+#: views/email-templates.php:112
+msgid "Subscription Confirmation"
+msgstr ""
+
+#: views/email-templates.php:115
+msgid "Confirms a customer has joined the waitlist"
+msgstr ""
+
+#: views/email-templates.php:130
+msgid "Save Settings"
+msgstr ""
+
+#: views/global/header.php:14
+msgid "Pro"
+msgstr ""
+
+#. translators: %s: plugin version number
+#: views/global/header.php:30
+#, php-format
+msgid "Current Version: %s"
+msgstr ""

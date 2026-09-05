@@ -1,7 +1,17 @@
+<?php
+/**
+ * Admin Header template
+ *
+ * @version 1.0.0
+ */
+defined( 'ABSPATH' ) || exit;
+?>
+
 <header class="alertx-settings-header">
     <div class="alertx-header-left">
         <div class="alertx-admin-header">
-            <img src="<?php echo ALERTX_URL . 'assets/src/img/logo.png'; ?>" alt="">
+            <img src="<?php echo esc_url( ALERTX_URL . 'assets/images/logo.png' ); ?>" alt="">
+            <sub><?php esc_html_e('Pro', 'alertx-pro'); ?></sub>
         </div>
     </div>
 
@@ -17,8 +27,8 @@
         <span>
             <?php
                 // translators: %s: plugin version number
-                $version_text = esc_html__( 'Current Version: %s', 'alertx' );
-                echo wp_kses_post( sprintf( $version_text, '<strong>' . esc_html( ALERTX_VERSION ) . '</strong>' ) );
+                $alertx_version_text = esc_html__( 'Current Version: %s', 'alertx-pro' );
+                echo wp_kses_post( sprintf( $alertx_version_text, '<strong>' . esc_html( ALERTX_VERSION ) . '</strong>' ) );
             ?>
         </span>
     </div>

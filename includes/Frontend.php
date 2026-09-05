@@ -1,6 +1,6 @@
 <?php
 
-namespace AlertX;
+namespace Alertx;
 
 defined( 'ABSPATH' ) || exit;
 

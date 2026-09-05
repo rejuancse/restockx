@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'AlertX\\' => array($baseDir . '/includes'),
+    'Alertx\\' => array($baseDir . '/includes'),
 );

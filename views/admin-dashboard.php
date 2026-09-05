@@ -1,308 +1,250 @@
 <?php
 /**
- * Admin settings template
+ * Admin Dashboard template
  *
  * @version 1.0.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>
 
-<div id="alertx" class="alertx main wrap">
+<div id="alertx" class="alertx wrap alartx-sections">
 	<?php include_once ALERTX_PATH .'/views/global/header.php'; ?>
 
-	<section class="page active" id="page-dashboard">
+	<main class="page page-dashboard">
 		<div class="page-header">
 			<div>
-				<div class="page-eyebrow">Dashboard</div>
-				<div class="page-h1">Good afternoon, Sarah</div>
-				<div class="page-desc">Here's how your waitlists and alerts are performing today.</div>
+				<div class="page-h1"><?php esc_html_e('Dashboard', 'alertx-pro'); ?></div>
+				<div class="page-desc">
+					<?php esc_html_e('Track waitlists, alerts and conversions in real time', 'alertx-pro'); ?>
+				</div>
 			</div>
+
 			<div class="page-actions">
-				<button class="btn btn-secondary">
-					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-						<path d="M7 10l5 5 5-5" />
-						<path d="M12 15V3" />
-					</svg> Export report </button>
-				<button class="btn btn-primary">
-					<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-						<path d="M12 5v14M5 12h14" />
-					</svg> New alert rule </button>
+				<a class="btn btn-secondary" href="#">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2 11 13"></path><path d="M22 2 15 22l-4-9-9-4 20-7Z"></path></svg>
+					<?php esc_html_e('Documentations', 'alertx-pro'); ?>
+				</a>
+
+				<a class="btn btn-primary" href="<?php echo esc_url( admin_url( 'admin.php?page=new-campaign' ) ); ?>">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2 11 13"></path><path d="M22 2 15 22l-4-9-9-4 20-7Z"></path></svg>
+					<?php esc_html_e('New campaign', 'alertx-pro'); ?>
+				</a>
 			</div>
 		</div>
-		<section class="kpi-row">
-			<div class="kpi-card">
-				<div class="kpi-top">
-					<div class="kpi-icon c1">
-						<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-							<path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" />
-							<circle cx="10" cy="7" r="4" />
-						</svg>
-					</div>
-					<span class="kpi-delta up">▲ 8.2%</span>
-				</div>
-				<div class="kpi-value" data-count="12847">0</div>
-				<div class="kpi-bottom">
-					<div class="kpi-label">Total subscribers</div>
-					<svg class="kpi-spark" width="72" height="26" viewBox="0 0 72 26">
-						<polyline points="0,20 12,17 24,19 36,12 48,14 60,6 72,4" fill="none" stroke="var(--alertx-violet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-					</svg>
-				</div>
-			</div>
-			<div class="kpi-card">
-				<div class="kpi-top">
-					<div class="kpi-icon c2">
-						<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-							<path d="M22 2 11 13" />
-							<path d="M22 2 15 22l-4-9-9-4 20-7Z" />
-						</svg>
-					</div>
-					<span class="kpi-delta up">▲ 14.6%</span>
-				</div>
-				<div class="kpi-value" data-count="3204">0</div>
-				<div class="kpi-bottom">
-					<div class="kpi-label">Notifications sent</div>
-					<svg class="kpi-spark" width="72" height="26" viewBox="0 0 72 26">
-						<polyline points="0,18 12,19 24,14 36,16 48,9 60,11 72,3" fill="none" stroke="var(--alertx-magenta)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-					</svg>
-				</div>
-			</div>
-			<div class="kpi-card">
-				<div class="kpi-top">
-					<div class="kpi-icon c3">
-						<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-							<path d="M3 8l9 6 9-6" />
-							<rect x="3" y="5" width="18" height="14" rx="2" />
-						</svg>
-					</div>
-					<span class="kpi-delta up">▲ 3.1%</span>
-				</div>
-				<div class="kpi-value" data-count="42" data-suffix="%">0%</div>
-				<div class="kpi-bottom">
-					<div class="kpi-label">Email open rate</div>
-					<svg class="kpi-spark" width="72" height="26" viewBox="0 0 72 26">
-						<polyline points="0,10 12,13 24,8 36,11 48,7 60,9 72,5" fill="none" stroke="var(--alertx-red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-					</svg>
-				</div>
-			</div>
-			<div class="kpi-card">
-				<div class="kpi-top">
-					<div class="kpi-icon c4">
-						<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-							<circle cx="12" cy="12" r="9" />
-							<path d="M12 7v5l3 3" />
-						</svg>
-					</div>
-					<span class="kpi-delta down">▼ 1.4%</span>
-				</div>
-				<div class="kpi-value" data-count="18" data-suffix="%">0%</div>
-				<div class="kpi-bottom">
-					<div class="kpi-label">Conversion after alert</div>
-					<svg class="kpi-spark" width="72" height="26" viewBox="0 0 72 26">
-						<polyline points="0,6 12,9 24,8 36,13 48,12 60,16 72,15" fill="none" stroke="var(--alertx-orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-					</svg>
-				</div>
-			</div>
-		</section>
-		<section class="section pulse-section">
-			<div class="section-head">
-				<div>
-					<div class="section-eyebrow">Signature insight</div>
-					<div class="section-title">Demand Pulse</div>
-					<div class="section-desc">Live waitlist size per product — the more people waiting, the hotter the restock priority.</div>
-				</div>
-				<div class="pulse-live">
-					<span class="blip"></span>Updating live
-				</div>
-			</div>
-			<div class="pulse-list" id="pulseList">
-				<div class="pulse-row" data-max="247">
-					<div class="pulse-rank">01</div>
-					<div class="pulse-info">
-						<div class="pname">iPhone 15 Pro Silicone Case</div>
-						<div class="pvariant">All variations combined</div>
-					</div>
-					<div class="pulse-track">
-						<div class="pulse-fill" style="width:0%">
-							<span class="pulse-dot"></span>
+
+		<div class="kpi-row">
+			<?php if ( ! empty( $dashboard_stats ) && is_array( $dashboard_stats ) ) : ?>
+				<?php foreach ( $dashboard_stats as $alertx_stat ) : ?>
+					<div class="kpi-card">
+						<div class="kpi-top">
+							<div class="kpi-value" <?php
+								if ( ! empty( $alertx_stat['data_count'] ) ) {
+									echo 'data-count="' . esc_attr( $alertx_stat['data_count'] ) . '"';
+								}
+								if ( ! empty( $alertx_stat['data_suffix'] ) ) {
+									echo ' data-suffix="' . esc_attr( $alertx_stat['data_suffix'] ) . '"';
+								}
+							?>>
+								<?php echo esc_html( $alertx_stat['value'] ); ?>
+							</div>
+
+							<div class="kpi-icon <?php echo esc_attr( $alertx_stat['icon_class'] ?? 'c1' ); ?>">
+								<?php echo $alertx_stat['icon']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							</div>
+						</div>
+
+						<div class="kpi-bottom">
+							<div class="kpi-label"><?php echo esc_html( $alertx_stat['label'] ); ?></div>
+							<?php if ( ! empty( $alertx_stat['sparkline'] ) ) : ?>
+								<svg class="kpi-spark" width="72" height="26" viewBox="0 0 72 26">
+									<?php echo $alertx_stat['sparkline']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+								</svg>
+							<?php endif; ?>
 						</div>
 					</div>
-					<div class="pulse-count">
-						<div class="num" data-target="247">0</div>
-						<div class="lbl">waiting</div>
-					</div>
-					<div class="heat-tag hot">🔥 Hot</div>
-				</div>
-				<div class="pulse-row" data-max="89">
-					<div class="pulse-rank">02</div>
-					<div class="pulse-info">
-						<div class="pname">Vintage Denim Jacket</div>
-						<div class="pvariant">Black / XL</div>
-					</div>
-					<div class="pulse-track">
-						<div class="pulse-fill" style="width:0%">
-							<span class="pulse-dot"></span>
-						</div>
-					</div>
-					<div class="pulse-count">
-						<div class="num" data-target="89">0</div>
-						<div class="lbl">waiting</div>
-					</div>
-					<div class="heat-tag rising">↑ Rising</div>
-				</div>
-				<div class="pulse-row" data-max="42">
-					<div class="pulse-rank">03</div>
-					<div class="pulse-info">
-						<div class="pname">Vintage Denim Jacket</div>
-						<div class="pvariant">Red / L</div>
-					</div>
-					<div class="pulse-track">
-						<div class="pulse-fill" style="width:0%">
-							<span class="pulse-dot"></span>
-						</div>
-					</div>
-					<div class="pulse-count">
-						<div class="num" data-target="42">0</div>
-						<div class="lbl">waiting</div>
-					</div>
-					<div class="heat-tag rising">↑ Rising</div>
-				</div>
-				<div class="pulse-row" data-max="26">
-					<div class="pulse-rank">04</div>
-					<div class="pulse-info">
-						<div class="pname">Wireless Earbuds Pro</div>
-						<div class="pvariant">Matte Black</div>
-					</div>
-					<div class="pulse-track">
-						<div class="pulse-fill" style="width:0%">
-							<span class="pulse-dot"></span>
-						</div>
-					</div>
-					<div class="pulse-count">
-						<div class="num" data-target="26">0</div>
-						<div class="lbl">waiting</div>
-					</div>
-					<div class="heat-tag steady">Steady</div>
-				</div>
-			</div>
-		</section>
+				<?php endforeach; ?>
+			<?php endif; ?>
+		</div>
+
+		<!-- Subscribers -->
 		<div class="grid-2">
-			<section class="section">
+			<section class="section pulse-section">
 				<div class="section-head">
 					<div>
-						<div class="section-eyebrow">Trend</div>
-						<div class="section-title">Notifications sent — last 14 days</div>
+						<div class="section-title">
+							<?php esc_html_e( 'Demand ranking', 'alertx-pro' ); ?>
+						</div>
+						<div class="section-desc">
+							<?php esc_html_e( 'Out-of-stock products with the most people waiting', 'alertx-pro' ); ?>
+						</div>
+					</div>
+					<div class="pulse-live">
+						<a href="<?php echo esc_url( admin_url( 'admin.php?page=subscribers' ) ); ?>" class="section-action">
+							<?php esc_html_e( 'View subscribers →', 'alertx-pro' ); ?>
+						</a>
 					</div>
 				</div>
-				<div class="trend-legend">
-					<div class="trend-legend-item">
-						<span class="trend-legend-dot" style="background:var(--alertx-violet)"></span>Sent
-					</div>
-					<div class="trend-legend-item">
-						<span class="trend-legend-dot" style="background:var(--alertx-red)"></span>Failed
-					</div>
-				</div>
-				<div class="trend-wrap">
-					<svg viewBox="0 0 560 180" width="100%" height="180" preserveAspectRatio="none">
-						<defs>
-							<linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-								<stop offset="0%" stop-color="#5212E8" stop-opacity="0.28" />
-								<stop offset="100%" stop-color="#5212E8" stop-opacity="0" />
-							</linearGradient>
-							<linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-								<stop offset="0%" stop-color="#3C06C5" />
-								<stop offset="100%" stop-color="#D90DD9" />
-							</linearGradient>
-						</defs>
-						<g stroke="#EFEBFA" stroke-width="1">
-							<line x1="0" y1="20" x2="560" y2="20" />
-							<line x1="0" y1="65" x2="560" y2="65" />
-							<line x1="0" y1="110" x2="560" y2="110" />
-							<line x1="0" y1="155" x2="560" y2="155" />
-						</g>
-						<path d="M0,140 L40,120 L80,128 L120,95 L160,105 L200,80 L240,88 L280,60 L320,70 L360,45 L400,55 L440,35 L480,42 L520,20 L560,25 L560,180 L0,180 Z" fill="url(#areaGrad)" />
-						<polyline points="0,140 40,120 80,128 120,95 160,105 200,80 240,88 280,60 320,70 360,45 400,55 440,35 480,42 520,20 560,25" fill="none" stroke="url(#lineGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-						<polyline points="0,168 40,166 80,170 120,162 160,169 200,158 240,171 280,150 320,165 360,145 400,168 440,140 480,162 520,138 560,155" fill="none" stroke="#FC301D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.7" />
-					</svg>
+				<div class="pulse-list" id="pulseList">
+					<?php if ( ! empty( $demand_ranking ) ) : ?>
+						<?php foreach ( $demand_ranking as $alertx_item ) : ?>
+							<div class="pulse-row" data-max="<?php echo esc_attr( $alertx_item['max_count'] ); ?>">
+								<div class="pulse-rank"><?php echo esc_html( $alertx_item['rank'] ); ?></div>
+								<div class="pulse-info">
+									<div class="pname"><?php echo esc_html( $alertx_item['product_name'] ); ?></div>
+									<div class="pvariant"><?php echo esc_html( $alertx_item['variant_name'] ); ?></div>
+								</div>
+								<div class="pulse-track">
+									<div class="pulse-fill" style="width:<?php echo esc_attr( $alertx_item['percentage'] ); ?>%">
+										<span class="pulse-dot"></span>
+									</div>
+								</div>
+								<div class="pulse-count">
+									<div class="num" data-target="<?php echo esc_attr( $alertx_item['subscriber_count'] ); ?>"><?php echo esc_html( $alertx_item['subscriber_count'] ); ?></div>
+									<div class="lbl"><?php esc_html_e( 'waiting', 'alertx-pro' ); ?></div>
+								</div>
+							</div>
+						<?php endforeach; ?>
+					<?php else : ?>
+						<div class="pulse-row no-data">
+							<div class="pulse-info">
+								<div class="pname"><?php esc_html_e( 'No demand data available', 'alertx-pro' ); ?></div>
+							</div>
+						</div>
+					<?php endif; ?>
 				</div>
 			</section>
+
 			<section class="section">
 				<div class="section-head">
 					<div>
-						<div class="section-eyebrow">Live feed</div>
-						<div class="section-title">Recent activity</div>
+						<div class="section-title">
+							<?php esc_html_e( 'Recent activity', 'alertx-pro' ); ?>
+						</div>
+						<div class="section-desc">
+							<?php esc_html_e( 'Live from the notification queue', 'alertx-pro' ); ?>
+						</div>
 					</div>
-					<a class="section-action" href="#" data-goto="subscribers">View all <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+					<a class="section-action" href="<?php echo esc_url( admin_url( 'admin.php?page=subscribers' ) ); ?>">
+						<?php esc_html_e( 'View all', 'alertx-pro' ); ?>
+						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
 							<path d="M9 6l6 6-6 6" />
 						</svg>
 					</a>
 				</div>
-				<div class="activity-list">
-					<div class="activity-item">
-						<div class="activity-icon subscribed">
-							<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
-								<path d="M12 5v14M5 12h14" />
-							</svg>
-						</div>
-						<div>
-							<div class="activity-text">
-								<b>t***a@gmail.com</b> joined the waitlist for iPhone 15 Pro Case
+				<div class="pulse-list activity-list">
+					<?php if ( ! empty( $recent_activity ) ) : ?>
+						<?php foreach ( $recent_activity as $alertx_activity ) : ?>
+							<div class="pulse-row activity">
+								<div class="recent-wrap">
+									<div class="pulse-rank">
+										<div class="mini-dot"></div>
+									</div>
+									<div class="pulse-info">
+										<div class="pname"><?php echo esc_html( $alertx_activity['message'] ); ?></div>
+										<div class="pvariant"><?php echo esc_html( $alertx_activity['time'] ); ?></div>
+									</div>
+								</div>
 							</div>
-							<div class="activity-time">2 hours ago</div>
-						</div>
-					</div>
-					<div class="activity-item">
-						<div class="activity-icon notified">
-							<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
-								<path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
-							</svg>
-						</div>
-						<div>
-							<div class="activity-text">Back-in-stock email sent for <b>Denim Jacket · Black / XL</b>
+						<?php endforeach; ?>
+					<?php else : ?>
+						<div class="pulse-row no-data">
+							<div class="pulse-info">
+								<div class="pname"><?php esc_html_e( 'No recent activity', 'alertx-pro' ); ?></div>
 							</div>
-							<div class="activity-time">5 hours ago</div>
 						</div>
-					</div>
-					<div class="activity-item">
-						<div class="activity-icon converted">
-							<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5">
-								<path d="M20 6 9 17l-5-5" />
-							</svg>
-						</div>
-						<div>
-							<div class="activity-text">
-								<b>m***h@outlook.com</b> purchased Wireless Earbuds Pro after alert
-							</div>
-							<div class="activity-time">Yesterday</div>
-						</div>
-					</div>
-					<div class="activity-item">
-						<div class="activity-icon failed">
-							<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
-								<path d="M12 9v4M12 17h.01" />
-								<circle cx="12" cy="12" r="9" />
-							</svg>
-						</div>
-						<div>
-							<div class="activity-text">Delivery failed for 3 subscribers — retrying automatically</div>
-							<div class="activity-time">Yesterday</div>
-						</div>
-					</div>
-					<div class="activity-item">
-						<div class="activity-icon subscribed">
-							<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
-								<path d="M12 5v14M5 12h14" />
-							</svg>
-						</div>
-						<div>
-							<div class="activity-text">
-								<b>f***a@gmail.com</b> joined the waitlist for Ceramic Pour-Over Set
-							</div>
-							<div class="activity-time">2 days ago</div>
-						</div>
-					</div>
+					<?php endif; ?>
 				</div>
 			</section>
 		</div>
-	</section>
+
+		<!-- Campaigns -->
+		<div class="grid-2">
+			<section class="section campaign pulse-section">
+				<div class="section-head">
+					<div>
+						<div class="section-title">
+							<?php esc_html_e( 'Recent Campaigns', 'alertx-pro' ); ?>
+						</div>
+						<div class="section-desc">
+							<?php esc_html_e( 'Most recent campaigns list', 'alertx-pro' ); ?>
+						</div>
+					</div>
+					<div class="pulse-live">
+						<a href="<?php echo esc_url( admin_url( 'admin.php?page=campaigns' ) ); ?>" class="section-action">
+							<?php esc_html_e( 'View Campaign →', 'alertx-pro' ); ?>
+						</a>
+					</div>
+				</div>
+				<div class="pulse-list" id="pulseList">
+					<?php if ( ! empty( $recent_campaigns ) ) : ?>
+						<?php foreach ( $recent_campaigns as $alertx_campaign ) : ?>
+							<div class="pulse-row">
+								<div class="pulse-rank"><?php echo esc_html( $alertx_campaign['rank'] ); ?></div>
+								<div class="pulse-info">
+									<div class="pname"><?php echo esc_html( $alertx_campaign['title'] ); ?></div>
+									<div class="pvariant"><?php echo esc_html( $alertx_campaign['subject'] ); ?> · <?php echo esc_html( $alertx_campaign['status'] ); ?> · <?php echo esc_html( $alertx_campaign['time'] ); ?></div>
+								</div>
+								<div class="pulse-count">
+									<div class="num" data-target="<?php echo esc_attr( $alertx_campaign['emails_sent'] ); ?>"><?php echo esc_html( $alertx_campaign['emails_sent'] ); ?></div>
+									<div class="lbl"><?php esc_html_e( 'sent', 'alertx-pro' ); ?></div>
+								</div>
+							</div>
+						<?php endforeach; ?>
+					<?php else : ?>
+						<div class="pulse-row no-data">
+							<div class="pulse-info">
+								<div class="pname"><?php esc_html_e( 'No campaigns yet', 'alertx-pro' ); ?></div>
+							</div>
+						</div>
+					<?php endif; ?>
+				</div>
+			</section>
+
+			<section class="section recent-subscribers">
+				<div class="section-head">
+					<div>
+						<div class="section-title">
+							<?php esc_html_e( 'Recent Subscribers', 'alertx-pro' ); ?>
+						</div>
+						<div class="section-desc">
+							<?php esc_html_e( 'Latest stock alert subscriptions with their status', 'alertx-pro' ); ?>
+						</div>
+					</div>
+					<a class="section-action" href="<?php echo esc_url( admin_url( 'admin.php?page=subscribers' ) ); ?>">
+						<?php esc_html_e( 'View all', 'alertx-pro' ); ?>
+						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+							<path d="M9 6l6 6-6 6" />
+						</svg>
+					</a>
+				</div>
+				<div class="pulse-list activity-list">
+					<?php if ( ! empty( $recent_subscribers ) ) : ?>
+						<?php foreach ( $recent_subscribers as $alertx_subscriber ) : ?>
+							<div class="pulse-row activity">
+								<div class="recent-wrap">
+									<div class="pulse-rank">
+										<div class="mini-dot"></div>
+									</div>
+									<div class="pulse-info">
+										<div class="pname"><?php echo esc_html( $alertx_subscriber['email'] ); ?></div>
+										<div class="pvariant"><?php echo esc_html( $alertx_subscriber['product_name'] ); ?> · <?php echo esc_html( $alertx_subscriber['time'] ); ?></div>
+									</div>
+								</div>
+
+								<span class="status-pill subscription-status status-<?php echo esc_attr( sanitize_html_class( strtolower( $alertx_subscriber['status'] ) ) ); ?>">
+									<?php echo esc_html( ucfirst( $alertx_subscriber['status'] ) ); ?>
+								</span>
+							</div>
+						<?php endforeach; ?>
+					<?php else : ?>
+						<div class="pulse-row no-data">
+							<div class="pulse-info">
+								<div class="pname"><?php esc_html_e( 'No subscribers yet', 'alertx-pro' ); ?></div>
+							</div>
+						</div>
+					<?php endif; ?>
+				</div>
+			</section>
+		</div>
+	</main>
 </div>

@@ -1,18 +1,15 @@
 /* Frontend Styles */
 /* File: frontend/assets/css/notify-styles.css */
 
-.stock-notification-container {
-    margin: 20px 0;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.notify-hidden {
+    display: none !important;
 }
 
 .notify-me-button-wrap {
+    margin-top: 10px;
     margin-bottom: 20px;
 
-    #notify-me-button {
+    .alertx-notify-button {
         border: none;
         padding: 10px 20px;
         font-size: 16px;
@@ -21,7 +18,7 @@
         transition: background-color 0.3s ease;
     }
 
-    #notify-me-form {
+    .alertx-notify-form {
         margin-top: 15px;
         margin-bottom: 20px;
 
@@ -30,7 +27,7 @@
         }
     }
 
-    #notify-email {
+    .alertx-notify-email {
         width: 61%;
         padding: 10px;
         border: 1px solid #ced4da;
@@ -40,7 +37,7 @@
         font-weight: 500;
     }
 
-    #notify-me-form {
+    .alertx-notify-form {
         .form-fields {
             display: flex;
             align-items: center;
@@ -48,13 +45,26 @@
         }
     }
 
-    #submit-notify {
+    .alertx-submit-notify {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
         border: none;
         padding: 10px 20px;
         font-size: 16px;
         border-radius: 4px;
         cursor: pointer;
         transition: background-color 0.3s ease;
+
+        .alertx-btn-icon {
+            display: block;
+            line-height: 0;
+
+            svg {
+                width: 14px;
+                height: 14px;
+            }
+        }
     }
 
     .success-message {
@@ -64,4 +74,149 @@
     .error-message{
         color: #e2401c;
     }
+}
+
+.product-alternatives {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.product-alternatives li {
+    margin: 0;
+    padding: 0;
+}
+
+.product-alternatives li a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    color: #222;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s ease;
+}
+
+.product-alternatives li a:hover {
+    border-color: #d5d5d5;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.product-alternatives img {
+    flex: 0 0 50px;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #f6f6f6;
+}
+
+.product-alternatives .product-name {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #222;
+}
+
+.product-alternatives .product-price {
+    flex-shrink: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111;
+}
+
+.product-alternatives .product-price:not(:empty)::before {
+    content: "$";
+    margin-right: 2px;
+    font-weight: 500;
+}
+
+@media (max-width: 600px) {
+    .product-alternatives {
+        grid-template-columns: 1fr;
+    }
+
+    .product-alternatives li a {
+        padding: 10px 12px;
+    }
+}
+
+
+
+/* Tooltip trigger: small "?" badge next to the Notify Me button */
+.tooltip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #ececf1;
+    color: #5c5c66;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: help;
+    user-select: none;
+}
+
+/* Tooltip text */
+.tooltiptext {
+    visibility: hidden;
+    width: 240px;
+    max-width: 240px;
+    background-color: #1f2937;
+    color: #ffffff;
+    text-align: center;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    opacity: 0;
+    z-index: 999;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+
+    /* Arrow */
+    &::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #1f2937 transparent transparent transparent;
+    }
+}
+
+/* Show the tooltip text on hover */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Button + tooltip layout */
+.alertx-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
 }

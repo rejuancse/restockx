@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name: AlertX for WooCommerce
+ * Plugin Name: Alertx for WooCommerce Free
  * Description: Inform customers when out-of-stock WooCommerce products return to stock. "Notify Me" functionality and automatic email reminders.
  * Author: Rejuan Ahamed
  * Version: 1.0.0
- * Requires at least: 5.9
+ * Requires at least: 6.2
  * Requires Plugins: woocommerce
  * Requires PHP: 7.4
- * Tested up to: 7.0
- * Text Domain: alertx
+ * Tested up to: 7.1
+ * Text Domain: alertx-pro
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -20,7 +20,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 /**
  * The main plugin class
  */
-final class AlertX {
+final class Alertx {
 
     /**
      * Plugin version
@@ -35,14 +35,13 @@ final class AlertX {
     private function __construct() {
         $this->define_constants();
 
-        register_activation_hook( __FILE__, array( $this, 'activate' )  );
+        register_activation_hook( __FILE__, array( $this, 'activate' ) );
         add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
-        add_action( 'init', array( $this, 'load_textdomain' ) );
     }
 
     /**
      * Initialize a singleton instance
-     * @return \AlertX
+     * @return \Alertx
      */
     public static function init() {
         static $instance = false;
@@ -62,39 +61,9 @@ final class AlertX {
     public function define_constants() {
         define( 'ALERTX_VERSION', self::version );
         define( 'ALERTX_FILE', __FILE__ );
-        define( 'ALERTX_PATH', plugin_dir_path( ALERTX_FILE ) );
-        define( 'ALERTX_URL', plugin_dir_url( ALERTX_FILE ) );
-        define( 'ALERTX_ASSETS', ALERTX_URL . 'assets' );
-    }
-
-    /**
-     * Initialize the plugin
-     *
-     * @return void
-     */
-    public function init_plugin() {
-        new AlertX\Assets();
-
-        // if ( defined('DOING_AJAX') && DOING_AJAX ) {
-        //     new AlertX\Ajax();
-        // }
-
-        if (is_admin()) {
-            new AlertX\Admin();
-        }
-
-        new AlertX\Frontend();
-    }
-
-    /**
-     * Load plugin textdomain for translations
-     *
-     * @return void
-     */
-    public function load_textdomain() {
-        if ( version_compare( get_bloginfo( 'version' ), '4.6', '<' ) ) {
-            load_plugin_textdomain( 'alertx', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-        }
+        define( 'ALERTX_PATH', plugin_dir_path( ALERTX_FILE ) ); // Correct path to the plugin's directory
+        define( 'ALERTX_URL', plugin_dir_url( ALERTX_FILE ) );   // Correct URL for the plugin's assets
+        define( 'ALERTX_ASSETS', ALERTX_URL . 'assets' );        // URL for the plugin's assets directory
     }
 
     /**
@@ -103,17 +72,50 @@ final class AlertX {
      * @return void
      */
     public function activate() {
-        $installer = new AlertX\Installer();
+        $installer = new Alertx\Installer();
         $installer->run();
+    }
+
+    /**
+     * Initialize the plugin
+     *
+     * @return void
+     */
+    public function init_plugin() {
+        new Alertx\Alertx_i18n();
+        new Alertx\Assets();
+
+        // Ensure DB schema is up to date
+        if ( class_exists( 'Alertx\Installer' ) ) {
+            $installer = new Alertx\Installer();
+            $installer->maybe_upgrade_schema();
+        }
+
+        new Alertx\Admin();
+        new Alertx\Frontend();
     }
 }
 
 /**
  * Initilizes the main plugin
  */
-function alertx_get_alert() {
-    return AlertX::init();
+function alertx_get_stock_alert() {
+    return Alertx::init();
+}
+
+/**
+ * Get the configured sender email address (Settings → Channels).
+ *
+ * Every outgoing AlertX email (stock alerts, confirmations and campaigns)
+ * uses this address as the "From" header when it is set.
+ *
+ * @return string Valid email address, or empty string when not configured.
+ */
+function alertx_get_sender_email() {
+    $sender = sanitize_email( (string) get_option( 'alertx_sender_email', '' ) );
+
+    return is_email( $sender ) ? $sender : '';
 }
 
 // Kick-off the plugin
-alertx_get_alert();
+alertx_get_stock_alert();

@@ -1,18 +1,18 @@
-=== AlertX for WooCommerce ===
+=== Alertx for WooCommerce ===
 
 Contributors: rejuancse
-Tags: stock alert, alert email, in stock, out of stock, woocommerce stock, notification
-Requires at least: 5.9
-Tested up to: 6.9
+Tags: stock alert, alert email, in stock, out of stock, woocommerce stock
+Requires at least: 6.2
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag:  1.1.0
+Stable tag:  1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Inform customers when out-of-stock WooCommerce products return to stock. "Notify Me" functionality and automatic email reminders.
 
 == Description ==
-AlertX improves WooCommerce by alerting consumers when out-of-stock items become available once more. Email subscription to alerts is simple for users. Better product suggestions, a user-friendly admin interface, customizable email templates, and rate limiting to effectively control alerts define the plugin. With a well-kept subscriber list and automatic stock alerts, keep your consumers interested and boost sales.
+Alertx improves WooCommerce by alerting consumers when out-of-stock items become available once more. Email subscription to alerts is simple for users. Better product suggestions, a user-friendly admin interface, customizable email templates, and rate limiting to effectively control alerts define the plugin. With a well-kept subscriber list and automatic stock alerts, keep your consumers interested and boost sales.
 
 = Features =
 
@@ -45,13 +45,13 @@ Go to Dashboard > Plugins > Add New, then upload alertx.zip file and click Insta
 == Frequently Asked Questions ==
 
 = Q. Where can I get support? =
-A. You can get support by posting on the support section of this plugin on WordPress plugin directory, or on the support mail: hello@thebitcraft.com
+A. You can get support by posting on the support section of this plugin on WordPress plugin directory, or on the support mail: rejuan.17bd@gmail.com
 
 = Q. Can I use my existing WordPress theme? =
-A. Sure, you can use your existing WordPress theme with Enhanced AlertX.
+A. Sure, you can use your existing WordPress theme with Enhanced Alertx.
 
 = Q. Where can I report a bug? =
-A. Found a bug? Please let us know by posting on the support section of this plugin on WordPress plugin directory or directly on our support mail: hello@thebitcraft.com
+A. Found a bug? Please let us know by posting on the support section of this plugin on WordPress plugin directory or directly on our support mail: rejuan.17bd@gmail.com
 
 
 == Screenshots ==
@@ -64,29 +64,11 @@ A. Found a bug? Please let us know by posting on the support section of this plu
 
 == Changelog ==
 
-= 1.1.0 [04/01/2026] =
-* **Bug Fix:** Fixed critical issue where confirmed subscribers weren't receiving email notifications when products came back in stock
-* **Security:** Added comprehensive nonce verification to all AJAX handlers and forms
-* **Code Quality:** Fixed all WordPress PHP_CodeSniffer warnings for full compliance
-* **Improvement:** Added translators comments for all internationalization placeholders
-* **Security:** Enhanced SQL escaping and database query handling throughout the plugin
-* **Security:** Proper output escaping added to all user-facing messages
-* **UX:** Added feature to hide other plugin admin notices on plugin pages for cleaner interface
-* **Improvement:** Better error messages with specific feedback for security failures
-* **Enhancement:** JavaScript validation to check `notify_ajax` object availability
-* **Refactoring:** Organized phpcs comments with class-level disable/enable patterns
-* **Enhancement:** Double opt-in subscription flow (pending → confirmed)
-* **Enhancement:** Unsubscribe endpoint and `{unsubscribe_url}` placeholder in email template
-* **Enhancement:** Send back-in-stock alerts only to confirmed subscribers
-* **Enhancement:** Variation-level (color/size) notifications on product pages
-* **Enhancement:** Automatic DB schema upgrade for `status` and `token` columns on load
-* **Enhancement:** Frontend JS updated to detect selected variation and toggle UI accordingly
+= 1.0.0 [10/09/2026] =
 
-= 1.0.1 [13/05/2025] =
-* Bug Fixed
-* CSS issue fixed
 
-= 1.0.0 [19/09/2024] =
+
+= 1.0.0 [10/09/2026] =
 * Initial version released
 
 == Upgrade Notice ==

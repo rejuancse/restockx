@@ -1,18 +1,18 @@
 {
-  "name": "thebitcraft/alertx",
+  "name": "rejuancse/alertx-pro",
   "description": "Notify customers when out-of-stock WooCommerce products are back in stock. Features 'Notify Me' option and automatic email alerts.",
   "type": "wordpress-plugin",
   "license": "GPLv2",
   "authors": [
     {
-      "name": "TheBitCraft",
-      "email": "hello@thebitcraft.com"
+      "name": "Rejuan Ahamed",
+      "email": "rejuan.17bd@gmail.com"
     }
   ],
   "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
-      "AlertX\\": "includes/"
+      "Alertx\\": "includes/"
     },
     "files": []
   },
