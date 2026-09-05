@@ -295,6 +295,21 @@
         }
     }
 
+    .page-dashboard {
+        .kpi-row {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    .bulk-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        .btn {
+            padding: 11px 18px;
+        }
+    }
+
     /* KPI cards */
     .kpi-row {
         display: grid;

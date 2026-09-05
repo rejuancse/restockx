@@ -43,19 +43,11 @@ $alertx_svg_allowed = array(
         <div class="page-header">
 			<div>
 				<div class="page-h1">
-                    <?php esc_html_e( 'Subscribers', 'alertx-pro' ); ?>
+                    <?php esc_html_e( 'Subscribers', 'alertx' ); ?>
                 </div>
 				<div class="page-desc">
-                    <?php esc_html_e( 'Track waitlists, alerts and conversions in real time', 'alertx-pro' ); ?>
+                    <?php esc_html_e( 'Track waitlists, alerts and conversions in real time', 'alertx' ); ?>
                 </div>
-			</div>
-			<div class="page-actions">
-				<a class="btn btn-primary" href="">
-					<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-						<path d="M12 5v14M5 12h14" />
-					</svg>
-                    <?php esc_html_e( 'New campaign', 'alertx-pro' ); ?>
-				</a>
 			</div>
 		</div>
 
@@ -86,10 +78,10 @@ $alertx_svg_allowed = array(
                     <?php wp_nonce_field( 'bulk_action', 'bulk_action_nonce' ); ?>
                     <div class="bulk-actions">
                         <select name="bulk_action" id="bulk-action-selector">
-                            <option value=""><?php esc_html_e( 'Bulk Actions', 'alertx-pro' ); ?></option>
-                            <option value="delete"><?php esc_html_e( 'Delete', 'alertx-pro' ); ?></option>
+                            <option value=""><?php esc_html_e( 'Bulk Actions', 'alertx' ); ?></option>
+                            <option value="delete"><?php esc_html_e( 'Delete', 'alertx' ); ?></option>
                         </select>
-                        <input type="submit" name="submit_bulk_action" class="action btn btn-secondary" value="<?php esc_attr_e( 'Apply', 'alertx-pro' ); ?>">
+                        <input type="submit" name="submit_bulk_action" class="action btn btn-secondary" value="<?php esc_attr_e( 'Apply', 'alertx' ); ?>">
                     </div>
 
                     <div class="notification-count">
@@ -99,7 +91,7 @@ $alertx_svg_allowed = array(
                                 $total_notifications = absint( $total_notifications ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
                                 // Translators: %d is the number of notifications
-                                echo esc_html( sprintf( _n( '%d item', '%d items', $total_notifications, 'alertx-pro' ),
+                                echo esc_html( sprintf( _n( '%d item', '%d items', $total_notifications, 'alertx' ),
                                     $total_notifications )
                                 );
                             ?>
@@ -113,7 +105,7 @@ $alertx_svg_allowed = array(
                                     <path d="M7 10l5 5 5-5" />
                                     <path d="M12 15V3" />
                                 </svg>
-                                <?php esc_attr_e( 'Export to CSV', 'alertx-pro' ); ?>
+                                <?php esc_attr_e( 'Export to CSV', 'alertx' ); ?>
                             </button>
                         </div>
                     </div>
@@ -125,10 +117,10 @@ $alertx_svg_allowed = array(
                             <td id="cb" class="manage-column column-cb check-column">
                                 <input id="cb-select-all" type="checkbox">
                             </td>
-                            <th><?php esc_html_e( 'Product', 'alertx-pro' ); ?></th>
-                            <th><?php esc_html_e( 'Email', 'alertx-pro' ); ?></th>
-                            <th><?php esc_html_e( 'Date', 'alertx-pro' ); ?></th>
-                            <th><?php esc_html_e( 'Status', 'alertx-pro' ); ?></th>
+                            <th><?php esc_html_e( 'Product', 'alertx' ); ?></th>
+                            <th><?php esc_html_e( 'Email', 'alertx' ); ?></th>
+                            <th><?php esc_html_e( 'Date', 'alertx' ); ?></th>
+                            <th><?php esc_html_e( 'Status', 'alertx' ); ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -179,7 +171,7 @@ $alertx_svg_allowed = array(
                                                 ?>
                                             </div>
                                         <?php else : ?>
-                                            <?php esc_html_e( 'Product not found', 'alertx-pro' ); ?>
+                                            <?php esc_html_e( 'Product not found', 'alertx' ); ?>
                                         <?php endif; ?>
                                     </td>
                                     <td>
@@ -198,7 +190,7 @@ $alertx_svg_allowed = array(
                         <?php else : ?>
                             <tr>
                                 <td colspan="5" class="no-info">
-                                    <?php esc_html_e( 'No notifications found!', 'alertx-pro' ); ?>
+                                    <?php esc_html_e( 'No notifications found!', 'alertx' ); ?>
                                 </td>
                             </tr>
                         <?php endif; ?>
@@ -210,8 +202,8 @@ $alertx_svg_allowed = array(
                     $pagination_args = array( // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
                         'base' => add_query_arg( 'paged', '%#%'),
                         'format' => '',
-                        'prev_text' => __( '&laquo; Previous', 'alertx-pro'),
-                        'next_text' => __( 'Next &raquo;', 'alertx-pro'),
+                        'prev_text' => __( '&laquo; Previous', 'alertx'),
+                        'next_text' => __( 'Next &raquo;', 'alertx'),
                         'total' => ceil( $total_notifications / $alertx_items_per_page ),
                         'current' => $paged,
                     );

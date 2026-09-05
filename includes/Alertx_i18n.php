@@ -32,6 +32,6 @@ class Alertx_i18n {
 	 * @return	void
 	 */
 	public function load_plugin_textdomain() {
-		load_plugin_textdomain( 'alertx-pro', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+		load_plugin_textdomain( 'alertx', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 }

@@ -39,9 +39,6 @@ trait Dashboard_Page {
 		// Get recent activity data.
 		$recent_activity = $this->get_recent_activity();
 
-		// Get the 5 most recent campaigns.
-		$recent_campaigns = $this->get_recent_campaigns();
-
 		// Get the 5 most recent subscribers.
 		$recent_subscribers = $this->get_recent_subscribers();
 
@@ -53,7 +50,7 @@ trait Dashboard_Page {
 			include $template_path; // No parentheses needed for include.
 		} else {
 			// Template not found, display an error or a fallback message.
-			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'alertx-pro' ) . '</p></div>';
+			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'alertx' ) . '</p></div>';
 		}
 	}
 
@@ -115,8 +112,7 @@ trait Dashboard_Page {
 	private function build_dashboard_stats() {
 		// Get total subscribers count.
 		global $wpdb;
-		$table_name    = $wpdb->prefix . 'alertx_subscriptions';
-		$restock_table = $wpdb->prefix . 'alertx_restock_tracking';
+		$table_name = $wpdb->prefix . 'alertx_subscriptions';
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom plugin table, no WP API equivalent; result is cached by get_dashboard_stats() for one minute.
 		$total_subscribers = $wpdb->get_var(
@@ -134,27 +130,6 @@ trait Dashboard_Page {
 				$table_name
 			)
 		);
-
-		// Get restock sales count - with proper error handling.
-		try {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time schema check; result is cached by get_dashboard_stats() for one minute.
-			$table_exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $restock_table ) );
-
-			if ( $table_exists ) {
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom plugin table, no WP API equivalent; result is cached by get_dashboard_stats() for one minute.
-				$restock_sales = $wpdb->get_var(
-					$wpdb->prepare(
-						'SELECT SUM(total_sales) FROM %i',
-						$restock_table
-					)
-				);
-				$restock_sales = $restock_sales ? floatval( $restock_sales ) : 0;
-			} else {
-				$restock_sales = 0;
-			}
-		} catch ( Exception $e ) {
-			$restock_sales = 0;
-		}
 
 		// Get products still waiting count.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom plugin table, no WP API equivalent; result is cached by get_dashboard_stats() for one minute.
@@ -192,26 +167,6 @@ trait Dashboard_Page {
 				'value'       => $notifications_sent,
 				'label'       => 'Notifications sent',
 				'sparkline'   => '<polyline points="0,18 12,19 24,14 36,16 48,9 60,11 72,3" fill="none" stroke="#D90DD9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />',
-			),
-			array(
-				'icon_class'  => 'c3',
-				'icon'        => '<svg fill="#ffffff" viewBox="0 0 92.034 92.033" xml:space="preserve">
-                            <g>
-                                <path d="M51.667,42.247h-1.176V23.715h12.803c2.082,0,3.77-1.688,3.77-3.77c0-2.082-1.688-3.77-3.77-3.77H50.491V3.769
-                                    C50.491,1.688,48.803,0,46.72,0s-3.77,1.688-3.77,3.769v12.407h-2.586c-9.267,0-16.805,7.539-16.805,16.805
-                                    c0,9.267,7.538,16.804,16.805,16.804h2.586v18.531H28.738c-2.081,0-3.769,1.689-3.769,3.771c0,2.081,1.688,3.77,3.769,3.77h14.213
-                                    v12.406c0,2.082,1.688,3.77,3.77,3.77s3.771-1.688,3.771-3.77V75.855h1.176c9.268,0,16.806-7.539,16.806-16.805
-                                    C68.472,49.785,60.934,42.247,51.667,42.247z M31.098,32.981c0-5.109,4.158-9.266,9.267-9.266h2.586v18.532h-2.586
-                                    C35.256,42.247,31.098,38.09,31.098,32.981z M51.667,68.316h-1.176V49.785h1.176c5.108,0,9.268,4.156,9.268,9.268
-                                    C60.934,64.162,56.776,68.316,51.667,68.316z"/>
-                            </g>
-                        </svg>',
-				'delta_class' => 'up',
-				'data_count'  => $restock_sales,
-				'data_suffix' => '',
-				'value'       => $restock_sales,
-				'label'       => 'Restock Sales',
-				'sparkline'   => '<polyline points="0,10 12,13 24,8 36,11 48,7 60,9 72,5" fill="none" stroke="#FC301D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />',
 			),
 			array(
 				'icon_class'  => 'c4',
@@ -466,90 +421,6 @@ trait Dashboard_Page {
 	}
 
 	/**
-	 * Get the 5 most recent campaigns for the dashboard widget.
-	 *
-	 * Results are cached for one minute to avoid repeating the query and
-	 * the product lookups on every dashboard load.
-	 *
-	 * @return array Recent campaigns with title, status badge and send stats.
-	 */
-	public function get_recent_campaigns() {
-		$recent_campaigns = wp_cache_get( 'recent_campaigns', 'alertx_stats' );
-
-		if ( false === $recent_campaigns ) {
-			$recent_campaigns = $this->build_recent_campaigns();
-			wp_cache_set( 'recent_campaigns', $recent_campaigns, 'alertx_stats', MINUTE_IN_SECONDS );
-		}
-
-		return $recent_campaigns;
-	}
-
-	/**
-	 * Build the 5 most recent campaigns for the dashboard widget.
-	 *
-	 * @return array Recent campaigns with title, status badge and send stats.
-	 */
-	private function build_recent_campaigns() {
-		global $wpdb;
-		$campaigns_table = $wpdb->prefix . 'alertx_campaigns';
-
-		// Table may not exist yet on fresh installs.
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time schema check; result is cached by get_recent_campaigns() for one minute.
-		$table_exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $campaigns_table ) );
-		if ( ! $table_exists ) {
-			return array();
-		}
-
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom plugin table, no WP API equivalent; result is cached by get_recent_campaigns() for one minute.
-		$results = $wpdb->get_results(
-			$wpdb->prepare(
-				'SELECT id, camp_title, camp_subject, camp_status, emails_sent, emails_failed, total_recipients, created_at
-            FROM %i
-            ORDER BY created_at DESC
-            LIMIT 5',
-				$campaigns_table
-			),
-			ARRAY_A
-		);
-
-		// Status labels — same wording as the campaigns list page.
-		$status_labels = array(
-			'draft'     => __( 'Draft', 'alertx-pro' ),
-			'scheduled' => __( 'Scheduled', 'alertx-pro' ),
-			'sending'   => __( 'Sent', 'alertx-pro' ),
-			'sent'      => __( 'Sent', 'alertx-pro' ),
-			'failed'    => __( 'Failed', 'alertx-pro' ),
-			'cancelled' => __( 'Cancelled', 'alertx-pro' ),
-		);
-
-		$recent_campaigns = array();
-		$rank             = 1;
-
-		foreach ( (array) $results as $result ) {
-			$status = isset( $result['camp_status'] ) ? $result['camp_status'] : 'draft';
-
-			$created_at = ! empty( $result['created_at'] ) ? strtotime( $result['created_at'] ) : 0;
-			// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested -- Compared against current_time( 'mysql' ) values stored in the site-local timezone.
-			$time_ago = $created_at ? sprintf( '%s ago', human_time_diff( $created_at, current_time( 'timestamp' ) ) ) : '-';
-
-			$recent_campaigns[] = array(
-				'rank'             => str_pad( $rank, 2, '0', STR_PAD_LEFT ),
-				'id'               => intval( $result['id'] ),
-				'title'            => $result['camp_title'],
-				'subject'          => $result['camp_subject'],
-				'status'           => isset( $status_labels[ $status ] ) ? $status_labels[ $status ] : ucfirst( $status ),
-				'emails_sent'      => intval( $result['emails_sent'] ),
-				'total_recipients' => intval( $result['total_recipients'] ),
-				'time'             => $time_ago,
-			);
-
-			++$rank;
-		}
-
-		return $recent_campaigns;
-	}
-
-	/**
 	 * Get the 5 most recent subscribers for the dashboard widget.
 	 *
 	 * Results are cached for one minute to avoid repeating the query and
@@ -637,7 +508,7 @@ trait Dashboard_Page {
 			include $template_path; // No parentheses needed for include.
 		} else {
 			// Template not found, display an error or a fallback message.
-			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'alertx-pro' ) . '</p></div>';
+			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'alertx' ) . '</p></div>';
 		}
 	}
 }

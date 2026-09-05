@@ -13,22 +13,10 @@ defined( 'ABSPATH' ) || exit;
 	<main class="page page-dashboard">
 		<div class="page-header">
 			<div>
-				<div class="page-h1"><?php esc_html_e('Dashboard', 'alertx-pro'); ?></div>
+				<div class="page-h1"><?php esc_html_e('Dashboard', 'alertx'); ?></div>
 				<div class="page-desc">
-					<?php esc_html_e('Track waitlists, alerts and conversions in real time', 'alertx-pro'); ?>
+					<?php esc_html_e('Track waitlists, alerts and conversions in real time', 'alertx'); ?>
 				</div>
-			</div>
-
-			<div class="page-actions">
-				<a class="btn btn-secondary" href="#">
-					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2 11 13"></path><path d="M22 2 15 22l-4-9-9-4 20-7Z"></path></svg>
-					<?php esc_html_e('Documentations', 'alertx-pro'); ?>
-				</a>
-
-				<a class="btn btn-primary" href="<?php echo esc_url( admin_url( 'admin.php?page=new-campaign' ) ); ?>">
-					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2 11 13"></path><path d="M22 2 15 22l-4-9-9-4 20-7Z"></path></svg>
-					<?php esc_html_e('New campaign', 'alertx-pro'); ?>
-				</a>
 			</div>
 		</div>
 
@@ -72,15 +60,15 @@ defined( 'ABSPATH' ) || exit;
 				<div class="section-head">
 					<div>
 						<div class="section-title">
-							<?php esc_html_e( 'Demand ranking', 'alertx-pro' ); ?>
+							<?php esc_html_e( 'Demand ranking', 'alertx' ); ?>
 						</div>
 						<div class="section-desc">
-							<?php esc_html_e( 'Out-of-stock products with the most people waiting', 'alertx-pro' ); ?>
+							<?php esc_html_e( 'Out-of-stock products with the most people waiting', 'alertx' ); ?>
 						</div>
 					</div>
 					<div class="pulse-live">
 						<a href="<?php echo esc_url( admin_url( 'admin.php?page=subscribers' ) ); ?>" class="section-action">
-							<?php esc_html_e( 'View subscribers →', 'alertx-pro' ); ?>
+							<?php esc_html_e( 'View subscribers →', 'alertx' ); ?>
 						</a>
 					</div>
 				</div>
@@ -100,14 +88,14 @@ defined( 'ABSPATH' ) || exit;
 								</div>
 								<div class="pulse-count">
 									<div class="num" data-target="<?php echo esc_attr( $alertx_item['subscriber_count'] ); ?>"><?php echo esc_html( $alertx_item['subscriber_count'] ); ?></div>
-									<div class="lbl"><?php esc_html_e( 'waiting', 'alertx-pro' ); ?></div>
+									<div class="lbl"><?php esc_html_e( 'waiting', 'alertx' ); ?></div>
 								</div>
 							</div>
 						<?php endforeach; ?>
 					<?php else : ?>
 						<div class="pulse-row no-data">
 							<div class="pulse-info">
-								<div class="pname"><?php esc_html_e( 'No demand data available', 'alertx-pro' ); ?></div>
+								<div class="pname"><?php esc_html_e( 'No demand data available', 'alertx' ); ?></div>
 							</div>
 						</div>
 					<?php endif; ?>
@@ -118,14 +106,14 @@ defined( 'ABSPATH' ) || exit;
 				<div class="section-head">
 					<div>
 						<div class="section-title">
-							<?php esc_html_e( 'Recent activity', 'alertx-pro' ); ?>
+							<?php esc_html_e( 'Recent activity', 'alertx' ); ?>
 						</div>
 						<div class="section-desc">
-							<?php esc_html_e( 'Live from the notification queue', 'alertx-pro' ); ?>
+							<?php esc_html_e( 'Live from the notification queue', 'alertx' ); ?>
 						</div>
 					</div>
 					<a class="section-action" href="<?php echo esc_url( admin_url( 'admin.php?page=subscribers' ) ); ?>">
-						<?php esc_html_e( 'View all', 'alertx-pro' ); ?>
+						<?php esc_html_e( 'View all', 'alertx' ); ?>
 						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
 							<path d="M9 6l6 6-6 6" />
 						</svg>
@@ -149,7 +137,7 @@ defined( 'ABSPATH' ) || exit;
 					<?php else : ?>
 						<div class="pulse-row no-data">
 							<div class="pulse-info">
-								<div class="pname"><?php esc_html_e( 'No recent activity', 'alertx-pro' ); ?></div>
+								<div class="pname"><?php esc_html_e( 'No recent activity', 'alertx' ); ?></div>
 							</div>
 						</div>
 					<?php endif; ?>
@@ -157,61 +145,20 @@ defined( 'ABSPATH' ) || exit;
 			</section>
 		</div>
 
-		<!-- Campaigns -->
+		<!-- Recent Subscribers -->
 		<div class="grid-2">
-			<section class="section campaign pulse-section">
-				<div class="section-head">
-					<div>
-						<div class="section-title">
-							<?php esc_html_e( 'Recent Campaigns', 'alertx-pro' ); ?>
-						</div>
-						<div class="section-desc">
-							<?php esc_html_e( 'Most recent campaigns list', 'alertx-pro' ); ?>
-						</div>
-					</div>
-					<div class="pulse-live">
-						<a href="<?php echo esc_url( admin_url( 'admin.php?page=campaigns' ) ); ?>" class="section-action">
-							<?php esc_html_e( 'View Campaign →', 'alertx-pro' ); ?>
-						</a>
-					</div>
-				</div>
-				<div class="pulse-list" id="pulseList">
-					<?php if ( ! empty( $recent_campaigns ) ) : ?>
-						<?php foreach ( $recent_campaigns as $alertx_campaign ) : ?>
-							<div class="pulse-row">
-								<div class="pulse-rank"><?php echo esc_html( $alertx_campaign['rank'] ); ?></div>
-								<div class="pulse-info">
-									<div class="pname"><?php echo esc_html( $alertx_campaign['title'] ); ?></div>
-									<div class="pvariant"><?php echo esc_html( $alertx_campaign['subject'] ); ?> · <?php echo esc_html( $alertx_campaign['status'] ); ?> · <?php echo esc_html( $alertx_campaign['time'] ); ?></div>
-								</div>
-								<div class="pulse-count">
-									<div class="num" data-target="<?php echo esc_attr( $alertx_campaign['emails_sent'] ); ?>"><?php echo esc_html( $alertx_campaign['emails_sent'] ); ?></div>
-									<div class="lbl"><?php esc_html_e( 'sent', 'alertx-pro' ); ?></div>
-								</div>
-							</div>
-						<?php endforeach; ?>
-					<?php else : ?>
-						<div class="pulse-row no-data">
-							<div class="pulse-info">
-								<div class="pname"><?php esc_html_e( 'No campaigns yet', 'alertx-pro' ); ?></div>
-							</div>
-						</div>
-					<?php endif; ?>
-				</div>
-			</section>
-
 			<section class="section recent-subscribers">
 				<div class="section-head">
 					<div>
 						<div class="section-title">
-							<?php esc_html_e( 'Recent Subscribers', 'alertx-pro' ); ?>
+							<?php esc_html_e( 'Recent Subscribers', 'alertx' ); ?>
 						</div>
 						<div class="section-desc">
-							<?php esc_html_e( 'Latest stock alert subscriptions with their status', 'alertx-pro' ); ?>
+							<?php esc_html_e( 'Latest stock alert subscriptions with their status', 'alertx' ); ?>
 						</div>
 					</div>
 					<a class="section-action" href="<?php echo esc_url( admin_url( 'admin.php?page=subscribers' ) ); ?>">
-						<?php esc_html_e( 'View all', 'alertx-pro' ); ?>
+						<?php esc_html_e( 'View all', 'alertx' ); ?>
 						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
 							<path d="M9 6l6 6-6 6" />
 						</svg>
@@ -239,7 +186,7 @@ defined( 'ABSPATH' ) || exit;
 					<?php else : ?>
 						<div class="pulse-row no-data">
 							<div class="pulse-info">
-								<div class="pname"><?php esc_html_e( 'No subscribers yet', 'alertx-pro' ); ?></div>
+								<div class="pname"><?php esc_html_e( 'No subscribers yet', 'alertx' ); ?></div>
 							</div>
 						</div>
 					<?php endif; ?>

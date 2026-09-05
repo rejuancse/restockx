@@ -30,8 +30,8 @@ class Add_Notify_Me_Button {
      */
     public static function get_defaults() {
         return array(
-            'button_text'    => __( 'Notify Me When Available', 'alertx-pro' ),
-            'tooltip_text'   => __( 'We will email you as soon as this product is back in stock.', 'alertx-pro' ),
+            'button_text'    => __( 'Notify Me When Available', 'alertx' ),
+            'tooltip_text'   => __( 'We will email you as soon as this product is back in stock.', 'alertx' ),
             'text_color'     => '#ffffff',
             'bg_color'       => '#3c06c5',
             'hover_bg_color' => '#2a048a',
@@ -244,11 +244,11 @@ class Add_Notify_Me_Button {
                     $initial_product_id = $show_notify_button ? $unique_id : '';
                     echo '<div class="alertx-notify-form notify-hidden" data-product-id="' . esc_attr( $unique_id ) . '">
                             <div class="form-fields">';
-                                echo '<input type="email" class="alertx-notify-email" placeholder="' . esc_attr__( 'Enter your email', 'alertx-pro' ) . '" required>';
+                                echo '<input type="email" class="alertx-notify-email" placeholder="' . esc_attr__( 'Enter your email', 'alertx' ) . '" required>';
                                 echo '<input type="hidden" class="alertx-notify-product-id" value="' . esc_attr( $initial_product_id ) . '">';
                                 echo '<input type="hidden" class="alertx-notify-parent-id" value="' . esc_attr( $unique_id ) . '">';
                                 echo '<input type="hidden" class="alertx-notify-nonce" value="' . esc_attr( $nonce ) . '">';
-                                echo '<button class="alertx-submit-notify">' . esc_html__( 'Notify Me', 'alertx-pro' ) . '</button>';
+                                echo '<button class="alertx-submit-notify">' . esc_html__( 'Notify Me', 'alertx' ) . '</button>';
                             echo '</div>
                         </div>';
                 }
@@ -289,10 +289,10 @@ class Add_Notify_Me_Button {
 
                         echo '<div class="alertx-notify-form notify-hidden" data-product-id="' . esc_attr( $unique_id ) . '">
                                 <div class="form-fields">';
-                                    echo '<input type="email" class="alertx-notify-email" placeholder="' . esc_attr__( 'Enter your email', 'alertx-pro' ) . '" required>';
+                                    echo '<input type="email" class="alertx-notify-email" placeholder="' . esc_attr__( 'Enter your email', 'alertx' ) . '" required>';
                                     echo '<input type="hidden" class="alertx-notify-product-id" value="' . esc_attr( $unique_id ) . '">';
                                     echo '<input type="hidden" class="alertx-notify-nonce" value="' . esc_attr( $nonce ) . '">';
-                                    echo '<button class="alertx-submit-notify">' . esc_html__( 'Notify Me', 'alertx-pro' ) . '</button>';
+                                    echo '<button class="alertx-submit-notify">' . esc_html__( 'Notify Me', 'alertx' ) . '</button>';
                                 echo '</div>';
                             echo '</div>';
                     }

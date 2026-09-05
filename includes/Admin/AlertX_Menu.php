@@ -9,7 +9,7 @@ namespace Alertx\Admin;
 
 defined( 'ABSPATH' ) || exit;
 
-// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom tables are queried with $wpdb->prepare(); these low-frequency admin queries intentionally bypass the object cache.
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom tables are queried with $wpdb->prepare(); these low-frequency admin queries intentionally bypass the object cache.
 
 /**
  * Class Alertx_Menu
@@ -20,10 +20,7 @@ class Alertx_Menu {
 
 	use \Alertx\Admin\Pages\Dashboard_Page;
 	use \Alertx\Admin\Pages\Subscribers_Page;
-	use \Alertx\Admin\Pages\Campaigns_Page;
-	use \Alertx\Admin\Pages\New_Campaign_Page;
 	use \Alertx\Admin\Pages\Email_Templates_Page;
-	use \Alertx\Admin\Pages\Settings_Page;
 
 	/**
 	 * Singleton instance of the class.
@@ -69,18 +66,6 @@ class Alertx_Menu {
 		add_action( 'woocommerce_variation_set_stock', array( $this, 'check_stock_and_notify' ) );
 		add_action( 'admin_init', array( $this, 'handle_bulk_action_alertx_subscriptions' ) );
 
-		// Track WooCommerce orders for restocked products - use proper hooks.
-		add_action( 'woocommerce_order_status_completed', array( $this, 'track_restock_sales' ), 10, 1 );
-		add_action( 'woocommerce_order_status_processing', array( $this, 'track_restock_sales' ), 10, 1 );
-
-		// Debug action to manually test restock tracking (access via: /wp-admin/admin-ajax.php?action=alertx_debug_restock).
-		add_action( 'wp_ajax_alertx_debug_restock', array( $this, 'debug_restock_tracking' ) );
-		add_action( 'wp_ajax_alertx_manual_track_order', array( $this, 'manual_track_order' ) );
-		add_action( 'wp_ajax_alertx_auto_fix', array( $this, 'auto_fix_restock_tracking' ) );
-		add_action( 'wp_ajax_alertx_test_tracking', array( $this, 'test_tracking' ) );
-
-		// Settings page — save "Notify Me" button options.
-		add_action( 'wp_ajax_alertx_save_settings', array( $this, 'save_notify_me_settings' ) );
 		add_action( 'admin_init', array( $this, 'alertx_page_hide_notifications' ) );
 	}
 
@@ -94,57 +79,30 @@ class Alertx_Menu {
 	 */
 	public function add_admin_menu() {
 		add_menu_page(
-			__( 'AlertX', 'alertx-pro' ),
-			__( 'AlertX', 'alertx-pro' ),
+			__( 'AlertX', 'alertx' ),
+			__( 'AlertX', 'alertx' ),
 			'manage_options',
-			'alertx-pro',
+			'alertx',
 			array( $this, 'alertx_admin_dashboard' ),
 			ALERTX_URL . 'assets/images/icon.png'
 		);
 
 		add_submenu_page(
-			'alertx-pro',
-			__( 'Subscribers', 'alertx-pro' ),
-			__( 'Subscribers', 'alertx-pro' ),
+			'alertx',
+			__( 'Subscribers', 'alertx' ),
+			__( 'Subscribers', 'alertx' ),
 			'manage_options',
 			'subscribers',
 			array( $this, 'alertx_subscribers' )
 		);
 
 		add_submenu_page(
-			'alertx-pro',
-			__( 'Email Templates', 'alertx-pro' ),
-			__( 'Email Templates', 'alertx-pro' ),
+			'alertx',
+			__( 'Email Templates', 'alertx' ),
+			__( 'Email Templates', 'alertx' ),
 			'manage_options',
 			'email-templates',
 			array( $this, 'alertx_email_templates' )
-		);
-
-		add_submenu_page(
-			'alertx-pro',
-			__( 'Campaigns', 'alertx-pro' ),
-			__( 'Campaigns', 'alertx-pro' ),
-			'manage_options',
-			'campaigns',
-			array( $this, 'alertx_campaigns' )
-		);
-
-		add_submenu_page(
-			'alertx-pro',
-			__( 'New Campaign', 'alertx-pro' ),
-			__( 'New Campaign', 'alertx-pro' ),
-			'manage_options',
-			'new-campaign',
-			array( $this, 'alertx_new_campaign' )
-		);
-
-		add_submenu_page(
-			'alertx-pro',
-			__( 'Settings', 'alertx-pro' ),
-			__( 'Settings', 'alertx-pro' ),
-			'manage_options',
-			'alertx-settings',
-			array( $this, 'alertx_settings' )
 		);
 	}
 
@@ -163,7 +121,7 @@ class Alertx_Menu {
 		$parent_id  = isset( $_POST['parent_id'] ) ? absint( wp_unslash( $_POST['parent_id'] ) ) : 0;
 
 		if ( empty( $nonce ) ) {
-			wp_send_json_error( __( 'Security token is missing. Please refresh the page and try again.', 'alertx-pro' ) );
+			wp_send_json_error( __( 'Security token is missing. Please refresh the page and try again.', 'alertx' ) );
 		}
 
 		// For variable products, use parent_id for nonce verification.
@@ -173,12 +131,12 @@ class Alertx_Menu {
 		// Verify nonce with product-specific action.
 		$nonce_action = 'alertx_notify_me_' . $nonce_product_id;
 		if ( ! wp_verify_nonce( $nonce, $nonce_action ) ) {
-			wp_send_json_error( __( 'Security check failed. Please refresh the page and try again.', 'alertx-pro' ) );
+			wp_send_json_error( __( 'Security check failed. Please refresh the page and try again.', 'alertx' ) );
 		}
 
 		// Validate product ID.
 		if ( empty( $product_id ) ) {
-			wp_send_json_error( __( 'Error: Product/Variation ID not found. Please select a variation (if applicable) or refresh the page and try again.', 'alertx-pro' ) );
+			wp_send_json_error( __( 'Error: Product/Variation ID not found. Please select a variation (if applicable) or refresh the page and try again.', 'alertx' ) );
 		}
 
 		if ( isset( $_POST['email'] ) && $product_id ) {
@@ -188,7 +146,7 @@ class Alertx_Menu {
 
 			// Check rate limiting to prevent multiple requests.
 			if ( $this->is_rate_limited( $email ) ) {
-				wp_send_json_error( __( 'Too many requests. Please try again later.', 'alertx-pro' ) );
+				wp_send_json_error( __( 'Too many requests. Please try again later.', 'alertx' ) );
 			}
 
 			// Check for existing notification.
@@ -213,7 +171,7 @@ class Alertx_Menu {
 		$email = sanitize_email( $email );
 
 		if ( ! is_email( $email ) ) {
-			wp_send_json_error( __( 'Invalid email address', 'alertx-pro' ) );
+			wp_send_json_error( __( 'Invalid email address', 'alertx' ) );
 		}
 
 		return $email;
@@ -230,7 +188,7 @@ class Alertx_Menu {
 		$product_id = intval( $product_id );
 
 		if ( $product_id <= 0 ) {
-			wp_send_json_error( __( 'Invalid product ID', 'alertx-pro' ) );
+			wp_send_json_error( __( 'Invalid product ID', 'alertx' ) );
 		}
 
 		return $product_id;
@@ -245,11 +203,12 @@ class Alertx_Menu {
 	 */
 	private function get_existing_notification( string $email, int $product_id ): ?object {
 		global $wpdb;
-		$table_name = esc_sql( $wpdb->prefix . 'alertx_subscriptions' );
+		$table_name = $wpdb->prefix . 'alertx_subscriptions';
 
 		return $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT * FROM `$table_name` WHERE email = %s AND product_id = %d",
+				'SELECT * FROM %i WHERE email = %s AND product_id = %d',
+				$table_name,
 				$email,
 				$product_id
 			)
@@ -268,14 +227,14 @@ class Alertx_Menu {
 
 		// If the existing notification is within the last 24 hours.
 		if ( $time_difference < 24 * 60 * 60 ) {
-			wp_send_json_error( __( 'You have already subscribed to notifications for this product.', 'alertx-pro' ) );
+			wp_send_json_error( __( 'You have already subscribed to notifications for this product.', 'alertx' ) );
 		}
 
 		// Renew the subscription.
 		$this->renew_notification( $existing_notification->id );
 		wp_send_json_success(
 			array(
-				'message'      => __( 'Your notification subscription has been renewed for this product.', 'alertx-pro' ),
+				'message'      => __( 'Your notification subscription has been renewed for this product.', 'alertx' ),
 				'alternatives' => $this->get_alternative_products( $product_id ),
 			)
 		);
@@ -288,7 +247,7 @@ class Alertx_Menu {
 	 */
 	private function renew_notification( int $notification_id ) {
 		global $wpdb;
-		$table_name = esc_sql( $wpdb->prefix . 'alertx_subscriptions' );
+		$table_name = $wpdb->prefix . 'alertx_subscriptions';
 
 		// Update the notification's date_added field.
 		$wpdb->update(
@@ -308,7 +267,7 @@ class Alertx_Menu {
 	 */
 	private function create_new_notification( string $email, int $product_id ) {
 		global $wpdb;
-		$table_name = esc_sql( $wpdb->prefix . 'alertx_subscriptions' );
+		$table_name = $wpdb->prefix . 'alertx_subscriptions';
 
 		// Check if double opt-in confirmation is required.
 		$require_confirmation = get_option( 'alertx_require_confirmation', '1' ) === '1';
@@ -343,12 +302,12 @@ class Alertx_Menu {
 
 			// Skip confirmation, send immediate success message.
 			$product      = wc_get_product( $product_id );
-			$product_name = $product ? $product->get_name() : __( 'this product', 'alertx-pro' );
+			$product_name = $product ? $product->get_name() : __( 'this product', 'alertx' );
 
 			$response_data = array(
 				'message'      => sprintf(
 					/* translators: %s: product name */
-					__( 'You have been subscribed to notifications for <strong>%s</strong>. We will notify you when it is back in stock.', 'alertx-pro' ),
+					__( 'You have been subscribed to notifications for <strong>%s</strong>. We will notify you when it is back in stock.', 'alertx' ),
 					esc_html( $product_name )
 				),
 				'alternatives' => $this->get_alternative_products( $product_id ),
@@ -372,12 +331,12 @@ class Alertx_Menu {
 		$product = wc_get_product( $product_id );
 
 		// Determine the product name, defaulting to 'this product' if not found.
-		$product_name = $product ? $product->get_name() : __( 'this product', 'alertx-pro' );
+		$product_name = $product ? $product->get_name() : __( 'this product', 'alertx' );
 
 		$response_data = array(
 			'message'      => sprintf(
 				/* translators: %s: product name */
-				__( 'Almost done! Confirm your subscription via email to get notified when <strong>%s</strong> is back in stock.', 'alertx-pro' ),
+				__( 'Almost done! Confirm your subscription via email to get notified when <strong>%s</strong> is back in stock.', 'alertx' ),
 				esc_html( $product_name )
 			),
 			'alternatives' => $this->get_alternative_products( $product_id ),
@@ -396,7 +355,7 @@ class Alertx_Menu {
 	 */
 	private function send_confirmation_email( string $email, int $product_id, string $token ) {
 		$product      = wc_get_product( $product_id );
-		$product_name = $product ? $product->get_name() : __( 'this product', 'alertx-pro' );
+		$product_name = $product ? $product->get_name() : __( 'this product', 'alertx' );
 
 		// Build confirmation URL using AJAX endpoint.
 		$confirm_url = add_query_arg(
@@ -409,18 +368,18 @@ class Alertx_Menu {
 		);
 
 		/* translators: %s: Product name */
-		$subject = sprintf( __( 'Confirm your stock alert for %s', 'alertx-pro' ), $product_name );
+		$subject = sprintf( __( 'Confirm your stock alert for %s', 'alertx' ), $product_name );
 
 		// Keep the From address domain-aligned so messages are not dropped.
 		// by recipients' providers; external configured addresses become.
 		// the Reply-To instead.
 		$sender    = \Alertx\Admin::resolve_email_sender();
-		$from_name = get_bloginfo( 'name' ) . ' ' . __( 'Stock Alerts', 'alertx-pro' );
+		$from_name = get_bloginfo( 'name' ) . ' ' . __( 'Stock Alerts', 'alertx' );
 
 		// HTML message for better client compatibility.
 		$message = sprintf(
 			/* translators: 1: Product name, 2: Confirmation URL */
-			__( 'Please confirm your subscription to be notified when %1$s is back in stock. <a href="%2$s">Click here to confirm</a>.', 'alertx-pro' ),
+			__( 'Please confirm your subscription to be notified when %1$s is back in stock. <a href="%2$s">Click here to confirm</a>.', 'alertx' ),
 			esc_html( $product_name ),
 			esc_url( $confirm_url )
 		);
@@ -451,18 +410,18 @@ class Alertx_Menu {
 	 */
 	private function send_subscription_success_email( string $email, int $product_id ) {
 		$product      = wc_get_product( $product_id );
-		$product_name = $product ? $product->get_name() : __( 'this product', 'alertx-pro' );
+		$product_name = $product ? $product->get_name() : __( 'this product', 'alertx' );
 		$product_url  = $product ? $product->get_permalink() : home_url( '/' );
 
 		/* translators: %s: Product name */
-		$subject = sprintf( __( 'You are subscribed: %s stock alerts', 'alertx-pro' ), $product_name );
+		$subject = sprintf( __( 'You are subscribed: %s stock alerts', 'alertx' ), $product_name );
 
 		$sender    = \Alertx\Admin::resolve_email_sender();
-		$from_name = get_bloginfo( 'name' ) . ' ' . __( 'Stock Alerts', 'alertx-pro' );
+		$from_name = get_bloginfo( 'name' ) . ' ' . __( 'Stock Alerts', 'alertx' );
 
 		$message = sprintf(
 			/* translators: 1: Product name, 2: Site name, 3: Product URL */
-			__( 'You will receive an email as soon as <strong>%1$s</strong> is back in stock at %2$s.<br><br><a href="%3$s">View product</a>', 'alertx-pro' ),
+			__( 'You will receive an email as soon as <strong>%1$s</strong> is back in stock at %2$s.<br><br><a href="%3$s">View product</a>', 'alertx' ),
 			esc_html( $product_name ),
 			esc_html( get_bloginfo( 'name' ) ),
 			esc_url( $product_url )
@@ -490,27 +449,27 @@ class Alertx_Menu {
 		// Security is handled via token validation instead of nonce.
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public token-verified endpoint accessed via email links; a nonce cannot be supplied.
 		if ( empty( $_GET['token'] ) || empty( $_GET['pid'] ) ) {
-			wp_die( esc_html__( 'Invalid confirmation request.', 'alertx-pro' ) );
+			wp_die( esc_html__( 'Invalid confirmation request.', 'alertx' ) );
 		}
 
 		global $wpdb;
-		$table_name = esc_sql( $wpdb->prefix . 'alertx_subscriptions' );
+		$table_name = $wpdb->prefix . 'alertx_subscriptions';
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public token-verified endpoint accessed via email links; a nonce cannot be supplied.
 		$token = sanitize_text_field( wp_unslash( $_GET['token'] ) );
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public token-verified endpoint accessed via email links; a nonce cannot be supplied.
 		$product_id = absint( wp_unslash( $_GET['pid'] ) );
 
 		$notification = $wpdb->get_row(
-			$wpdb->prepare( "SELECT * FROM `$table_name` WHERE token = %s AND product_id = %d", $token, $product_id )
+			$wpdb->prepare( 'SELECT * FROM %i WHERE token = %s AND product_id = %d', $table_name, $token, $product_id )
 		);
 		if ( ! $notification ) {
-			wp_die( esc_html__( 'Subscription not found or already confirmed.', 'alertx-pro' ) );
+			wp_die( esc_html__( 'Subscription not found or already confirmed.', 'alertx' ) );
 		}
 
 		// Confirm subscription.
 		$wpdb->update( $table_name, array( 'status' => 'confirmed' ), array( 'id' => intval( $notification->id ) ), array( '%s' ), array( '%d' ) );
 
-		wp_die( esc_html__( 'Your subscription has been confirmed. Thank you!', 'alertx-pro' ) );
+		wp_die( esc_html__( 'Your subscription has been confirmed. Thank you!', 'alertx' ) );
 	}
 
 	/**
@@ -521,21 +480,21 @@ class Alertx_Menu {
 		// Security is handled via token validation instead of nonce.
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public token-verified endpoint accessed via email links; a nonce cannot be supplied.
 		if ( empty( $_GET['token'] ) || empty( $_GET['pid'] ) ) {
-			wp_die( esc_html__( 'Invalid unsubscribe request.', 'alertx-pro' ) );
+			wp_die( esc_html__( 'Invalid unsubscribe request.', 'alertx' ) );
 		}
 
 		global $wpdb;
-		$table_name = esc_sql( $wpdb->prefix . 'alertx_subscriptions' );
+		$table_name = $wpdb->prefix . 'alertx_subscriptions';
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public token-verified endpoint accessed via email links; a nonce cannot be supplied.
 		$token = sanitize_text_field( wp_unslash( $_GET['token'] ) );
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public token-verified endpoint accessed via email links; a nonce cannot be supplied.
 		$product_id = absint( wp_unslash( $_GET['pid'] ) );
 
 		$notification = $wpdb->get_row(
-			$wpdb->prepare( "SELECT * FROM `$table_name` WHERE token = %s AND product_id = %d", $token, $product_id )
+			$wpdb->prepare( 'SELECT * FROM %i WHERE token = %s AND product_id = %d', $table_name, $token, $product_id )
 		);
 		if ( ! $notification ) {
-			wp_die( esc_html__( 'Subscription not found.', 'alertx-pro' ) );
+			wp_die( esc_html__( 'Subscription not found.', 'alertx' ) );
 		}
 
 		// Update subscription status to 'unsubscribed' instead of deleting.
@@ -547,7 +506,7 @@ class Alertx_Menu {
 			array( '%d' )
 		);
 
-		wp_die( esc_html__( 'You have been unsubscribed from stock alerts.', 'alertx-pro' ) );
+		wp_die( esc_html__( 'You have been unsubscribed from stock alerts.', 'alertx' ) );
 	}
 
 	/**
@@ -669,12 +628,13 @@ class Alertx_Menu {
 		}
 
 		global $wpdb;
-		$table_name = esc_sql( $wpdb->prefix . 'alertx_subscriptions' );
+		$table_name = $wpdb->prefix . 'alertx_subscriptions';
 
 		// Fetch confirmed notifications for the given product ID.
 		$notifications = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM `$table_name` WHERE product_id = %d AND status = %s",
+				'SELECT * FROM %i WHERE product_id = %d AND status = %s',
+				$table_name,
 				$product_id,
 				'confirmed'
 			)
@@ -704,7 +664,7 @@ class Alertx_Menu {
 		// by recipients' providers; external configured addresses become.
 		// the Reply-To instead.
 		$sender    = \Alertx\Admin::resolve_email_sender();
-		$from_name = get_bloginfo( 'name' ) . ' ' . __( 'Stock Alerts', 'alertx-pro' );
+		$from_name = get_bloginfo( 'name' ) . ' ' . __( 'Stock Alerts', 'alertx' );
 		$headers   = array(
 			'MIME-Version: 1.0',
 			'Content-Type: text/html; charset=UTF-8',
@@ -721,7 +681,7 @@ class Alertx_Menu {
 
 			$subject = sprintf(
 				/* translators: %s: product name */
-				__( 'Product Back in Stock: %s', 'alertx-pro' ),
+				__( 'Product Back in Stock: %s', 'alertx' ),
 				esc_html( $product->get_name() )
 			);
 
@@ -773,12 +733,13 @@ class Alertx_Menu {
 	 */
 	private function track_restock_event( $product_id, $notification_count ) {
 		global $wpdb;
-		$restock_table = esc_sql( $wpdb->prefix . 'alertx_restock_tracking' );
+		$restock_table = $wpdb->prefix . 'alertx_restock_tracking';
 
 		// Check if this product already has a restock record.
 		$existing = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT * FROM `$restock_table` WHERE product_id = %d ORDER BY restock_date DESC LIMIT 1",
+				'SELECT * FROM %i WHERE product_id = %d ORDER BY restock_date DESC LIMIT 1',
+				$restock_table,
 				$product_id
 			)
 		);
@@ -809,515 +770,6 @@ class Alertx_Menu {
 				array( '%d', '%s', '%d', '%f', '%d' )
 			);
 		}
-	}
-
-	/**
-	 * Track WooCommerce orders for restocked products.
-	 *
-	 * @param int $order_id Order ID.
-	 */
-	public function track_restock_sales( $order_id ) {
-		$order = wc_get_order( $order_id );
-
-		if ( ! $order ) {
-			return;
-		}
-
-		global $wpdb;
-		$restock_table = esc_sql( $wpdb->prefix . 'alertx_restock_tracking' );
-
-		// Get all restocked product IDs including variations.
-		$restocked_products = $wpdb->get_col( "SELECT product_id FROM `$restock_table`" );
-
-		if ( empty( $restocked_products ) ) {
-			return;
-		}
-
-		// Loop through order items.
-		foreach ( $order->get_items() as $item ) {
-			$product_id   = $item->get_product_id();
-			$variation_id = $item->get_variation_id();
-			$line_total   = floatval( $item->get_total() );
-			$quantity     = $item->get_quantity();
-
-			// Check if this product or variation was restocked.
-			$is_restocked      = false;
-			$target_product_id = null;
-
-			if ( in_array( $product_id, $restocked_products, true ) ) {
-				$is_restocked      = true;
-				$target_product_id = $product_id;
-			} elseif ( $variation_id && in_array( $variation_id, $restocked_products, true ) ) {
-				$is_restocked      = true;
-				$target_product_id = $variation_id;
-			}
-
-			if ( $is_restocked && $line_total > 0 ) {
-				// Update restock tracking.
-				$wpdb->query(
-					$wpdb->prepare(
-						"UPDATE `$restock_table`
-                        SET total_sales = total_sales + %f,
-                            total_orders = total_orders + 1
-                        WHERE product_id = %d",
-						$line_total,
-						$target_product_id
-					)
-				);
-			}
-		}
-	}
-
-	/**
-	 * Debug restock tracking - outputs current restock status
-	 * Access via: /wp-admin/admin-ajax.php?action=alertx_debug_restock
-	 */
-	public function debug_restock_tracking() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( 'Access denied' );
-		}
-
-		global $wpdb;
-		$restock_table      = esc_sql( $wpdb->prefix . 'alertx_restock_tracking' );
-		$subscription_table = esc_sql( $wpdb->prefix . 'alertx_subscriptions' );
-
-		echo '<h2>AlertX Restock Tracking Debug</h2>';
-
-		// Show restock tracking table.
-		echo '<h3>Restock Tracking Table:</h3>';
-		$restock_data = $wpdb->get_results( "SELECT * FROM `$restock_table`" );
-
-		if ( empty( $restock_data ) ) {
-			echo '<p><strong>No restock records found!</strong> This means no products have been restocked yet.</p>';
-		} else {
-			echo '<table border="1" cellpadding="5" style="border-collapse: collapse;">';
-			echo '<tr><th>ID</th><th>Product ID</th><th>Restock Date</th><th>Notifications Sent</th><th>Total Sales</th><th>Total Orders</th></tr>';
-			foreach ( $restock_data as $row ) {
-				echo '<tr>';
-				echo '<td>' . esc_html( $row->id ) . '</td>';
-				echo '<td>' . esc_html( $row->product_id ) . '</td>';
-				echo '<td>' . esc_html( $row->restock_date ) . '</td>';
-				echo '<td>' . esc_html( $row->notifications_sent ) . '</td>';
-				echo '<td>' . esc_html( $row->total_sales ) . '</td>';
-				echo '<td>' . esc_html( $row->total_orders ) . '</td>';
-				echo '</tr>';
-			}
-			echo '</table>';
-
-			$total_sales = $wpdb->get_var( "SELECT SUM(total_sales) FROM `$restock_table`" );
-			echo '<p><strong>Total Restock Sales: $' . number_format( $total_sales ? $total_sales : 0, 2 ) . '</strong></p>';
-		}
-
-		// Show tracked orders.
-		echo '<h3>Tracked Orders (Transient):</h3>';
-		$tracked_orders = get_transient( 'alertx_tracked_orders' );
-		if ( $tracked_orders ) {
-			echo '<p>Order IDs: ' . esc_html( implode( ', ', $tracked_orders ) ) . '</p>';
-		} else {
-			echo '<p>No tracked orders found.</p>';
-		}
-
-		// Show recent orders.
-		echo '<h3>Recent WooCommerce Orders:</h3>';
-		$recent_orders = wc_get_orders(
-			array(
-				'limit'   => 10,
-				'orderby' => 'date',
-				'order'   => 'DESC',
-			)
-		);
-
-		if ( empty( $recent_orders ) ) {
-			echo '<p>No recent orders found.</p>';
-		} else {
-			echo '<table border="1" cellpadding="5" style="border-collapse: collapse;">';
-			echo '<tr><th>Order ID</th><th>Status</th><th>Total</th><th>Date</th><th>Products</th></tr>';
-			foreach ( $recent_orders as $order ) {
-				echo '<tr>';
-				echo '<td>' . esc_html( $order->get_id() ) . '</td>';
-				echo '<td>' . esc_html( $order->get_status() ) . '</td>';
-				echo '<td>' . esc_html( $order->get_total() ) . '</td>';
-				echo '<td>' . esc_html( $order->get_date_created()->date_i18n( 'Y-m-d H:i:s' ) ) . '</td>';
-				echo '<td>';
-				foreach ( $order->get_items() as $item ) {
-					echo esc_html( $item->get_name() ) . ' (ID: ' . esc_html( $item->get_product_id() ) . ') - $' . esc_html( $item->get_total() ) . '<br>';
-				}
-				echo '</td>';
-				echo '</tr>';
-			}
-			echo '</table>';
-		}
-
-		echo '<hr>';
-		echo '<p><strong>To test:</strong> Create a new order for a restocked product and check if the sales are updated.</p>';
-
-		wp_die();
-	}
-
-	/**
-	 * Manually track a specific order for restock sales
-	 * Access via: /wp-admin/admin-ajax.php?action=alertx_manual_track_order&order_id=XXXX
-	 */
-	public function manual_track_order() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( 'Access denied' );
-		}
-
-		// Debug-only endpoint invoked via a manually constructed URL (see.
-		// docblock above); a nonce cannot be supplied for direct URL access,.
-		// so access is restricted to manage_options instead.
-		$order_id = isset( $_GET['order_id'] ) ? intval( $_GET['order_id'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Capability-gated debug tool; nonce impossible for direct URL access.
-
-		if ( ! $order_id ) {
-			echo '<p style="color: red;">Error: No order ID provided. Usage: /wp-admin/admin-ajax.php?action=alertx_manual_track_order&order_id=XXXX</p>';
-			wp_die();
-		}
-
-		echo '<h2>AlertX Manual Order Tracking</h2>';
-		echo '<p>Processing Order ID: ' . esc_html( $order_id ) . '</p>';
-
-		// Clear the tracked orders cache for this specific order.
-		$tracked_orders = get_transient( 'alertx_tracked_orders' );
-		if ( $tracked_orders && in_array( $order_id, $tracked_orders, true ) ) {
-			// Remove this order from tracked list so we can re-process it.
-			$tracked_orders = array_diff( $tracked_orders, array( $order_id ) );
-			set_transient( 'alertx_tracked_orders', $tracked_orders, DAY_IN_SECONDS );
-			echo '<p style="color: orange;">Order removed from cache, re-processing...</p>';
-		}
-
-		// Call the tracking function.
-		$this->track_restock_sales( $order_id );
-
-		echo '<p style="color: green; font-weight: bold;">Tracking complete! Check the results above.</p>';
-		echo '<p><a href="/wp-admin/admin-ajax.php?action=alertx_debug_restock">View Debug Info</a></p>';
-
-		wp_die();
-	}
-
-	/**
-	 * Test tracking functionality
-	 * Access via: /wp-admin/admin-ajax.php?action=alertx_test_tracking
-	 */
-	public function test_tracking() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( 'Access denied' );
-		}
-
-		echo '<h2>AlertX Test Tracking</h2>';
-
-		// Get the most recent completed order.
-		$recent_orders = wc_get_orders(
-			array(
-				'limit'   => 1,
-				'status'  => 'completed',
-				'orderby' => 'date',
-				'order'   => 'DESC',
-			)
-		);
-
-		if ( empty( $recent_orders ) ) {
-			echo '<p>No completed orders found. Please create a test order first.</p>';
-			wp_die();
-		}
-
-		$test_order = $recent_orders[0];
-		$order_id   = $test_order->get_id();
-
-		echo '<h3>Testing with Order #' . esc_html( $order_id ) . '</h3>';
-		echo '<p><strong>Order Total:</strong> $' . number_format( $test_order->get_total(), 2 ) . '</p>';
-		echo '<p><strong>Order Status:</strong> ' . esc_html( $test_order->get_status() ) . '</p>';
-
-		echo '<h4>Order Items:</h4>';
-		echo '<ul>';
-		foreach ( $test_order->get_items() as $item ) {
-			echo '<li>';
-			echo 'Product ID: ' . esc_html( $item->get_product_id() );
-			if ( $item->get_variation_id() ) {
-				echo ' (Variation: ' . esc_html( $item->get_variation_id() ) . ')';
-			}
-			echo '<br>';
-			echo 'Quantity: ' . esc_html( $item->get_quantity() ) . '<br>';
-			echo 'Line Total: $' . number_format( $item->get_total(), 2 );
-			echo '</li>';
-		}
-		echo '</ul>';
-
-		echo '<hr>';
-		echo '<h3>Running Tracking Test...</h3>';
-
-		// Call the tracking function.
-		$this->track_restock_sales( $order_id );
-
-		echo '<hr>';
-		echo '<h3>Result:</h3>';
-
-		global $wpdb;
-		$restock_table = esc_sql( $wpdb->prefix . 'alertx_restock_tracking' );
-
-		// Show updated restock tracking.
-		$restock_data = $wpdb->get_results( "SELECT * FROM `$restock_table`" );
-
-		if ( empty( $restock_data ) ) {
-			echo '<p style="color: red;">No restock records found.</p>';
-		} else {
-			echo '<table border="1" cellpadding="5">';
-			echo '<tr><th>Product ID</th><th>Total Sales</th><th>Total Orders</th></tr>';
-			foreach ( $restock_data as $row ) {
-				echo '<tr>';
-				echo '<td>' . esc_html( $row->product_id ) . '</td>';
-				echo '<td>' . esc_html( $row->total_sales ) . '</td>';
-				echo '<td>' . esc_html( $row->total_orders ) . '</td>';
-				echo '</tr>';
-			}
-			echo '</table>';
-
-			$total_sales = $wpdb->get_var( "SELECT SUM(total_sales) FROM `$restock_table`" );
-			echo '<p style="font-size: 20px; font-weight: bold; color: green;">Total Restock Sales: $' . number_format( $total_sales ? $total_sales : 0, 2 ) . '</p>';
-		}
-
-		echo '<hr>';
-		echo '<p><a href="/wp-admin/admin-ajax.php?action=alertx_debug_restock">View Full Debug Info</a></p>';
-
-		wp_die();
-	}
-
-	/**
-	 * Auto-fix restock tracking issues
-	 * Access via: /wp-admin/admin-ajax.php?action=alertx_auto_fix
-	 */
-	public function auto_fix_restock_tracking() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( 'Access denied' );
-		}
-
-		echo '<h2>AlertX Auto-Fix Restock Tracking</h2>';
-
-		global $wpdb;
-		$restock_table      = esc_sql( $wpdb->prefix . 'alertx_restock_tracking' );
-		$subscription_table = esc_sql( $wpdb->prefix . 'alertx_subscriptions' );
-
-		// Step 1: Check and create table.
-		echo '<h3>Step 1: Checking restock table...</h3>';
-		$table_exists = $wpdb->get_var( "SHOW TABLES LIKE '$restock_table'" );
-
-		if ( ! $table_exists ) {
-			echo '<p style="color: red;">Table NOT found. Creating...</p>';
-			$charset_collate = $wpdb->get_charset_collate();
-
-			$sql = "CREATE TABLE $restock_table (
-                id mediumint(9) NOT NULL AUTO_INCREMENT,
-                product_id bigint(20) NOT NULL,
-                restock_date datetime NULL DEFAULT NULL,
-                notifications_sent int(11) DEFAULT 0 NOT NULL,
-                total_sales decimal(10,2) DEFAULT 0.00 NOT NULL,
-                total_orders int(11) DEFAULT 0 NOT NULL,
-                PRIMARY KEY  (id),
-                KEY product_id (product_id)
-            ) $charset_collate;";
-
-			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-			dbDelta( $sql );
-
-			echo '<p style="color: green;"><strong>Table created successfully!</strong></p>';
-		} else {
-			echo '<p style="color: green;">✓ Table exists</p>';
-		}
-
-		// Step 2: Find products that were restocked (from subscriptions).
-		echo '<h3>Step 2: Finding restocked products...</h3>';
-
-		// Get unique products that have subscriptions.
-		$subscribed_products = $wpdb->get_col( "SELECT DISTINCT product_id FROM `$subscription_table`" );
-		echo '<p>Found ' . count( $subscribed_products ) . ' products with subscriptions</p>';
-
-		$restock_count = 0;
-		foreach ( $subscribed_products as $product_id ) {
-			// Check if this product already has a restock record.
-			$existing = $wpdb->get_row(
-				$wpdb->prepare(
-					"SELECT * FROM `$restock_table` WHERE product_id = %d",
-					$product_id
-				)
-			);
-
-			if ( ! $existing ) {
-				// Create restock record for this product.
-				$wpdb->insert(
-					$restock_table,
-					array(
-						'product_id'         => $product_id,
-						'restock_date'       => current_time( 'mysql' ),
-						'notifications_sent' => 0,
-						'total_sales'        => 0.00,
-						'total_orders'       => 0,
-					),
-					array( '%d', '%s', '%d', '%f', '%d' )
-				);
-				++$restock_count;
-			}
-		}
-
-		echo '<p style="color: green;"><strong>Created ' . esc_html( $restock_count ) . ' restock records!</strong></p>';
-
-		// Step 3: Process recent orders.
-		echo '<h3>Step 3: Processing recent orders...</h3>';
-
-		// Clear all tracked orders cache to force re-tracking.
-		delete_transient( 'alertx_tracked_orders' );
-		echo '<p>Cleared tracking cache</p>';
-
-		// Get recent completed orders - extended to 60 days and all order statuses.
-		$recent_orders = wc_get_orders(
-			array(
-				'limit'        => 200,
-				'status'       => 'any',  // Get all orders regardless of status.
-				'date_created' => '>' . strtotime( '-60 days' ),
-				'orderby'      => 'date',
-				'order'        => 'DESC',
-			)
-		);
-
-		echo '<p>Found ' . count( $recent_orders ) . ' orders to process (last 60 days)...</p>';
-
-		$tracked_count       = 0;
-		$total_sales_tracked = 0;
-		$processed_products  = array();
-
-		foreach ( $recent_orders as $order ) {
-			$order_id     = $order->get_id();
-			$order_status = $order->get_status();
-
-			echo '<p style="color: blue;">Processing Order ' . esc_html( $order_id ) . ' (Status: ' . esc_html( $order_status ) . ')</p>';
-
-			// Process each order item.
-			foreach ( $order->get_items() as $item ) {
-				$product_id   = $item->get_product_id();
-				$variation_id = $item->get_variation_id();
-				$line_total   = floatval( $item->get_total() );
-				$quantity     = $item->get_quantity();
-
-				echo '&nbsp;&nbsp;&nbsp;Item: Product ID ' . esc_html( $product_id );
-				if ( $variation_id ) {
-					echo ' (Variation: ' . esc_html( $variation_id ) . ')';
-				}
-				echo ' - Qty: ' . esc_html( $quantity ) . ' - Total: $' . number_format( $line_total, 2 );
-
-				// Check if this product OR variation is in our restock tracking.
-				$is_restocked_product = $wpdb->get_var(
-					$wpdb->prepare(
-						"SELECT id FROM `$restock_table` WHERE product_id = %d",
-						$product_id
-					)
-				);
-
-				$is_restocked_variation = false;
-				if ( $variation_id ) {
-					$is_restocked_variation = $wpdb->get_var(
-						$wpdb->prepare(
-							"SELECT id FROM `$restock_table` WHERE product_id = %d",
-							$variation_id
-						)
-					);
-				}
-
-				$target_product_id = null;
-				if ( $is_restocked_product ) {
-					$target_product_id = $product_id;
-					echo ' - <span style="color: green;">✓ Product found in tracking!</span>';
-				} elseif ( $is_restocked_variation ) {
-					$target_product_id = $variation_id;
-					echo ' - <span style="color: green;">✓ Variation found in tracking!</span>';
-				} else {
-					echo ' - <span style="color: gray;">Not in tracking</span>';
-				}
-
-				if ( $target_product_id && $line_total > 0 ) {
-					// Update restock tracking.
-					$result = $wpdb->query(
-						$wpdb->prepare(
-							"UPDATE `$restock_table`
-                            SET total_sales = total_sales + %f,
-                                total_orders = total_orders + 1
-                            WHERE product_id = %d",
-							$line_total,
-							$target_product_id
-						)
-					);
-
-					if ( $result ) {
-						$total_sales_tracked += $line_total;
-						++$tracked_count;
-						if ( ! isset( $processed_products[ $target_product_id ] ) ) {
-							$processed_products[ $target_product_id ] = 0;
-						}
-						$processed_products[ $target_product_id ] += $line_total;
-
-						echo ' - <strong style="color: green;">Added $' . number_format( $line_total, 2 ) . ' to product ' . esc_html( $target_product_id ) . '</strong>';
-					}
-				}
-
-				echo '</p>';
-			}
-
-			// Mark order as tracked.
-			$tracked_orders = get_transient( 'alertx_tracked_orders' );
-			if ( ! $tracked_orders ) {
-				$tracked_orders = array();
-			}
-			if ( ! in_array( $order_id, $tracked_orders, true ) ) {
-				$tracked_orders[] = $order_id;
-			}
-			set_transient( 'alertx_tracked_orders', $tracked_orders, DAY_IN_SECONDS );
-		}
-
-		echo '<hr>';
-		echo '<h3 style="color: green;">Tracking Summary:</h3>';
-		echo '<p><strong>Total items tracked:</strong> ' . esc_html( $tracked_count ) . '</p>';
-		echo '<p><strong>Total sales tracked:</strong> $' . number_format( $total_sales_tracked, 2 ) . '</p>';
-
-		if ( ! empty( $processed_products ) ) {
-			echo '<h4>Product-wise breakdown:</h4>';
-			echo '<ul>';
-			foreach ( $processed_products as $prod_id => $sales ) {
-				echo '<li>Product ' . esc_html( $prod_id ) . ': $' . number_format( $sales, 2 ) . '</li>';
-			}
-			echo '</ul>';
-		}
-
-		echo '<p style="color: green;"><strong>Total tracked: ' . esc_html( $tracked_count ) . ' items worth $' . number_format( $total_sales_tracked, 2 ) . '!</strong></p>';
-
-		// Step 4: Show current status.
-		echo '<h3>Step 4: Current Restock Status</h3>';
-
-		$restock_data = $wpdb->get_results( "SELECT * FROM `$restock_table`" );
-
-		if ( empty( $restock_data ) ) {
-			echo '<p style="color: orange;">No restock records found.</p>';
-		} else {
-			echo '<table border="1" cellpadding="5" style="border-collapse: collapse; max-width: 100%; overflow-x: auto;">';
-			echo '<tr><th>Product ID</th><th>Restock Date</th><th>Notifications Sent</th><th>Total Sales</th><th>Total Orders</th></tr>';
-			foreach ( $restock_data as $row ) {
-				echo '<tr>';
-				echo '<td>' . esc_html( $row->product_id ) . '</td>';
-				echo '<td>' . esc_html( $row->restock_date ) . '</td>';
-				echo '<td>' . esc_html( $row->notifications_sent ) . '</td>';
-				echo '<td>' . esc_html( $row->total_sales ) . '</td>';
-				echo '<td>' . esc_html( $row->total_orders ) . '</td>';
-				echo '</tr>';
-			}
-			echo '</table>';
-
-			$total_sales = $wpdb->get_var( "SELECT SUM(total_sales) FROM `$restock_table`" );
-			echo '<p style="font-size: 24px; font-weight: bold; color: green; margin: 20px 0;">Total Restock Sales: $' . number_format( $total_sales ? $total_sales : 0, 2 ) . '</p>';
-		}
-
-		echo '<hr>';
-		echo '<div style="padding: 15px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px;">';
-		echo '<p style="color: #155724; font-weight: bold; margin: 0;">✓ Auto-fix complete!</p>';
-		echo '<p style="margin: 10px 0 0 0;"><a href="/wp-admin/admin.php?page=alertx" style="color: #155724; font-weight: bold; text-decoration: underline;">Go to Dashboard →</a> to see the updated values.</p>';
-		echo '</div>';
-
-		wp_die();
 	}
 
 	/**
@@ -1423,7 +875,7 @@ class Alertx_Menu {
 	 */
 	private function handle_bulk_delete( array $notification_ids ) {
 		global $wpdb;
-		$table_name = esc_sql( $wpdb->prefix . 'alertx_subscriptions' );
+		$table_name = $wpdb->prefix . 'alertx_subscriptions';
 
 		// Delete each notification by ID.
 		foreach ( $notification_ids as $notification_id ) {
@@ -1435,7 +887,7 @@ class Alertx_Menu {
 			'admin_notices',
 			function () {
 				echo '<div class="notice notice-success is-dismissible">';
-				echo '<p>' . esc_html__( 'Selected notifications have been deleted.', 'alertx-pro' ) . '</p>';
+				echo '<p>' . esc_html__( 'Selected notifications have been deleted.', 'alertx' ) . '</p>';
 				echo '</div>';
 			}
 		);
@@ -1476,12 +928,9 @@ class Alertx_Menu {
 
 		// AlertX pages only.
 		$alertx_pages = array(
-			'alertx-pro',
+			'alertx',
 			'subscribers',
-			'campaigns',
 			'email-templates',
-			'new-campaign',
-			'alertx-settings',
 		);
 
 		if ( in_array( $page, $alertx_pages, true ) ) {
@@ -1492,4 +941,4 @@ class Alertx_Menu {
 		}
 	}
 }
-// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, PluginCheck.Security.DirectDB.UnescapedDBParameter
+// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, PluginCheck.Security.DirectDB.UnescapedDBParameter

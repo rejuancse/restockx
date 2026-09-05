@@ -4,7 +4,7 @@ namespace Alertx;
 
 defined( 'ABSPATH' ) || exit;
 
-// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, PluginCheck.Security.DirectDB.UnescapedDBParameter
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, PluginCheck.Security.DirectDB.UnescapedDBParameter
 /**
  * The admin class
  */
@@ -22,7 +22,6 @@ class Admin {
         // $this->table_name = $this->wpdb->prefix . 'alertx_subscriptions';
 
         new Admin\Alertx_Menu();
-        new Admin\Campaign_Ajax();
 
         add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
         add_action( 'admin_head', array( $this, 'hide_other_plugin_notices' ) );
@@ -36,7 +35,7 @@ class Admin {
     public function add_dashboard_widget() {
         wp_add_dashboard_widget(
             'stock_notification_dashboard_widget',
-            __('AlertX Notification Statistics', 'alertx-pro'),
+            __('AlertX Notification Statistics', 'alertx'),
             array($this, 'dashboard_widget_function')
         );
     }
@@ -155,7 +154,7 @@ class Admin {
         global $wpdb;
         $table_name = $wpdb->prefix . 'alertx_subscriptions';
         return (int) $wpdb->get_var(
-            "SELECT COUNT(*) FROM `{$table_name}`"
+            $wpdb->prepare( 'SELECT COUNT(*) FROM %i', $table_name )
         ) ?: 0;
     }
 
@@ -169,7 +168,7 @@ class Admin {
         global $wpdb;
         $table_name = $wpdb->prefix . 'alertx_subscriptions';
         return (int) $wpdb->get_var(
-            "SELECT COUNT(DISTINCT product_id) FROM `{$table_name}`"
+            $wpdb->prepare( 'SELECT COUNT(DISTINCT product_id) FROM %i', $table_name )
         ) ?: 0;
     }
 
@@ -183,8 +182,8 @@ class Admin {
         global $wpdb;
         $table_name = $wpdb->prefix . 'alertx_subscriptions';
         return (int) $wpdb->get_var(
-            "SELECT COUNT(DISTINCT email) FROM `{$table_name}`"
+            $wpdb->prepare( 'SELECT COUNT(DISTINCT email) FROM %i', $table_name )
         ) ?: 0;
     }
 }
-// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, PluginCheck.Security.DirectDB.UnescapedDBParameter
+// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, PluginCheck.Security.DirectDB.UnescapedDBParameter

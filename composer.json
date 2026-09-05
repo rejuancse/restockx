@@ -1,6 +1,6 @@
 {
-  "name": "rejuancse/alertx-pro",
-  "description": "Notify customers when out-of-stock WooCommerce products are back in stock. Features 'Notify Me' option and automatic email alerts.",
+  "name": "rejuancse/alertx",
+  "description": "Recover lost sales with automatic back-in-stock alerts. Customers click 'Notify Me' on out-of-stock products and get an email the moment items are available again.",
   "type": "wordpress-plugin",
   "license": "GPLv2",
   "authors": [

@@ -149,7 +149,7 @@ trait Subscribers_Page {
 		if ( isset( $_POST['export_csv'] ) ) {
 			// Verify nonce for security.
 			if ( ! isset( $_POST['stock_notification_export_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['stock_notification_export_nonce'] ) ), 'stock_notification_export' ) ) {
-				wp_die( esc_html__( 'Security check failed.', 'alertx-pro' ) );
+				wp_die( esc_html__( 'Security check failed.', 'alertx' ) );
 			}
 
 			// Clean any existing output buffers.
@@ -202,7 +202,7 @@ trait Subscribers_Page {
 			include $template_path; // No parentheses needed for include.
 		} else {
 			// Template not found, display an error or a fallback message.
-			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'alertx-pro' ) . '</p></div>';
+			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'alertx' ) . '</p></div>';
 		}
 	}
 
@@ -255,7 +255,7 @@ trait Subscribers_Page {
 			$product = wc_get_product( $notification['product_id'] );
 
 			// Get product name.
-			$product_name = $product ? $product->get_name() : __( 'Product not found', 'alertx-pro' );
+			$product_name = $product ? $product->get_name() : __( 'Product not found', 'alertx' );
 
 			// Format status for better readability.
 			$status = isset( $notification['status'] ) ? ucfirst( $notification['status'] ) : 'Unknown';

@@ -14,20 +14,14 @@ defined( 'ABSPATH' ) || exit;
         <div class="page-header">
 			<div>
 				<div class="page-h1">
-                    <?php esc_html_e( 'Email Template', 'alertx-pro' ); ?>
+                    <?php esc_html_e( 'Email Template', 'alertx' ); ?>
                 </div>
 				<div class="page-desc">
-					<?php esc_html_e( 'Configure the email your customers receive when a product comes back in stock.', 'alertx-pro' ); ?>
+					<?php esc_html_e( 'Configure the email your customers receive when a product comes back in stock.', 'alertx' ); ?>
 				</div>
 			</div>
 
-			<div class="page-actions">
-				<a class="btn btn-primary" href="<?php echo esc_url( admin_url( 'admin.php?page=new-campaign' ) ); ?>">
-					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2 11 13"></path><path d="M22 2 15 22l-4-9-9-4 20-7Z"></path></svg>
-					<?php esc_html_e('New campaign', 'alertx-pro'); ?>
-				</a>
 			</div>
-		</div>
 
         <form method="post">
             <?php wp_nonce_field( 'save_settings_action', 'settings_nonce' ); ?>
@@ -36,18 +30,18 @@ defined( 'ABSPATH' ) || exit;
                 <!-- Email Template Section -->
                 <div class="template-guide-line">
                     <div class="page-h1">
-                        <?php esc_html_e( 'Configure Email Template', 'alertx-pro' ); ?>
+                        <?php esc_html_e( 'Configure Email Template', 'alertx' ); ?>
                     </div>
                     <div class="page-desc">
-                        <?php esc_html_e( 'Customize the email sent to customers when a product is back in stock. You can use the following placeholders:', 'alertx-pro' ); ?>
+                        <?php esc_html_e( 'Customize the email sent to customers when a product is back in stock. You can use the following placeholders:', 'alertx' ); ?>
                     </div>
 
                     <!-- Email template customization guidelines -->
                     <div class="guidelines">
                         <ul>
-                            <li><code class="tag-chip">{product_name}</code> - <?php esc_html_e( 'The name of the product', 'alertx-pro' ); ?></li>
-                            <li><code class="tag-chip">{product_url}</code> - <?php esc_html_e( 'The URL of the product page', 'alertx-pro' ); ?></li>
-                            <li><code class="tag-chip">{site_name}</code> - <?php esc_html_e( 'The name of your website', 'alertx-pro' ); ?></li>
+                            <li><code class="tag-chip">{product_name}</code> - <?php esc_html_e( 'The name of the product', 'alertx' ); ?></li>
+                            <li><code class="tag-chip">{product_url}</code> - <?php esc_html_e( 'The URL of the product page', 'alertx' ); ?></li>
+                            <li><code class="tag-chip">{site_name}</code> - <?php esc_html_e( 'The name of your website', 'alertx' ); ?></li>
                         </ul>
                     </div>
 
@@ -70,13 +64,13 @@ defined( 'ABSPATH' ) || exit;
                 <div class="notification-threshold">
                     <div class="template-grid">
                         <div class="page-h1">
-                            <?php esc_html_e( 'Notification Threshold', 'alertx-pro' ); ?>
+                            <?php esc_html_e( 'Notification Threshold', 'alertx' ); ?>
                         </div>
 
                         <!-- Input field for notification threshold -->
                         <div class="field">
                             <label>
-                                <?php esc_html_e( 'Notifications go out once stock reaches or exceeds this number.', 'alertx-pro' ); ?>
+                                <?php esc_html_e( 'Notifications go out once stock reaches or exceeds this number.', 'alertx' ); ?>
                                 <span class="required">*</span>
                             </label>
 
@@ -88,7 +82,7 @@ defined( 'ABSPATH' ) || exit;
                                 min="1">
 
                             <p class="description">
-                                <?php esc_html_e( 'When stock reaches this many units, everyone on the waitlist gets emailed at once.', 'alertx-pro' ); ?>
+                                <?php esc_html_e( 'When stock reaches this many units, everyone on the waitlist gets emailed at once.', 'alertx' ); ?>
                             </p>
                         </div>
                     </div>
@@ -96,7 +90,7 @@ defined( 'ABSPATH' ) || exit;
                     <!-- Email Settings -->
                     <div class="template-grid">
                         <div class="section-title">
-                            <?php esc_html_e( 'Email Settings', 'alertx-pro' ); ?>
+                            <?php esc_html_e( 'Email Settings', 'alertx' ); ?>
                         </div>
 
                         <div class="template-card">
@@ -109,10 +103,10 @@ defined( 'ABSPATH' ) || exit;
 
                             <div class="template-meta">
                                 <div class="tname">
-                                    <?php esc_html_e( 'Subscription Confirmation', 'alertx-pro' ); ?>
+                                    <?php esc_html_e( 'Subscription Confirmation', 'alertx' ); ?>
                                 </div>
                                 <div class="tdesc">
-                                    <?php esc_html_e( 'Confirms a customer has joined the waitlist', 'alertx-pro' ); ?>
+                                    <?php esc_html_e( 'Confirms a customer has joined the waitlist', 'alertx' ); ?>
                                 </div>
                             </div>
 
@@ -127,7 +121,7 @@ defined( 'ABSPATH' ) || exit;
 
             <!-- Submit button to save settings -->
             <p class="submit">
-                <input type="submit" name="submit_settings" class="btn btn-primary" value="<?php esc_attr_e( 'Save Settings', 'alertx-pro' ); ?>">
+                <input type="submit" name="submit_settings" class="btn btn-primary" value="<?php esc_attr_e( 'Save Settings', 'alertx' ); ?>">
             </p>
         </form>
     </section>
