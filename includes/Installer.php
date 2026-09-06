@@ -75,16 +75,16 @@ class Installer {
         $table_name = $wpdb->prefix . 'alertx_subscriptions';
 
         // Check for 'status' column in subscriptions table
-        $has_status = $wpdb->get_results( $wpdb->prepare( 'SHOW COLUMNS FROM %i LIKE %s', $table_name, 'status' ) );
+        $has_status = $wpdb->get_results( $wpdb->prepare( 'SHOW COLUMNS FROM %i LIKE %s', $table_name, 'status' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- One-time schema check during plugin upgrade; custom tables have no WP API equivalent.
         // Check for 'token' column in subscriptions table
-        $has_token = $wpdb->get_results( $wpdb->prepare( 'SHOW COLUMNS FROM %i LIKE %s', $table_name, 'token' ) );
+        $has_token = $wpdb->get_results( $wpdb->prepare( 'SHOW COLUMNS FROM %i LIKE %s', $table_name, 'token' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- One-time schema check during plugin upgrade; custom tables have no WP API equivalent.
 
         if ( empty( $has_status ) ) {
-            $wpdb->query( $wpdb->prepare( "ALTER TABLE %i ADD COLUMN `status` varchar(20) NOT NULL DEFAULT 'pending' AFTER `date_added`", $table_name ) );
+            $wpdb->query( $wpdb->prepare( "ALTER TABLE %i ADD COLUMN `status` varchar(20) NOT NULL DEFAULT 'pending' AFTER `date_added`", $table_name ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- One-time schema migration; caching an ALTER is not applicable.
         }
 
         if ( empty( $has_token ) ) {
-            $wpdb->query( $wpdb->prepare( "ALTER TABLE %i ADD COLUMN `token` varchar(64) NOT NULL DEFAULT '' AFTER `status`", $table_name ) );
+            $wpdb->query( $wpdb->prepare( "ALTER TABLE %i ADD COLUMN `token` varchar(64) NOT NULL DEFAULT '' AFTER `status`", $table_name ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- One-time schema migration; caching an ALTER is not applicable.
         }
     }
 }

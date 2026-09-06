@@ -55,7 +55,7 @@ defined( 'ABSPATH' ) || exit;
 		</div>
 
 		<!-- Subscribers -->
-		<div class="grid-2">
+		<div class="grid-50">
 			<section class="section pulse-section">
 				<div class="section-head">
 					<div>
@@ -143,10 +143,7 @@ defined( 'ABSPATH' ) || exit;
 					<?php endif; ?>
 				</div>
 			</section>
-		</div>
 
-		<!-- Recent Subscribers -->
-		<div class="grid-2">
 			<section class="section recent-subscribers">
 				<div class="section-head">
 					<div>

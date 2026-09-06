@@ -1,6 +1,6 @@
 {
   "name": "rejuancse/alertx",
-  "description": "Recover lost sales with automatic back-in-stock alerts. Customers click 'Notify Me' on out-of-stock products and get an email the moment items are available again.",
+  "description": "Recover lost sales with automatic back-in-stock alerts. Customers click Notify Me on out-of-stock products and get an email when items return.",
   "type": "wordpress-plugin",
   "license": "GPLv2",
   "authors": [

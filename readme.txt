@@ -9,7 +9,7 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Recover lost sales with automatic back-in-stock alerts. Customers click "Notify Me" on out-of-stock products and get an email the moment items are available again.
+Recover lost sales with automatic back-in-stock alerts. Customers click Notify Me on out-of-stock products and get an email when items return.
 
 == Description ==
 

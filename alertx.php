@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name: Alertx for WooCommerce free
- * Description: Recover lost sales with automatic back-in-stock alerts. Customers click "Notify Me" on out-of-stock products and get an email the moment items are available again.
+ * Plugin Name: Alertx for WooCommerce
+ * Description: Recover lost sales with automatic back-in-stock alerts. Customers click Notify Me on out-of-stock products and get an email when items return.
  * Author: Rejuan Ahamed
  * Version: 1.0.0
  * Requires at least: 6.2
