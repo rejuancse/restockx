@@ -29,16 +29,16 @@ trait Email_Templates_Page {
 	public function alertx_email_templates() {
 		if ( isset( $_POST['submit_settings'] ) ) {
 			// Verify nonce for security.
-			if ( ! isset( $_POST['settings_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['settings_nonce'] ) ), 'save_settings_action' ) ) {
+			if ( ! isset( $_POST['settings_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['settings_nonce'] ) ), 'alertxwc_save_settings' ) ) {
 				wp_die( esc_html__( 'Security check failed.', 'alertx' ) );
 			}
 
 			if ( isset( $_POST['notification_threshold'] ) ) {
-				update_option( 'stock_notification_threshold', intval( sanitize_text_field( wp_unslash( $_POST['notification_threshold'] ) ) ) );
+				update_option( 'alertxwc_threshold', intval( sanitize_text_field( wp_unslash( $_POST['notification_threshold'] ) ) ) );
 			}
 
 			if ( isset( $_POST['email_templates'] ) ) {
-				update_option( 'stock_notification_email_templates', wp_kses_post( wp_unslash( $_POST['email_templates'] ) ) );
+				update_option( 'alertxwc_email_templates', wp_kses_post( wp_unslash( $_POST['email_templates'] ) ) );
 			}
 
 			// Save confirmation requirement setting.
@@ -50,8 +50,8 @@ trait Email_Templates_Page {
 		}
 
 		// Retrieve current saved options; use defaults if not set.
-		$threshold       = get_option( 'stock_notification_threshold', 1 );
-		$email_templates = get_option( 'stock_notification_email_templates', $this->get_default_email_templates() );
+		$threshold       = get_option( 'alertxwc_threshold', 1 );
+		$email_templates = get_option( 'alertxwc_email_templates', $this->get_default_email_templates() );
 
 		// Path to the settings page template.
 		$template_path = ALERTX_PATH . 'views/email-templates.php';

@@ -67,7 +67,7 @@ defined( 'ABSPATH' ) || exit;
 						</div>
 					</div>
 					<div class="pulse-live">
-						<a href="<?php echo esc_url( admin_url( 'admin.php?page=subscribers' ) ); ?>" class="section-action">
+						<a href="<?php echo esc_url( admin_url( 'admin.php?page=alertxwc-subscribers' ) ); ?>" class="section-action">
 							<?php esc_html_e( 'View subscribers →', 'alertx' ); ?>
 						</a>
 					</div>
@@ -112,7 +112,7 @@ defined( 'ABSPATH' ) || exit;
 							<?php esc_html_e( 'Live from the notification queue', 'alertx' ); ?>
 						</div>
 					</div>
-					<a class="section-action" href="<?php echo esc_url( admin_url( 'admin.php?page=subscribers' ) ); ?>">
+					<a class="section-action" href="<?php echo esc_url( admin_url( 'admin.php?page=alertxwc-subscribers' ) ); ?>">
 						<?php esc_html_e( 'View all', 'alertx' ); ?>
 						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
 							<path d="M9 6l6 6-6 6" />
@@ -154,7 +154,7 @@ defined( 'ABSPATH' ) || exit;
 							<?php esc_html_e( 'Latest stock alert subscriptions with their status', 'alertx' ); ?>
 						</div>
 					</div>
-					<a class="section-action" href="<?php echo esc_url( admin_url( 'admin.php?page=subscribers' ) ); ?>">
+					<a class="section-action" href="<?php echo esc_url( admin_url( 'admin.php?page=alertxwc-subscribers' ) ); ?>">
 						<?php esc_html_e( 'View all', 'alertx' ); ?>
 						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
 							<path d="M9 6l6 6-6 6" />

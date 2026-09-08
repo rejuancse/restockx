@@ -49,14 +49,14 @@ class Alertx_Menu {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
-		add_action( 'wp_ajax_stock_notification', array( $this, 'handle_stock_notification' ) );
-		add_action( 'wp_ajax_nopriv_stock_notification', array( $this, 'handle_stock_notification' ) );
+		add_action( 'wp_ajax_alertxwc_stock_notification', array( $this, 'handle_stock_notification' ) );
+		add_action( 'wp_ajax_nopriv_alertxwc_stock_notification', array( $this, 'handle_stock_notification' ) );
 		// Double opt-in confirmation endpoint.
-		add_action( 'wp_ajax_stock_confirm_subscription', array( $this, 'confirm_subscription' ) );
-		add_action( 'wp_ajax_nopriv_stock_confirm_subscription', array( $this, 'confirm_subscription' ) );
+		add_action( 'wp_ajax_alertxwc_stock_confirm_subscription', array( $this, 'confirm_subscription' ) );
+		add_action( 'wp_ajax_nopriv_alertxwc_stock_confirm_subscription', array( $this, 'confirm_subscription' ) );
 		// Unsubscribe endpoint.
-		add_action( 'wp_ajax_stock_unsubscribe', array( $this, 'unsubscribe' ) );
-		add_action( 'wp_ajax_nopriv_stock_unsubscribe', array( $this, 'unsubscribe' ) );
+		add_action( 'wp_ajax_alertxwc_stock_unsubscribe', array( $this, 'unsubscribe' ) );
+		add_action( 'wp_ajax_nopriv_alertxwc_stock_unsubscribe', array( $this, 'unsubscribe' ) );
 		// Trigger notifications when stock status changes on products.
 		add_action( 'woocommerce_product_set_stock_status', array( $this, 'send_alertx_subscriptions' ), 10, 3 );
 		// Ensure variations also trigger notifications when stock/status changes.
@@ -92,7 +92,7 @@ class Alertx_Menu {
 			__( 'Subscribers', 'alertx' ),
 			__( 'Subscribers', 'alertx' ),
 			'manage_options',
-			'subscribers',
+			'alertxwc-subscribers',
 			array( $this, 'alertx_subscribers' )
 		);
 
@@ -101,7 +101,7 @@ class Alertx_Menu {
 			__( 'Email Templates', 'alertx' ),
 			__( 'Email Templates', 'alertx' ),
 			'manage_options',
-			'email-templates',
+			'alertxwc-email-templates',
 			array( $this, 'alertx_email_templates' )
 		);
 	}
@@ -360,7 +360,7 @@ class Alertx_Menu {
 		// Build confirmation URL using AJAX endpoint.
 		$confirm_url = add_query_arg(
 			array(
-				'action' => 'stock_confirm_subscription',
+				'action' => 'alertxwc_stock_confirm_subscription',
 				'token'  => rawurlencode( $token ),
 				'pid'    => intval( $product_id ),
 			),
@@ -651,7 +651,7 @@ class Alertx_Menu {
 		$this->track_restock_event( $product_id, $notification_count );
 
 		// Get email templates and product details.
-		$email_templates = get_option( 'stock_notification_email_templates', $this->get_default_email_templates() );
+		$email_templates = get_option( 'alertxwc_email_templates', $this->get_default_email_templates() );
 		$product         = wc_get_product( $product_id );
 
 		if ( ! $product ) {
@@ -688,7 +688,7 @@ class Alertx_Menu {
 			// Replace placeholders in the email template with actual values and unsubscribe link.
 			$unsubscribe_url = add_query_arg(
 				array(
-					'action' => 'stock_unsubscribe',
+					'action' => 'alertxwc_stock_unsubscribe',
 					'token'  => rawurlencode( $notification->token ),
 					'pid'    => intval( $product_id ),
 				),
@@ -785,7 +785,7 @@ class Alertx_Menu {
 
 		$product_id             = $product->get_id();
 		$stock_quantity         = $product->get_stock_quantity();
-		$notification_threshold = get_option( 'stock_notification_threshold', 1 );
+		$notification_threshold = get_option( 'alertxwc_threshold', 1 );
 		$stock_status           = $product->get_stock_status();
 
 		// Ensure stock quantity and notification threshold are integers.
@@ -817,7 +817,7 @@ class Alertx_Menu {
 		}
 
 		// Generate a unique transient name based on the email address.
-		$transient_name = 'stock_notify_' . md5( $email );
+		$transient_name = 'alertxwc_rate_' . md5( $email );
 		// Retrieve the current count of requests from the transient.
 		$count = get_transient( $transient_name );
 
@@ -849,7 +849,7 @@ class Alertx_Menu {
 	public function handle_bulk_action_alertx_subscriptions() {
 		// Check for nonce verification and required POST data.
 		if ( ! isset( $_POST['submit_bulk_action'], $_POST['bulk_action_nonce'] ) ||
-		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['bulk_action_nonce'] ) ), 'bulk_action' ) ) {
+		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['bulk_action_nonce'] ) ), 'alertxwc_bulk_action' ) ) {
 			return; // Exit if nonce verification fails or POST data is missing.
 		}
 

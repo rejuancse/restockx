@@ -148,7 +148,7 @@ trait Subscribers_Page {
 		// Handle CSV export if the export button was clicked.
 		if ( isset( $_POST['export_csv'] ) ) {
 			// Verify nonce for security.
-			if ( ! isset( $_POST['stock_notification_export_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['stock_notification_export_nonce'] ) ), 'stock_notification_export' ) ) {
+			if ( ! isset( $_POST['alertxwc_export_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['alertxwc_export_nonce'] ) ), 'alertxwc_export' ) ) {
 				wp_die( esc_html__( 'Security check failed.', 'alertx' ) );
 			}
 

@@ -34,7 +34,7 @@ class Admin {
      */
     public function add_dashboard_widget() {
         wp_add_dashboard_widget(
-            'stock_notification_dashboard_widget',
+            'alertxwc_dashboard_widget',
             __('AlertX Notification Statistics', 'alertx'),
             array($this, 'dashboard_widget_function')
         );

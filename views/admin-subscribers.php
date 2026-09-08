@@ -75,7 +75,7 @@ $alertx_svg_allowed = array(
             <form id="bulk-action-form" method="post">
                 <!-- Notifications List -->
                 <div class="notifications-list-tablenav">
-                    <?php wp_nonce_field( 'bulk_action', 'bulk_action_nonce' ); ?>
+                    <?php wp_nonce_field( 'alertxwc_bulk_action', 'bulk_action_nonce' ); ?>
                     <div class="bulk-actions">
                         <select name="bulk_action" id="bulk-action-selector">
                             <option value=""><?php esc_html_e( 'Bulk Actions', 'alertx' ); ?></option>
@@ -98,7 +98,7 @@ $alertx_svg_allowed = array(
                         </span>
 
                         <div class="export_csv">
-                            <?php wp_nonce_field( 'stock_notification_export', 'stock_notification_export_nonce' ); ?>
+                            <?php wp_nonce_field( 'alertxwc_export', 'alertxwc_export_nonce' ); ?>
                             <button type="submit" name="export_csv" class="btn btn-secondary">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />

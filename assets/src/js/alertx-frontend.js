@@ -187,8 +187,8 @@ jQuery(document).ready(function($) {
             return;
         }
 
-        // Check if notify_ajax object is available
-        if (typeof notify_ajax === 'undefined' || !notify_ajax.ajax_url || !notify_ajax.nonce) {
+        // Check if alertxwc_ajax object is available
+        if (typeof alertxwc_ajax === 'undefined' || !alertxwc_ajax.ajax_url || !alertxwc_ajax.nonce) {
             showError($form, 'Configuration error. Please refresh the page and try again.');
             return;
         }
@@ -197,10 +197,10 @@ jQuery(document).ready(function($) {
         $form.find('.error-message, .success-message').remove();
 
         $.ajax({
-            url: notify_ajax.ajax_url,
+            url: alertxwc_ajax.ajax_url,
             type: 'POST',
             data: {
-                action: 'stock_notification',
+                action: 'alertxwc_stock_notification',
                 email: email,
                 product_id: product_id,
                 parent_id: parent_id,

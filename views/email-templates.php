@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 
         <form method="post">
-            <?php wp_nonce_field( 'save_settings_action', 'settings_nonce' ); ?>
+            <?php wp_nonce_field( 'alertxwc_save_settings', 'settings_nonce' ); ?>
 
             <div class="grid-2">
                 <!-- Email Template Section -->

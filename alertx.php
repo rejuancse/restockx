@@ -7,7 +7,6 @@
  * Requires at least: 6.2
  * Requires Plugins: woocommerce
  * Requires PHP: 7.4
- * Tested up to: 7.1
  * Text Domain: alertx
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -82,7 +81,6 @@ final class Alertx {
      * @return void
      */
     public function init_plugin() {
-        new Alertx\Alertx_i18n();
         new Alertx\Assets();
 
         // Ensure DB schema is up to date
