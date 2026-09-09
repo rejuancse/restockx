@@ -73,15 +73,6 @@ trait Subscribers_Page {
 			)
 		);
 
-		// Unsubscribed - users who unsubscribed.
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom plugin table, no WP API equivalent; result is cached by get_subscribers_stats() for one minute.
-		$unsubscribed = $wpdb->get_var(
-			$wpdb->prepare(
-				"SELECT COUNT(DISTINCT email) FROM %i WHERE status = 'unsubscribed'",
-				$table_name
-			)
-		);
-
 		$stats = array(
 			array(
 				'icon_class'  => 'c1',
@@ -124,9 +115,8 @@ trait Subscribers_Page {
                     <polyline points="16 17 21 12 16 7"></polyline>
                     <line x1="21" y1="12" x2="9" y2="12"></line>
                         </svg>',
-				'data_count'  => $unsubscribed,
-				'data_suffix' => '',
-				'value'       => $unsubscribed,
+				// Premium feature: value is never queried or exposed in the free version.
+				'pro'         => true,
 				'label'       => 'Unsubscribed',
 			),
 		);
@@ -137,28 +127,26 @@ trait Subscribers_Page {
 	/**
 	 * Displays the admin page for managing stock notifications.
 	 *
-	 * This method handles CSV export requests, fetches stock notifications from the database,
-	 * and includes the admin page template to render the notifications list.
+	 * CSV export is a Premium feature and is blocked in the free version,
+	 * both in the UI and server-side. Fetches stock notifications from the
+	 * database and includes the admin page template to render the list.
 	 *
 	 * @return void
 	 */
 	public function alertx_subscribers() {
 		global $wpdb;
 
-		// Handle CSV export if the export button was clicked.
-		if ( isset( $_POST['export_csv'] ) ) {
-			// Verify nonce for security.
-			if ( ! isset( $_POST['alertxwc_export_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['alertxwc_export_nonce'] ) ), 'alertxwc_export' ) ) {
-				wp_die( esc_html__( 'Security check failed.', 'alertx' ) );
-			}
-
-			// Clean any existing output buffers.
-			while ( ob_get_level() > 0 ) {
-				ob_end_clean();
-			}
-
-			// Generate CSV and exit - this will terminate script execution.
-			$this->generate_csv(); // generate_csv() calls exit(), so code below never executes.
+		// Export to CSV is a Premium feature; block it server-side so it
+		// cannot be triggered even by manipulating the disabled button.
+		if ( isset( $_POST['export_csv'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Blocked unconditionally in the free version; no action is performed on the request.
+			wp_die(
+				esc_html__( 'Export to CSV is available in the Premium version.', 'alertx' ),
+				esc_html__( 'Premium Feature', 'alertx' ),
+				array(
+					'response'  => 403,
+					'back_link' => true,
+				)
+			);
 		}
 
 		// Table name for stock notifications in the database.
@@ -204,78 +192,5 @@ trait Subscribers_Page {
 			// Template not found, display an error or a fallback message.
 			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'alertx' ) . '</p></div>';
 		}
-	}
-
-	/**
-	 * Generates a CSV file of stock notifications and initiates a download.
-	 *
-	 * This method fetches stock notification data from the database, generates a CSV file with the data,
-	 * and sets appropriate headers to force the browser to download the file.
-	 *
-	 * @return void
-	 */
-	private function generate_csv() {
-		global $wpdb;
-		$table_name = $wpdb->prefix . 'alertx_subscriptions';
-
-		// Select all relevant columns including status.
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom plugin table, no WP API equivalent; CSV export must contain the complete real-time data set.
-		$notifications = $wpdb->get_results(
-			$wpdb->prepare(
-				'SELECT id, email, product_id, date_added, status FROM %i ORDER BY date_added DESC',
-				$table_name
-			),
-			ARRAY_A
-		);
-
-		// Clean any existing output buffers to prevent HTML from being included.
-		while ( ob_get_level() > 0 ) {
-			ob_end_clean();
-		}
-
-		// Set headers for the CSV file.
-		header( 'Content-Type: text/csv; charset=utf-8' );
-		header( 'Content-Disposition: attachment; filename="alertx_subscriptions_' . gmdate( 'Y-m-d' ) . '.csv"' );
-		header( 'Pragma: no-cache' );
-		header( 'Expires: 0' );
-
-		// Open output stream.
-		$output = fopen( 'php://output', 'w' );
-
-		// Add BOM for proper UTF-8 encoding in Excel.
-		fprintf( $output, chr( 0xEF ) . chr( 0xBB ) . chr( 0xBF ) );
-
-		// Write the CSV column headers.
-		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv -- CSV export streams directly to the browser via php://output; WP_Filesystem does not support output streams.
-		fputcsv( $output, array( 'Product', 'Email', 'Date', 'Status' ) );
-
-		// Write each row of notification data to the CSV.
-		foreach ( $notifications as $notification ) {
-			// Get product object.
-			$product = wc_get_product( $notification['product_id'] );
-
-			// Get product name.
-			$product_name = $product ? $product->get_name() : __( 'Product not found', 'alertx' );
-
-			// Format status for better readability.
-			$status = isset( $notification['status'] ) ? ucfirst( $notification['status'] ) : 'Unknown';
-
-			// Prepare row data with proper order: Product, Email, Date, Status.
-			$row_data = array(
-				$product_name,
-				$notification['email'],
-				$notification['date_added'],
-				$status,
-			);
-
-			// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv -- CSV export streams directly to the browser via php://output; WP_Filesystem does not support output streams.
-			fputcsv( $output, $row_data );
-		}
-
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- WP_Filesystem cannot write to the php://output stream used for CSV export.
-		fclose( $output );
-
-		// Stop further script execution after file download.
-		exit;
 	}
 }

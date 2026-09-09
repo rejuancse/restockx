@@ -54,17 +54,37 @@ $alertx_svg_allowed = array(
         <div class="kpi-row">
             <?php if ( ! empty( $subscribers_stats ) ) : ?>
                 <?php foreach ( $subscribers_stats as $alertx_stat ) : ?>
-                    <div class="kpi-card">
+                    <div class="kpi-card<?php echo empty( $alertx_stat['pro'] ) ? '' : ' is-locked'; ?>">
                         <div class="kpi-top">
-                            <div class="kpi-value"<?php echo isset( $alertx_stat['data_count'] ) ? ' data-count="' . esc_attr( $alertx_stat['data_count'] ) . '"' : ''; ?>>
-                                <?php echo esc_html( $alertx_stat['value'] ); ?>
-                            </div>
+                            <?php if ( ! empty( $alertx_stat['pro'] ) ) : ?>
+                                <div class="kpi-value kpi-value-locked">
+                                    <span class="kpi-lock" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="3" y="11" width="18" height="11" rx="2" />
+                                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            <?php else : ?>
+                                <div class="kpi-value"<?php echo isset( $alertx_stat['data_count'] ) ? ' data-count="' . esc_attr( $alertx_stat['data_count'] ) . '"' : ''; ?>>
+                                    <?php echo esc_html( $alertx_stat['value'] ); ?>
+                                </div>
+                            <?php endif; ?>
                             <div class="kpi-icon <?php echo esc_attr( $alertx_stat['icon_class'] ); ?>">
                                 <?php echo wp_kses( $alertx_stat['icon'], $alertx_svg_allowed ); ?>
                             </div>
                         </div>
                         <div class="kpi-bottom">
                             <div class="kpi-label"><?php echo esc_html( $alertx_stat['label'] ); ?></div>
+                            <?php if ( ! empty( $alertx_stat['pro'] ) ) : ?>
+                                <a class="go-premium go-premium-sm" href="https://example.com/upgrade" target="_blank" rel="noopener">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                    </svg>
+                                    <?php esc_html_e( 'Go Premium', 'alertx' ); ?>
+                                </a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -97,9 +117,8 @@ $alertx_svg_allowed = array(
                             ?>
                         </span>
 
-                        <div class="export_csv">
-                            <?php wp_nonce_field( 'alertxwc_export', 'alertxwc_export_nonce' ); ?>
-                            <button type="submit" name="export_csv" class="btn btn-secondary">
+                        <div class="export_csv pro-export-wrap">
+                            <button type="button" class="btn btn-secondary is-locked" disabled>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                                     <path d="M7 10l5 5 5-5" />
@@ -107,7 +126,21 @@ $alertx_svg_allowed = array(
                                 </svg>
                                 <?php esc_attr_e( 'Export to CSV', 'alertx' ); ?>
                             </button>
+                            <span class="pro-lock">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg>
+                            </span>
                         </div>
+
+                        <a class="go-premium go-premium-sm" href="https://example.com/upgrade" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" />
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                            </svg>
+                            <?php esc_html_e( 'Go Premium', 'alertx' ); ?>
+                        </a>
                     </div>
                 </div>
 

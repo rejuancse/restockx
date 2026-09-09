@@ -104,6 +104,58 @@ class Alertx_Menu {
 			'alertxwc-email-templates',
 			array( $this, 'alertx_email_templates' )
 		);
+
+		add_submenu_page(
+			'alertx',
+			__( 'Campaigns', 'alertx' ),
+			__( 'Campaigns', 'alertx' ),
+			'manage_options',
+			'alertxwc-campaigns',
+			array( $this, 'alertxwc_campaigns' )
+		);
+
+		add_submenu_page(
+			'alertx',
+			__( 'New Campaign', 'alertx' ),
+			__( 'New Campaign', 'alertx' ),
+			'manage_options',
+			'alertxwc-new-campaign',
+			array( $this, 'alertxwc_new_campaign' )
+		);
+
+		add_submenu_page(
+			'alertx',
+			__( 'Settings', 'alertx' ),
+			__( 'Settings', 'alertx' ),
+			'manage_options',
+			'alertxwc-settings',
+			array( $this, 'alertxwc_settings' )
+		);
+
+		add_submenu_page(
+			'alertx',
+			__( 'Go Pro', 'alertx' ),
+			__( 'Go Pro', 'alertx' ),
+			'manage_options',
+			'alertxwc-gopro',
+			array( $this, 'alertxwc_gopro' )
+		);
+	}
+
+	public function alertxwc_campaigns() {
+
+	}
+
+	public function alertxwc_new_campaign() {
+
+	}
+
+	public function alertxwc_settings() {
+
+	}
+
+	public function alertxwc_gopro() {
+
 	}
 
 	/**
@@ -269,8 +321,8 @@ class Alertx_Menu {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'alertx_subscriptions';
 
-		// Check if double opt-in confirmation is required.
-		$require_confirmation = get_option( 'alertx_require_confirmation', '1' ) === '1';
+		// Check if double opt-in confirmation is required (Premium feature; always off in the free version).
+		$require_confirmation = get_option( 'alertx_require_confirmation', '0' ) === '1';
 
 		// Generate confirmation token (always generate for unsubscribe functionality).
 		$token = wp_generate_password( 32, false, false );

@@ -689,6 +689,91 @@
                 margin-top: 2px;
             }
         }
+
+    }
+
+    /* Premium locked elements (shared across admin pages) */
+    .pro-toggle-wrap,
+    .pro-export-wrap {
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .pro-toggle-wrap .switch-toggle,
+    .pro-export-wrap .btn.is-locked {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .pro-lock {
+        position: absolute;
+        right: -7px;
+        top: -9px;
+        width: 20px;
+        height: 20px;
+        background: #3c06c5;
+        color: #fff;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 1px 4px rgba(21, 10, 46, 0.3);
+
+        svg {
+            width: 11px;
+            height: 11px;
+        }
+    }
+
+    /* Go Premium upsell link */
+    .go-premium {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 14px;
+        font-size: 12.5px;
+        font-weight: 700;
+        color: #3c06c5;
+        text-decoration: none;
+        transition: color 0.15s ease;
+
+        svg {
+            width: 13px;
+            height: 13px;
+        }
+
+        &:hover {
+            color: #d90dd9;
+        }
+    }
+
+    .go-premium-sm {
+        margin-top: 0;
+        margin-left: 8px;
+        font-size: 11.5px;
+    }
+
+    /* Locked KPI card value */
+    .kpi-value-locked {
+        display: inline-flex;
+        align-items: center;
+        line-height: 1;
+    }
+
+    .kpi-lock {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 9px;
+        background: #efeafc;
+        color: #3c06c5;
+
+        svg {
+            width: 15px;
+            height: 15px;
+        }
     }
 
     /* Template Preview Button */
@@ -2325,24 +2410,28 @@
 }
 
 /* Save Button */
-.submit input[type="submit"] {
-    border: none;
-    color: #fff;
-    padding: 14px 30px;
-    font-size: 15px;
-    font-weight: 500;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+.alertx {
+    .submit {
+        input[type="submit"] {
+            border: none;
+            color: #fff;
+            padding: 14px 30px;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
 
-.submit input[type="submit"]:hover {
-    background-color: #006ba1;
-}
+            &:hover {
+                background-color: #006ba1;
+            }
 
-.submit input[type="submit"]:focus {
-    outline: none;
-    background-color: #005f91;
+            &:focus {
+                outline: none;
+                background-color: #005f91;
+            }
+        }
+    }
 }
 
 /**
