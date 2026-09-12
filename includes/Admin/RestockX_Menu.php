@@ -1,38 +1,38 @@
 <?php
 /**
- * AlertX Pro admin menu and front-end notification handlers.
+ * RestockX Pro admin menu and front-end notification handlers.
  *
- * @package Alertx\Admin
+ * @package RestockX\Admin
  */
 
-namespace Alertx\Admin;
+namespace RestockX\Admin;
 
 defined( 'ABSPATH' ) || exit;
 
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom tables are queried with $wpdb->prepare(); these low-frequency admin queries intentionally bypass the object cache.
 
 /**
- * Class Alertx_Menu
+ * Class RestockX_Menu
  *
  * Handles the admin menu for stock notifications and associated functionalities.
  */
-class Alertx_Menu {
+class RestockX_Menu {
 
-	use \Alertx\Admin\Pages\Dashboard_Page;
-	use \Alertx\Admin\Pages\Subscribers_Page;
-	use \Alertx\Admin\Pages\Email_Templates_Page;
+	use \RestockX\Admin\Pages\Dashboard_Page;
+	use \RestockX\Admin\Pages\Subscribers_Page;
+	use \RestockX\Admin\Pages\Email_Templates_Page;
 
 	/**
 	 * Singleton instance of the class.
 	 *
-	 * @var Alertx_Menu|null
+	 * @var RestockX_Menu|null
 	 */
 	private static $instance = null;
 
 	/**
 	 * Retrieves the singleton instance of the class.
 	 *
-	 * @return Alertx_Menu Singleton instance.
+	 * @return RestockX_Menu Singleton instance.
 	 */
 	public static function get_instance() {
 		if ( null === self::$instance ) {
@@ -49,24 +49,24 @@ class Alertx_Menu {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
-		add_action( 'wp_ajax_alertxwc_stock_notification', array( $this, 'handle_stock_notification' ) );
-		add_action( 'wp_ajax_nopriv_alertxwc_stock_notification', array( $this, 'handle_stock_notification' ) );
+		add_action( 'wp_ajax_restockxwc_stock_notification', array( $this, 'handle_stock_notification' ) );
+		add_action( 'wp_ajax_nopriv_restockxwc_stock_notification', array( $this, 'handle_stock_notification' ) );
 		// Double opt-in confirmation endpoint.
-		add_action( 'wp_ajax_alertxwc_stock_confirm_subscription', array( $this, 'confirm_subscription' ) );
-		add_action( 'wp_ajax_nopriv_alertxwc_stock_confirm_subscription', array( $this, 'confirm_subscription' ) );
+		add_action( 'wp_ajax_restockxwc_stock_confirm_subscription', array( $this, 'confirm_subscription' ) );
+		add_action( 'wp_ajax_nopriv_restockxwc_stock_confirm_subscription', array( $this, 'confirm_subscription' ) );
 		// Unsubscribe endpoint.
-		add_action( 'wp_ajax_alertxwc_stock_unsubscribe', array( $this, 'unsubscribe' ) );
-		add_action( 'wp_ajax_nopriv_alertxwc_stock_unsubscribe', array( $this, 'unsubscribe' ) );
+		add_action( 'wp_ajax_restockxwc_stock_unsubscribe', array( $this, 'unsubscribe' ) );
+		add_action( 'wp_ajax_nopriv_restockxwc_stock_unsubscribe', array( $this, 'unsubscribe' ) );
 		// Trigger notifications when stock status changes on products.
-		add_action( 'woocommerce_product_set_stock_status', array( $this, 'send_alertx_subscriptions' ), 10, 3 );
+		add_action( 'woocommerce_product_set_stock_status', array( $this, 'send_restockx_subscriptions' ), 10, 3 );
 		// Ensure variations also trigger notifications when stock/status changes.
-		add_action( 'woocommerce_variation_set_stock_status', array( $this, 'send_alertx_subscriptions' ), 10, 3 );
+		add_action( 'woocommerce_variation_set_stock_status', array( $this, 'send_restockx_subscriptions' ), 10, 3 );
 		// Trigger threshold-based checks when quantity is set on products and variations.
 		add_action( 'woocommerce_product_set_stock', array( $this, 'check_stock_and_notify' ) );
 		add_action( 'woocommerce_variation_set_stock', array( $this, 'check_stock_and_notify' ) );
-		add_action( 'admin_init', array( $this, 'handle_bulk_action_alertx_subscriptions' ) );
+		add_action( 'admin_init', array( $this, 'handle_bulk_action_restockx_subscriptions' ) );
 
-		add_action( 'admin_init', array( $this, 'alertx_page_hide_notifications' ) );
+		add_action( 'admin_init', array( $this, 'restockx_page_hide_notifications' ) );
 	}
 
 	/**
@@ -79,83 +79,97 @@ class Alertx_Menu {
 	 */
 	public function add_admin_menu() {
 		add_menu_page(
-			__( 'AlertX', 'alertx' ),
-			__( 'AlertX', 'alertx' ),
+			__( 'RestockX', 'restockx' ),
+			__( 'RestockX', 'restockx' ),
 			'manage_options',
-			'alertx',
-			array( $this, 'alertx_admin_dashboard' ),
-			ALERTX_URL . 'assets/images/icon.png'
+			'restockx',
+			array( $this, 'restockx_admin_dashboard' ),
+			RESTOCKX_URL . 'assets/images/icon.png'
 		);
 
 		add_submenu_page(
-			'alertx',
-			__( 'Subscribers', 'alertx' ),
-			__( 'Subscribers', 'alertx' ),
+			'restockx',
+			__( 'Subscribers', 'restockx' ),
+			__( 'Subscribers', 'restockx' ),
 			'manage_options',
-			'alertxwc-subscribers',
-			array( $this, 'alertx_subscribers' )
+			'restockxwc-subscribers',
+			array( $this, 'restockx_subscribers' )
 		);
 
 		add_submenu_page(
-			'alertx',
-			__( 'Email Templates', 'alertx' ),
-			__( 'Email Templates', 'alertx' ),
+			'restockx',
+			__( 'Email Templates', 'restockx' ),
+			__( 'Email Templates', 'restockx' ),
 			'manage_options',
-			'alertxwc-email-templates',
-			array( $this, 'alertx_email_templates' )
+			'restockxwc-email-templates',
+			array( $this, 'restockx_email_templates' )
 		);
 
 		add_submenu_page(
-			'alertx',
-			__( 'Campaigns', 'alertx' ),
-			__( 'Campaigns', 'alertx' ),
+			'restockx',
+			__( 'Campaigns', 'restockx' ),
+			__( 'Campaigns', 'restockx' ),
 			'manage_options',
-			'alertxwc-campaigns',
-			array( $this, 'alertxwc_campaigns' )
+			'restockxwc-campaigns',
+			array( $this, 'restockxwc_campaigns' )
 		);
 
 		add_submenu_page(
-			'alertx',
-			__( 'New Campaign', 'alertx' ),
-			__( 'New Campaign', 'alertx' ),
+			'restockx',
+			__( 'New Campaign', 'restockx' ),
+			__( 'New Campaign', 'restockx' ),
 			'manage_options',
-			'alertxwc-new-campaign',
-			array( $this, 'alertxwc_new_campaign' )
+			'restockxwc-new-campaign',
+			array( $this, 'restockxwc_new_campaign' )
 		);
 
 		add_submenu_page(
-			'alertx',
-			__( 'Settings', 'alertx' ),
-			__( 'Settings', 'alertx' ),
+			'restockx',
+			__( 'Settings', 'restockx' ),
+			__( 'Settings', 'restockx' ),
 			'manage_options',
-			'alertxwc-settings',
-			array( $this, 'alertxwc_settings' )
-		);
-
-		add_submenu_page(
-			'alertx',
-			__( 'Go Pro', 'alertx' ),
-			__( 'Go Pro', 'alertx' ),
-			'manage_options',
-			'alertxwc-gopro',
-			array( $this, 'alertxwc_gopro' )
+			'restockxwc-settings',
+			array( $this, 'restockxwc_settings' )
 		);
 	}
 
-	public function alertxwc_campaigns() {
+	public function restockxwc_campaigns() {
+		// Path to the admin page template file.
+		$template_path = RESTOCKX_PATH . 'views/admin-campaign.php';
 
+		// Check if the template exists before including it.
+		if ( file_exists( $template_path ) ) {
+			include $template_path; // No parentheses needed for include.
+		} else {
+			// Template not found, display an error or a fallback message.
+			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'restockx' ) . '</p></div>';
+		}
 	}
 
-	public function alertxwc_new_campaign() {
+	public function restockxwc_new_campaign() {
+		// Path to the admin page template file.
+		$template_path = RESTOCKX_PATH . 'views/admin-new-campaign.php';
 
+		// Check if the template exists before including it.
+		if ( file_exists( $template_path ) ) {
+			include $template_path; // No parentheses needed for include.
+		} else {
+			// Template not found, display an error or a fallback message.
+			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'restockx' ) . '</p></div>';
+		}
 	}
 
-	public function alertxwc_settings() {
+	public function restockxwc_settings() {
+		// Path to the admin page template file.
+		$template_path = RESTOCKX_PATH . 'views/admin-settings.php';
 
-	}
-
-	public function alertxwc_gopro() {
-
+		// Check if the template exists before including it.
+		if ( file_exists( $template_path ) ) {
+			include $template_path; // No parentheses needed for include.
+		} else {
+			// Template not found, display an error or a fallback message.
+			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'restockx' ) . '</p></div>';
+		}
 	}
 
 	/**
@@ -173,7 +187,7 @@ class Alertx_Menu {
 		$parent_id  = isset( $_POST['parent_id'] ) ? absint( wp_unslash( $_POST['parent_id'] ) ) : 0;
 
 		if ( empty( $nonce ) ) {
-			wp_send_json_error( __( 'Security token is missing. Please refresh the page and try again.', 'alertx' ) );
+			wp_send_json_error( __( 'Security token is missing. Please refresh the page and try again.', 'restockx' ) );
 		}
 
 		// For variable products, use parent_id for nonce verification.
@@ -181,14 +195,14 @@ class Alertx_Menu {
 		$nonce_product_id = $parent_id > 0 ? $parent_id : $product_id;
 
 		// Verify nonce with product-specific action.
-		$nonce_action = 'alertx_notify_me_' . $nonce_product_id;
+		$nonce_action = 'restockx_notify_me_' . $nonce_product_id;
 		if ( ! wp_verify_nonce( $nonce, $nonce_action ) ) {
-			wp_send_json_error( __( 'Security check failed. Please refresh the page and try again.', 'alertx' ) );
+			wp_send_json_error( __( 'Security check failed. Please refresh the page and try again.', 'restockx' ) );
 		}
 
 		// Validate product ID.
 		if ( empty( $product_id ) ) {
-			wp_send_json_error( __( 'Error: Product/Variation ID not found. Please select a variation (if applicable) or refresh the page and try again.', 'alertx' ) );
+			wp_send_json_error( __( 'Error: Product/Variation ID not found. Please select a variation (if applicable) or refresh the page and try again.', 'restockx' ) );
 		}
 
 		if ( isset( $_POST['email'] ) && $product_id ) {
@@ -198,7 +212,7 @@ class Alertx_Menu {
 
 			// Check rate limiting to prevent multiple requests.
 			if ( $this->is_rate_limited( $email ) ) {
-				wp_send_json_error( __( 'Too many requests. Please try again later.', 'alertx' ) );
+				wp_send_json_error( __( 'Too many requests. Please try again later.', 'restockx' ) );
 			}
 
 			// Check for existing notification.
@@ -223,7 +237,7 @@ class Alertx_Menu {
 		$email = sanitize_email( $email );
 
 		if ( ! is_email( $email ) ) {
-			wp_send_json_error( __( 'Invalid email address', 'alertx' ) );
+			wp_send_json_error( __( 'Invalid email address', 'restockx' ) );
 		}
 
 		return $email;
@@ -240,7 +254,7 @@ class Alertx_Menu {
 		$product_id = intval( $product_id );
 
 		if ( $product_id <= 0 ) {
-			wp_send_json_error( __( 'Invalid product ID', 'alertx' ) );
+			wp_send_json_error( __( 'Invalid product ID', 'restockx' ) );
 		}
 
 		return $product_id;
@@ -255,7 +269,7 @@ class Alertx_Menu {
 	 */
 	private function get_existing_notification( string $email, int $product_id ): ?object {
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'alertx_subscriptions';
+		$table_name = $wpdb->prefix . 'restockx_subscriptions';
 
 		return $wpdb->get_row(
 			$wpdb->prepare(
@@ -279,14 +293,14 @@ class Alertx_Menu {
 
 		// If the existing notification is within the last 24 hours.
 		if ( $time_difference < 24 * 60 * 60 ) {
-			wp_send_json_error( __( 'You have already subscribed to notifications for this product.', 'alertx' ) );
+			wp_send_json_error( __( 'You have already subscribed to notifications for this product.', 'restockx' ) );
 		}
 
 		// Renew the subscription.
 		$this->renew_notification( $existing_notification->id );
 		wp_send_json_success(
 			array(
-				'message'      => __( 'Your notification subscription has been renewed for this product.', 'alertx' ),
+				'message'      => __( 'Your notification subscription has been renewed for this product.', 'restockx' ),
 				'alternatives' => $this->get_alternative_products( $product_id ),
 			)
 		);
@@ -299,7 +313,7 @@ class Alertx_Menu {
 	 */
 	private function renew_notification( int $notification_id ) {
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'alertx_subscriptions';
+		$table_name = $wpdb->prefix . 'restockx_subscriptions';
 
 		// Update the notification's date_added field.
 		$wpdb->update(
@@ -319,10 +333,10 @@ class Alertx_Menu {
 	 */
 	private function create_new_notification( string $email, int $product_id ) {
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'alertx_subscriptions';
+		$table_name = $wpdb->prefix . 'restockx_subscriptions';
 
 		// Check if double opt-in confirmation is required (Premium feature; always off in the free version).
-		$require_confirmation = get_option( 'alertx_require_confirmation', '0' ) === '1';
+		$require_confirmation = get_option( 'restockx_require_confirmation', '0' ) === '1';
 
 		// Generate confirmation token (always generate for unsubscribe functionality).
 		$token = wp_generate_password( 32, false, false );
@@ -354,12 +368,12 @@ class Alertx_Menu {
 
 			// Skip confirmation, send immediate success message.
 			$product      = wc_get_product( $product_id );
-			$product_name = $product ? $product->get_name() : __( 'this product', 'alertx' );
+			$product_name = $product ? $product->get_name() : __( 'this product', 'restockx' );
 
 			$response_data = array(
 				'message'      => sprintf(
 					/* translators: %s: product name */
-					__( 'You have been subscribed to notifications for <strong>%s</strong>. We will notify you when it is back in stock.', 'alertx' ),
+					__( 'You have been subscribed to notifications for <strong>%s</strong>. We will notify you when it is back in stock.', 'restockx' ),
 					esc_html( $product_name )
 				),
 				'alternatives' => $this->get_alternative_products( $product_id ),
@@ -383,12 +397,12 @@ class Alertx_Menu {
 		$product = wc_get_product( $product_id );
 
 		// Determine the product name, defaulting to 'this product' if not found.
-		$product_name = $product ? $product->get_name() : __( 'this product', 'alertx' );
+		$product_name = $product ? $product->get_name() : __( 'this product', 'restockx' );
 
 		$response_data = array(
 			'message'      => sprintf(
 				/* translators: %s: product name */
-				__( 'Almost done! Confirm your subscription via email to get notified when <strong>%s</strong> is back in stock.', 'alertx' ),
+				__( 'Almost done! Confirm your subscription via email to get notified when <strong>%s</strong> is back in stock.', 'restockx' ),
 				esc_html( $product_name )
 			),
 			'alternatives' => $this->get_alternative_products( $product_id ),
@@ -407,12 +421,12 @@ class Alertx_Menu {
 	 */
 	private function send_confirmation_email( string $email, int $product_id, string $token ) {
 		$product      = wc_get_product( $product_id );
-		$product_name = $product ? $product->get_name() : __( 'this product', 'alertx' );
+		$product_name = $product ? $product->get_name() : __( 'this product', 'restockx' );
 
 		// Build confirmation URL using AJAX endpoint.
 		$confirm_url = add_query_arg(
 			array(
-				'action' => 'alertxwc_stock_confirm_subscription',
+				'action' => 'restockxwc_stock_confirm_subscription',
 				'token'  => rawurlencode( $token ),
 				'pid'    => intval( $product_id ),
 			),
@@ -420,18 +434,18 @@ class Alertx_Menu {
 		);
 
 		/* translators: %s: Product name */
-		$subject = sprintf( __( 'Confirm your stock alert for %s', 'alertx' ), $product_name );
+		$subject = sprintf( __( 'Confirm your stock alert for %s', 'restockx' ), $product_name );
 
 		// Keep the From address domain-aligned so messages are not dropped.
 		// by recipients' providers; external configured addresses become.
 		// the Reply-To instead.
-		$sender    = \Alertx\Admin::resolve_email_sender();
-		$from_name = get_bloginfo( 'name' ) . ' ' . __( 'Stock Alerts', 'alertx' );
+		$sender    = \RestockX\Admin::resolve_email_sender();
+		$from_name = get_bloginfo( 'name' ) . ' ' . __( 'Stock Alerts', 'restockx' );
 
 		// HTML message for better client compatibility.
 		$message = sprintf(
 			/* translators: 1: Product name, 2: Confirmation URL */
-			__( 'Please confirm your subscription to be notified when %1$s is back in stock. <a href="%2$s">Click here to confirm</a>.', 'alertx' ),
+			__( 'Please confirm your subscription to be notified when %1$s is back in stock. <a href="%2$s">Click here to confirm</a>.', 'restockx' ),
 			esc_html( $product_name ),
 			esc_url( $confirm_url )
 		);
@@ -462,18 +476,18 @@ class Alertx_Menu {
 	 */
 	private function send_subscription_success_email( string $email, int $product_id ) {
 		$product      = wc_get_product( $product_id );
-		$product_name = $product ? $product->get_name() : __( 'this product', 'alertx' );
+		$product_name = $product ? $product->get_name() : __( 'this product', 'restockx' );
 		$product_url  = $product ? $product->get_permalink() : home_url( '/' );
 
 		/* translators: %s: Product name */
-		$subject = sprintf( __( 'You are subscribed: %s stock alerts', 'alertx' ), $product_name );
+		$subject = sprintf( __( 'You are subscribed: %s stock alerts', 'restockx' ), $product_name );
 
-		$sender    = \Alertx\Admin::resolve_email_sender();
-		$from_name = get_bloginfo( 'name' ) . ' ' . __( 'Stock Alerts', 'alertx' );
+		$sender    = \RestockX\Admin::resolve_email_sender();
+		$from_name = get_bloginfo( 'name' ) . ' ' . __( 'Stock Alerts', 'restockx' );
 
 		$message = sprintf(
 			/* translators: 1: Product name, 2: Site name, 3: Product URL */
-			__( 'You will receive an email as soon as <strong>%1$s</strong> is back in stock at %2$s.<br><br><a href="%3$s">View product</a>', 'alertx' ),
+			__( 'You will receive an email as soon as <strong>%1$s</strong> is back in stock at %2$s.<br><br><a href="%3$s">View product</a>', 'restockx' ),
 			esc_html( $product_name ),
 			esc_html( get_bloginfo( 'name' ) ),
 			esc_url( $product_url )
@@ -501,11 +515,11 @@ class Alertx_Menu {
 		// Security is handled via token validation instead of nonce.
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public token-verified endpoint accessed via email links; a nonce cannot be supplied.
 		if ( empty( $_GET['token'] ) || empty( $_GET['pid'] ) ) {
-			wp_die( esc_html__( 'Invalid confirmation request.', 'alertx' ) );
+			wp_die( esc_html__( 'Invalid confirmation request.', 'restockx' ) );
 		}
 
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'alertx_subscriptions';
+		$table_name = $wpdb->prefix . 'restockx_subscriptions';
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public token-verified endpoint accessed via email links; a nonce cannot be supplied.
 		$token = sanitize_text_field( wp_unslash( $_GET['token'] ) );
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public token-verified endpoint accessed via email links; a nonce cannot be supplied.
@@ -515,13 +529,13 @@ class Alertx_Menu {
 			$wpdb->prepare( 'SELECT * FROM %i WHERE token = %s AND product_id = %d', $table_name, $token, $product_id )
 		);
 		if ( ! $notification ) {
-			wp_die( esc_html__( 'Subscription not found or already confirmed.', 'alertx' ) );
+			wp_die( esc_html__( 'Subscription not found or already confirmed.', 'restockx' ) );
 		}
 
 		// Confirm subscription.
 		$wpdb->update( $table_name, array( 'status' => 'confirmed' ), array( 'id' => intval( $notification->id ) ), array( '%s' ), array( '%d' ) );
 
-		wp_die( esc_html__( 'Your subscription has been confirmed. Thank you!', 'alertx' ) );
+		wp_die( esc_html__( 'Your subscription has been confirmed. Thank you!', 'restockx' ) );
 	}
 
 	/**
@@ -532,11 +546,11 @@ class Alertx_Menu {
 		// Security is handled via token validation instead of nonce.
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public token-verified endpoint accessed via email links; a nonce cannot be supplied.
 		if ( empty( $_GET['token'] ) || empty( $_GET['pid'] ) ) {
-			wp_die( esc_html__( 'Invalid unsubscribe request.', 'alertx' ) );
+			wp_die( esc_html__( 'Invalid unsubscribe request.', 'restockx' ) );
 		}
 
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'alertx_subscriptions';
+		$table_name = $wpdb->prefix . 'restockx_subscriptions';
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public token-verified endpoint accessed via email links; a nonce cannot be supplied.
 		$token = sanitize_text_field( wp_unslash( $_GET['token'] ) );
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public token-verified endpoint accessed via email links; a nonce cannot be supplied.
@@ -546,7 +560,7 @@ class Alertx_Menu {
 			$wpdb->prepare( 'SELECT * FROM %i WHERE token = %s AND product_id = %d', $table_name, $token, $product_id )
 		);
 		if ( ! $notification ) {
-			wp_die( esc_html__( 'Subscription not found.', 'alertx' ) );
+			wp_die( esc_html__( 'Subscription not found.', 'restockx' ) );
 		}
 
 		// Update subscription status to 'unsubscribed' instead of deleting.
@@ -558,7 +572,7 @@ class Alertx_Menu {
 			array( '%d' )
 		);
 
-		wp_die( esc_html__( 'You have been unsubscribed from stock alerts.', 'alertx' ) );
+		wp_die( esc_html__( 'You have been unsubscribed from stock alerts.', 'restockx' ) );
 	}
 
 	/**
@@ -673,14 +687,14 @@ class Alertx_Menu {
 	 * @param string $stock_status      New stock status.
 	 * @param int    $old_stock_status  Previous stock status (unused; required by the hook signature).
 	 */
-	public function send_alertx_subscriptions( $product_id, $stock_status = null, $old_stock_status = null ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- The parameter is required by the stock status hook signature.
+	public function send_restockx_subscriptions( $product_id, $stock_status = null, $old_stock_status = null ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- The parameter is required by the stock status hook signature.
 		// Only send when a product/variation becomes in stock.
 		if ( ! empty( $stock_status ) && 'instock' !== $stock_status ) {
 			return;
 		}
 
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'alertx_subscriptions';
+		$table_name = $wpdb->prefix . 'restockx_subscriptions';
 
 		// Fetch confirmed notifications for the given product ID.
 		$notifications = $wpdb->get_results(
@@ -703,7 +717,7 @@ class Alertx_Menu {
 		$this->track_restock_event( $product_id, $notification_count );
 
 		// Get email templates and product details.
-		$email_templates = get_option( 'alertxwc_email_templates', $this->get_default_email_templates() );
+		$email_templates = get_option( 'restockxwc_email_templates', $this->get_default_email_templates() );
 		$product         = wc_get_product( $product_id );
 
 		if ( ! $product ) {
@@ -715,8 +729,8 @@ class Alertx_Menu {
 		// Keep the From address domain-aligned so messages are not dropped.
 		// by recipients' providers; external configured addresses become.
 		// the Reply-To instead.
-		$sender    = \Alertx\Admin::resolve_email_sender();
-		$from_name = get_bloginfo( 'name' ) . ' ' . __( 'Stock Alerts', 'alertx' );
+		$sender    = \RestockX\Admin::resolve_email_sender();
+		$from_name = get_bloginfo( 'name' ) . ' ' . __( 'Stock Alerts', 'restockx' );
 		$headers   = array(
 			'MIME-Version: 1.0',
 			'Content-Type: text/html; charset=UTF-8',
@@ -733,14 +747,14 @@ class Alertx_Menu {
 
 			$subject = sprintf(
 				/* translators: %s: product name */
-				__( 'Product Back in Stock: %s', 'alertx' ),
+				__( 'Product Back in Stock: %s', 'restockx' ),
 				esc_html( $product->get_name() )
 			);
 
 			// Replace placeholders in the email template with actual values and unsubscribe link.
 			$unsubscribe_url = add_query_arg(
 				array(
-					'action' => 'alertxwc_stock_unsubscribe',
+					'action' => 'restockxwc_stock_unsubscribe',
 					'token'  => rawurlencode( $notification->token ),
 					'pid'    => intval( $product_id ),
 				),
@@ -785,7 +799,7 @@ class Alertx_Menu {
 	 */
 	private function track_restock_event( $product_id, $notification_count ) {
 		global $wpdb;
-		$restock_table = $wpdb->prefix . 'alertx_restock_tracking';
+		$restock_table = $wpdb->prefix . 'restockx_restock_tracking';
 
 		// Check if this product already has a restock record.
 		$existing = $wpdb->get_row(
@@ -837,7 +851,7 @@ class Alertx_Menu {
 
 		$product_id             = $product->get_id();
 		$stock_quantity         = $product->get_stock_quantity();
-		$notification_threshold = get_option( 'alertxwc_threshold', 1 );
+		$notification_threshold = get_option( 'restockxwc_threshold', 1 );
 		$stock_status           = $product->get_stock_status();
 
 		// Ensure stock quantity and notification threshold are integers.
@@ -847,7 +861,7 @@ class Alertx_Menu {
 		// Check if the stock quantity is above the threshold AND product is in stock.
 		if ( $stock_quantity >= $notification_threshold && 'instock' === $stock_status ) {
 			// Pass all required parameters including stock_status.
-			$this->send_alertx_subscriptions( $product_id, 'instock', $stock_status );
+			$this->send_restockx_subscriptions( $product_id, 'instock', $stock_status );
 		}
 	}
 
@@ -869,7 +883,7 @@ class Alertx_Menu {
 		}
 
 		// Generate a unique transient name based on the email address.
-		$transient_name = 'alertxwc_rate_' . md5( $email );
+		$transient_name = 'restockxwc_rate_' . md5( $email );
 		// Retrieve the current count of requests from the transient.
 		$count = get_transient( $transient_name );
 
@@ -898,10 +912,10 @@ class Alertx_Menu {
 	 *
 	 * @return void
 	 */
-	public function handle_bulk_action_alertx_subscriptions() {
+	public function handle_bulk_action_restockx_subscriptions() {
 		// Check for nonce verification and required POST data.
 		if ( ! isset( $_POST['submit_bulk_action'], $_POST['bulk_action_nonce'] ) ||
-		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['bulk_action_nonce'] ) ), 'alertxwc_bulk_action' ) ) {
+		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['bulk_action_nonce'] ) ), 'restockxwc_bulk_action' ) ) {
 			return; // Exit if nonce verification fails or POST data is missing.
 		}
 
@@ -927,7 +941,7 @@ class Alertx_Menu {
 	 */
 	private function handle_bulk_delete( array $notification_ids ) {
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'alertx_subscriptions';
+		$table_name = $wpdb->prefix . 'restockx_subscriptions';
 
 		// Delete each notification by ID.
 		foreach ( $notification_ids as $notification_id ) {
@@ -939,7 +953,7 @@ class Alertx_Menu {
 			'admin_notices',
 			function () {
 				echo '<div class="notice notice-success is-dismissible">';
-				echo '<p>' . esc_html__( 'Selected notifications have been deleted.', 'alertx' ) . '</p>';
+				echo '<p>' . esc_html__( 'Selected notifications have been deleted.', 'restockx' ) . '</p>';
 				echo '</div>';
 			}
 		);
@@ -956,7 +970,7 @@ class Alertx_Menu {
 	 */
 	private function delete_stock_notification( int $notification_id ) {
 		global $wpdb;
-		$table = $wpdb->prefix . 'alertx_subscriptions'; // Define the table name.
+		$table = $wpdb->prefix . 'restockx_subscriptions'; // Define the table name.
 
 		// Ensure the ID is an integer and delete the record from the database.
 		$wpdb->delete(
@@ -967,9 +981,9 @@ class Alertx_Menu {
 	}
 
 	/**
-	 * Suppress admin notices on AlertX Pro admin pages.
+	 * Suppress admin notices on RestockX Pro admin pages.
 	 */
-	public function alertx_page_hide_notifications() {
+	public function restockx_page_hide_notifications() {
 		if ( ! is_admin() ) {
 			return;
 		}
@@ -978,14 +992,14 @@ class Alertx_Menu {
 		// taken on the data, so no nonce applies.
 		$page = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only GET param used only to identify the current admin page.
 
-		// AlertX pages only.
-		$alertx_pages = array(
-			'alertx',
+		// RestockX pages only.
+		$restockx_pages = array(
+			'restockx',
 			'subscribers',
 			'email-templates',
 		);
 
-		if ( in_array( $page, $alertx_pages, true ) ) {
+		if ( in_array( $page, $restockx_pages, true ) ) {
 
 			// Hide admin notices.
 			remove_all_actions( 'admin_notices' );

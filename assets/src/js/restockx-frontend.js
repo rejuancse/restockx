@@ -2,8 +2,8 @@ jQuery(document).ready(function($) {
     // Handle variation selection visibility for notify UI
     var $variationForm = $('form.variations_form');
     var $notifyWrap = $('.notify-me-button-wrap');
-    var $notifyForm = $('.alertx-notify-form');
-    var $notifyProductId = $('.alertx-notify-product-id');
+    var $notifyForm = $('.restockx-notify-form');
+    var $notifyProductId = $('.restockx-notify-product-id');
 
     // Place notify UI directly below the "Out of stock" text when present
     function moveNotifyAfterStock(scope) {
@@ -147,23 +147,23 @@ jQuery(document).ready(function($) {
             }
         });
     }
-    $(document).on('click', '.alertx-notify-button', function() {
+    $(document).on('click', '.restockx-notify-button', function() {
         var $button = $(this);
-        // The form lives outside .alertx-wrap (next to the tooltip),
+        // The form lives outside .restockx-wrap (next to the tooltip),
         // so look it up from the common product wrapper instead of siblings.
-        var $form = $button.closest('.notify-me-button-wrap').find('.alertx-notify-form');
+        var $form = $button.closest('.notify-me-button-wrap').find('.restockx-notify-form');
         $form.toggleClass('notify-hidden');
     });
 
-    $(document).on('click', '.alertx-submit-notify', function(e) {
+    $(document).on('click', '.restockx-submit-notify', function(e) {
         e.preventDefault();
 
         var $button = $(this);
-        var $form = $button.closest('.alertx-notify-form');
-        var $emailField = $form.find('.alertx-notify-email');
-        var $productIdField = $form.find('.alertx-notify-product-id');
-        var $parentIdField = $form.find('.alertx-notify-parent-id');
-        var $nonceField = $form.find('.alertx-notify-nonce');
+        var $form = $button.closest('.restockx-notify-form');
+        var $emailField = $form.find('.restockx-notify-email');
+        var $productIdField = $form.find('.restockx-notify-product-id');
+        var $parentIdField = $form.find('.restockx-notify-parent-id');
+        var $nonceField = $form.find('.restockx-notify-nonce');
 
         var email = $emailField.val().trim();
         var product_id = $productIdField.val();
@@ -187,8 +187,8 @@ jQuery(document).ready(function($) {
             return;
         }
 
-        // Check if alertxwc_ajax object is available
-        if (typeof alertxwc_ajax === 'undefined' || !alertxwc_ajax.ajax_url || !alertxwc_ajax.nonce) {
+        // Check if restockxwc_ajax object is available
+        if (typeof restockxwc_ajax === 'undefined' || !restockxwc_ajax.ajax_url || !restockxwc_ajax.nonce) {
             showError($form, 'Configuration error. Please refresh the page and try again.');
             return;
         }
@@ -197,10 +197,10 @@ jQuery(document).ready(function($) {
         $form.find('.error-message, .success-message').remove();
 
         $.ajax({
-            url: alertxwc_ajax.ajax_url,
+            url: restockxwc_ajax.ajax_url,
             type: 'POST',
             data: {
-                action: 'alertxwc_stock_notification',
+                action: 'restockxwc_stock_notification',
                 email: email,
                 product_id: product_id,
                 parent_id: parent_id,
@@ -297,7 +297,7 @@ jQuery(document).ready(function($) {
             altFormat: 'yy-mm-dd',
             beforeShow: function(input, inst) {
                 // Add custom styling if needed
-                $( '#ui-datepicker-div' ).addClass('alertx-datepicker');
+                $( '#ui-datepicker-div' ).addClass('restockx-datepicker');
             }
         });
 
@@ -404,7 +404,7 @@ jQuery(document).ready(function($) {
     function showPreloader(message) {
         message = message || 'Processing...';
         $('#preloader-text').text(message);
-        $('#alertx-preloader').addClass('show');
+        $('#restockx-preloader').addClass('show');
 
         // Clear any existing timeout
         if (preloaderTimeout) {
@@ -415,7 +415,7 @@ jQuery(document).ready(function($) {
 
     // Hide preloader
     function hidePreloader() {
-        $('#alertx-preloader').removeClass('show');
+        $('#restockx-preloader').removeClass('show');
 
         // Clear any existing timeout
         if (preloaderTimeout) {
@@ -486,11 +486,11 @@ jQuery(document).ready(function($) {
         // If showPreloaderFlag === false, don't show (already showing from elsewhere)
 
         $.ajax({
-            url: alertx_ajax.ajax_url,
+            url: restockx_ajax.ajax_url,
             type: 'POST',
             data: {
-                action: 'alertx_get_campaigns',
-                nonce: alertx_ajax.nonce,
+                action: 'restockx_get_campaigns',
+                nonce: restockx_ajax.nonce,
                 page: page
             },
             success: function(response) {
@@ -687,11 +687,11 @@ jQuery(document).ready(function($) {
         showPreloader('Loading preview...');
 
         $.ajax({
-            url: alertx_ajax.ajax_url,
+            url: restockx_ajax.ajax_url,
             type: 'POST',
             data: {
-                action: 'alertx_preview_campaign',
-                nonce: alertx_ajax.nonce,
+                action: 'restockx_preview_campaign',
+                nonce: restockx_ajax.nonce,
                 campaign_id: campaignId
             },
             success: function(response) {
@@ -770,11 +770,11 @@ jQuery(document).ready(function($) {
             } else {
                 // Fallback to AJAX if not in cache
                 $.ajax({
-                    url: alertx_ajax.ajax_url,
+                    url: restockx_ajax.ajax_url,
                     type: 'POST',
                     data: {
-                        action: 'alertx_get_campaigns',
-                        nonce: alertx_ajax.nonce,
+                        action: 'restockx_get_campaigns',
+                        nonce: restockx_ajax.nonce,
                         page: currentCampaignPage
                     },
                     success: function(response) {
@@ -860,11 +860,11 @@ jQuery(document).ready(function($) {
         showPreloader('Deleting campaign...');
 
         $.ajax({
-            url: alertx_ajax.ajax_url,
+            url: restockx_ajax.ajax_url,
             type: 'POST',
             data: {
-                action: 'alertx_delete_campaign',
-                nonce: alertx_ajax.nonce,
+                action: 'restockx_delete_campaign',
+                nonce: restockx_ajax.nonce,
                 campaign_id: campaignId
             },
             success: function(response) {
@@ -890,11 +890,11 @@ jQuery(document).ready(function($) {
         showPreloader('Duplicating campaign...');
 
         $.ajax({
-            url: alertx_ajax.ajax_url,
+            url: restockx_ajax.ajax_url,
             type: 'POST',
             data: {
-                action: 'alertx_duplicate_campaign',
-                nonce: alertx_ajax.nonce,
+                action: 'restockx_duplicate_campaign',
+                nonce: restockx_ajax.nonce,
                 campaign_id: campaignId
             },
             success: function(response) {
@@ -938,11 +938,11 @@ jQuery(document).ready(function($) {
         showPreloader(isDraft ? 'Publishing campaign...' : 'Updating status...');
 
         $.ajax({
-            url: alertx_ajax.ajax_url,
+            url: restockx_ajax.ajax_url,
             type: 'POST',
             data: {
-                action: 'alertx_activate_campaign',
-                nonce: alertx_ajax.nonce,
+                action: 'restockx_activate_campaign',
+                nonce: restockx_ajax.nonce,
                 campaign_id: campaignId
             },
             success: function(response) {
@@ -989,11 +989,11 @@ jQuery(document).ready(function($) {
         showPreloader('Deleting campaigns...');
 
         $.ajax({
-            url: alertx_ajax.ajax_url,
+            url: restockx_ajax.ajax_url,
             type: 'POST',
             data: {
-                action: 'alertx_bulk_delete_campaigns',
-                nonce: alertx_ajax.nonce,
+                action: 'restockx_bulk_delete_campaigns',
+                nonce: restockx_ajax.nonce,
                 campaign_ids: selectedIds
             },
             success: function(response) {
@@ -1149,8 +1149,8 @@ jQuery(document).ready(function($) {
 
         // Get form data
         var formData = {
-            action: action === 'draft' ? 'alertx_save_campaign' : 'alertx_send_campaign',
-            nonce: alertx_ajax.nonce,
+            action: action === 'draft' ? 'restockx_save_campaign' : 'restockx_send_campaign',
+            nonce: restockx_ajax.nonce,
             camp_subject: subject,
             discount_switch: $('#discount-switch').is(':checked') ? 'on' : 'off',
             discount_all_products: $('#discount-all-products').is(':checked') ? 'on' : 'off',
@@ -1170,7 +1170,7 @@ jQuery(document).ready(function($) {
         $button.prop('disabled', true).find('.btn-label').text('Processing...');
 
         $.ajax({
-            url: alertx_ajax.ajax_url,
+            url: restockx_ajax.ajax_url,
             type: 'POST',
             data: formData,
             success: function(response) {
@@ -1261,12 +1261,12 @@ jQuery(document).ready(function($) {
         type = type || 'success';
 
         // Create toast container if not exists
-        if ($('#alertx-toast-container').length === 0) {
-            $('body').append('<div id="alertx-toast-container"></div>');
+        if ($('#restockx-toast-container').length === 0) {
+            $('body').append('<div id="restockx-toast-container"></div>');
         }
 
         // Create toast element
-        var $toast = $('<div class="alertx-toast alertx-toast-' + type + '"></div>');
+        var $toast = $('<div class="restockx-toast restockx-toast-' + type + '"></div>');
 
         // Icon based on type
         var icon = type === 'success' ?
@@ -1280,10 +1280,10 @@ jQuery(document).ready(function($) {
         );
 
         // Remove existing toasts of same type
-        $('#alertx-toast-container').find('.alertx-toast-' + type).remove();
+        $('#restockx-toast-container').find('.restockx-toast-' + type).remove();
 
         // Add new toast
-        $('#alertx-toast-container').append($toast);
+        $('#restockx-toast-container').append($toast);
 
         // Trigger animation
         setTimeout(function() {

@@ -2,8 +2,8 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Alertx for WooCommerce 1.0.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/alertx\n"
+"Project-Id-Version: RestockX for WooCommerce 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/restockx\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,155 +12,155 @@ msgstr ""
 "POT-Creation-Date: 2026-09-08T07:18:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: alertx\n"
+"X-Domain: restockx\n"
 
 #. Plugin Name of the plugin
-#: alertx.php
-msgid "Alertx for WooCommerce"
+#: restockx.php
+msgid "RestockX for WooCommerce"
 msgstr ""
 
 #. Description of the plugin
-#: alertx.php
+#: restockx.php
 msgid "Recover lost sales with automatic back-in-stock alerts. Customers click Notify Me on out-of-stock products and get an email when items return."
 msgstr ""
 
 #. Author of the plugin
-#: alertx.php
+#: restockx.php
 msgid "Rejuan Ahamed"
 msgstr ""
 
 #: includes/Admin.php:38
-msgid "AlertX Notification Statistics"
+msgid "RestockX Notification Statistics"
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:82
-#: includes/Admin/Alertx_Menu.php:83
-msgid "AlertX"
+#: includes/Admin/RestockX_Menu.php:82
+#: includes/Admin/RestockX_Menu.php:83
+msgid "RestockX"
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:92
-#: includes/Admin/Alertx_Menu.php:93
+#: includes/Admin/RestockX_Menu.php:92
+#: includes/Admin/RestockX_Menu.php:93
 #: views/admin-subscribers.php:46
 msgid "Subscribers"
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:101
-#: includes/Admin/Alertx_Menu.php:102
+#: includes/Admin/RestockX_Menu.php:101
+#: includes/Admin/RestockX_Menu.php:102
 msgid "Email Templates"
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:124
+#: includes/Admin/RestockX_Menu.php:124
 msgid "Security token is missing. Please refresh the page and try again."
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:134
+#: includes/Admin/RestockX_Menu.php:134
 msgid "Security check failed. Please refresh the page and try again."
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:139
+#: includes/Admin/RestockX_Menu.php:139
 msgid "Error: Product/Variation ID not found. Please select a variation (if applicable) or refresh the page and try again."
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:149
+#: includes/Admin/RestockX_Menu.php:149
 msgid "Too many requests. Please try again later."
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:174
+#: includes/Admin/RestockX_Menu.php:174
 msgid "Invalid email address"
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:191
+#: includes/Admin/RestockX_Menu.php:191
 msgid "Invalid product ID"
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:230
+#: includes/Admin/RestockX_Menu.php:230
 msgid "You have already subscribed to notifications for this product."
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:237
+#: includes/Admin/RestockX_Menu.php:237
 msgid "Your notification subscription has been renewed for this product."
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:305
-#: includes/Admin/Alertx_Menu.php:334
-#: includes/Admin/Alertx_Menu.php:358
-#: includes/Admin/Alertx_Menu.php:413
+#: includes/Admin/RestockX_Menu.php:305
+#: includes/Admin/RestockX_Menu.php:334
+#: includes/Admin/RestockX_Menu.php:358
+#: includes/Admin/RestockX_Menu.php:413
 msgid "this product"
 msgstr ""
 
 #. translators: %s: product name
-#: includes/Admin/Alertx_Menu.php:310
+#: includes/Admin/RestockX_Menu.php:310
 #, php-format
 msgid "You have been subscribed to notifications for <strong>%s</strong>. We will notify you when it is back in stock."
 msgstr ""
 
 #. translators: %s: product name
-#: includes/Admin/Alertx_Menu.php:339
+#: includes/Admin/RestockX_Menu.php:339
 #, php-format
 msgid "Almost done! Confirm your subscription via email to get notified when <strong>%s</strong> is back in stock."
 msgstr ""
 
 #. translators: %s: Product name
-#: includes/Admin/Alertx_Menu.php:371
+#: includes/Admin/RestockX_Menu.php:371
 #, php-format
 msgid "Confirm your stock alert for %s"
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:377
-#: includes/Admin/Alertx_Menu.php:420
-#: includes/Admin/Alertx_Menu.php:667
+#: includes/Admin/RestockX_Menu.php:377
+#: includes/Admin/RestockX_Menu.php:420
+#: includes/Admin/RestockX_Menu.php:667
 msgid "Stock Alerts"
 msgstr ""
 
 #. translators: 1: Product name, 2: Confirmation URL
-#: includes/Admin/Alertx_Menu.php:382
+#: includes/Admin/RestockX_Menu.php:382
 #, php-format
 msgid "Please confirm your subscription to be notified when %1$s is back in stock. <a href=\"%2$s\">Click here to confirm</a>."
 msgstr ""
 
 #. translators: %s: Product name
-#: includes/Admin/Alertx_Menu.php:417
+#: includes/Admin/RestockX_Menu.php:417
 #, php-format
 msgid "You are subscribed: %s stock alerts"
 msgstr ""
 
 #. translators: 1: Product name, 2: Site name, 3: Product URL
-#: includes/Admin/Alertx_Menu.php:424
+#: includes/Admin/RestockX_Menu.php:424
 #, php-format
 msgid "You will receive an email as soon as <strong>%1$s</strong> is back in stock at %2$s.<br><br><a href=\"%3$s\">View product</a>"
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:452
+#: includes/Admin/RestockX_Menu.php:452
 msgid "Invalid confirmation request."
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:466
+#: includes/Admin/RestockX_Menu.php:466
 msgid "Subscription not found or already confirmed."
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:472
+#: includes/Admin/RestockX_Menu.php:472
 msgid "Your subscription has been confirmed. Thank you!"
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:483
+#: includes/Admin/RestockX_Menu.php:483
 msgid "Invalid unsubscribe request."
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:497
+#: includes/Admin/RestockX_Menu.php:497
 msgid "Subscription not found."
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:509
+#: includes/Admin/RestockX_Menu.php:509
 msgid "You have been unsubscribed from stock alerts."
 msgstr ""
 
 #. translators: %s: product name
-#: includes/Admin/Alertx_Menu.php:684
+#: includes/Admin/RestockX_Menu.php:684
 #, php-format
 msgid "Product Back in Stock: %s"
 msgstr ""
 
-#: includes/Admin/Alertx_Menu.php:890
+#: includes/Admin/RestockX_Menu.php:890
 msgid "Selected notifications have been deleted."
 msgstr ""
 
@@ -358,24 +358,6 @@ msgstr ""
 
 #: views/admin-subscribers.php:206
 msgid "Next &raquo;"
-msgstr ""
-
-#. Translators: This is the total number of notifications.
-#: views/dashboard-widget.php:8
-#, php-format
-msgid "Total Notifications: %d"
-msgstr ""
-
-#. Translators: This is the total number of unique products.
-#: views/dashboard-widget.php:15
-#, php-format
-msgid "Unique Products: %d"
-msgstr ""
-
-#. Translators: This is the total number of unique subscribers.
-#: views/dashboard-widget.php:22
-#, php-format
-msgid "Unique Subscribers: %d"
 msgstr ""
 
 #: views/email-templates.php:17

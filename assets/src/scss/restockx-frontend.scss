@@ -9,7 +9,7 @@
     margin-top: 10px;
     margin-bottom: 20px;
 
-    .alertx-notify-button {
+    .restockx-notify-button {
         display: flex;
         align-items: center;
         gap: 7px;
@@ -20,7 +20,7 @@
         cursor: pointer;
         transition: background-color 0.3s ease;
 
-        .alertx-btn-icon {
+        .restockx-btn-icon {
             line-height: 0;
 
             svg {
@@ -29,7 +29,7 @@
         }
     }
 
-    .alertx-notify-form {
+    .restockx-notify-form {
         margin-top: 15px;
         margin-bottom: 20px;
 
@@ -38,7 +38,7 @@
         }
     }
 
-    .alertx-notify-email {
+    .restockx-notify-email {
         width: 61%;
         padding: 10px;
         border: 1px solid #ced4da;
@@ -48,7 +48,7 @@
         font-weight: 500;
     }
 
-    .alertx-notify-form {
+    .restockx-notify-form {
         .form-fields {
             display: flex;
             align-items: center;
@@ -56,7 +56,7 @@
         }
     }
 
-    .alertx-submit-notify {
+    .restockx-submit-notify {
         display: inline-flex !important;
         align-items: center;
         gap: 7px;
@@ -67,7 +67,7 @@
         cursor: pointer;
         transition: background-color 0.3s ease;
 
-        .alertx-btn-icon {
+        .restockx-btn-icon {
             display: block;
             line-height: 0;
 
@@ -225,7 +225,7 @@
 }
 
 /* Button + tooltip layout */
-.alertx-wrap {
+.restockx-wrap {
     display: flex;
     align-items: center;
     gap: 10px;

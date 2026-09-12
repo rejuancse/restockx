@@ -7,7 +7,7 @@
 defined( 'ABSPATH' ) || exit;
 
 // Allow-list for the hardcoded KPI SVG icons passed in $subscribers_stats.
-$alertx_svg_allowed = array(
+$restockx_svg_allowed = array(
     'svg'      => array(
         'width'             => true,
         'height'            => true,
@@ -36,27 +36,27 @@ $alertx_svg_allowed = array(
 );
 ?>
 
-<div class="alertx wrap alartx-sections">
-    <?php include_once ALERTX_PATH .'/views/global/header.php'; ?>
+<div class="restockx wrap alartx-sections">
+    <?php include_once RESTOCKX_PATH .'/views/global/header.php'; ?>
 
     <section class="page">
         <div class="page-header">
 			<div>
 				<div class="page-h1">
-                    <?php esc_html_e( 'Subscribers', 'alertx' ); ?>
+                    <?php esc_html_e( 'Subscribers', 'restockx' ); ?>
                 </div>
 				<div class="page-desc">
-                    <?php esc_html_e( 'Track waitlists, alerts and conversions in real time', 'alertx' ); ?>
+                    <?php esc_html_e( 'Track waitlists, alerts and conversions in real time', 'restockx' ); ?>
                 </div>
 			</div>
 		</div>
 
         <div class="kpi-row">
             <?php if ( ! empty( $subscribers_stats ) ) : ?>
-                <?php foreach ( $subscribers_stats as $alertx_stat ) : ?>
-                    <div class="kpi-card<?php echo empty( $alertx_stat['pro'] ) ? '' : ' is-locked'; ?>">
+                <?php foreach ( $subscribers_stats as $restockx_stat ) : ?>
+                    <div class="kpi-card<?php echo empty( $restockx_stat['pro'] ) ? '' : ' is-locked'; ?>">
                         <div class="kpi-top">
-                            <?php if ( ! empty( $alertx_stat['pro'] ) ) : ?>
+                            <?php if ( ! empty( $restockx_stat['pro'] ) ) : ?>
                                 <div class="kpi-value kpi-value-locked">
                                     <span class="kpi-lock" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -66,23 +66,23 @@ $alertx_svg_allowed = array(
                                     </span>
                                 </div>
                             <?php else : ?>
-                                <div class="kpi-value"<?php echo isset( $alertx_stat['data_count'] ) ? ' data-count="' . esc_attr( $alertx_stat['data_count'] ) . '"' : ''; ?>>
-                                    <?php echo esc_html( $alertx_stat['value'] ); ?>
+                                <div class="kpi-value"<?php echo isset( $restockx_stat['data_count'] ) ? ' data-count="' . esc_attr( $restockx_stat['data_count'] ) . '"' : ''; ?>>
+                                    <?php echo esc_html( $restockx_stat['value'] ); ?>
                                 </div>
                             <?php endif; ?>
-                            <div class="kpi-icon <?php echo esc_attr( $alertx_stat['icon_class'] ); ?>">
-                                <?php echo wp_kses( $alertx_stat['icon'], $alertx_svg_allowed ); ?>
+                            <div class="kpi-icon <?php echo esc_attr( $restockx_stat['icon_class'] ); ?>">
+                                <?php echo wp_kses( $restockx_stat['icon'], $restockx_svg_allowed ); ?>
                             </div>
                         </div>
                         <div class="kpi-bottom">
-                            <div class="kpi-label"><?php echo esc_html( $alertx_stat['label'] ); ?></div>
-                            <?php if ( ! empty( $alertx_stat['pro'] ) ) : ?>
+                            <div class="kpi-label"><?php echo esc_html( $restockx_stat['label'] ); ?></div>
+                            <?php if ( ! empty( $restockx_stat['pro'] ) ) : ?>
                                 <a class="go-premium go-premium-sm" href="https://example.com/upgrade" target="_blank" rel="noopener">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <rect x="3" y="11" width="18" height="11" rx="2" />
                                         <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                                     </svg>
-                                    <?php esc_html_e( 'Go Premium', 'alertx' ); ?>
+                                    <?php esc_html_e( 'Go Premium', 'restockx' ); ?>
                                 </a>
                             <?php endif; ?>
                         </div>
@@ -95,13 +95,13 @@ $alertx_svg_allowed = array(
             <form id="bulk-action-form" method="post">
                 <!-- Notifications List -->
                 <div class="notifications-list-tablenav">
-                    <?php wp_nonce_field( 'alertxwc_bulk_action', 'bulk_action_nonce' ); ?>
+                    <?php wp_nonce_field( 'restockxwc_bulk_action', 'bulk_action_nonce' ); ?>
                     <div class="bulk-actions">
                         <select name="bulk_action" id="bulk-action-selector">
-                            <option value=""><?php esc_html_e( 'Bulk Actions', 'alertx' ); ?></option>
-                            <option value="delete"><?php esc_html_e( 'Delete', 'alertx' ); ?></option>
+                            <option value=""><?php esc_html_e( 'Bulk Actions', 'restockx' ); ?></option>
+                            <option value="delete"><?php esc_html_e( 'Delete', 'restockx' ); ?></option>
                         </select>
-                        <input type="submit" name="submit_bulk_action" class="action btn btn-secondary" value="<?php esc_attr_e( 'Apply', 'alertx' ); ?>">
+                        <input type="submit" name="submit_bulk_action" class="action btn btn-secondary" value="<?php esc_attr_e( 'Apply', 'restockx' ); ?>">
                     </div>
 
                     <div class="notification-count">
@@ -111,7 +111,7 @@ $alertx_svg_allowed = array(
                                 $total_notifications = absint( $total_notifications ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
                                 // Translators: %d is the number of notifications
-                                echo esc_html( sprintf( _n( '%d item', '%d items', $total_notifications, 'alertx' ),
+                                echo esc_html( sprintf( _n( '%d item', '%d items', $total_notifications, 'restockx' ),
                                     $total_notifications )
                                 );
                             ?>
@@ -124,7 +124,7 @@ $alertx_svg_allowed = array(
                                     <path d="M7 10l5 5 5-5" />
                                     <path d="M12 15V3" />
                                 </svg>
-                                <?php esc_attr_e( 'Export to CSV', 'alertx' ); ?>
+                                <?php esc_attr_e( 'Export to CSV', 'restockx' ); ?>
                             </button>
                             <span class="pro-lock">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -139,7 +139,7 @@ $alertx_svg_allowed = array(
                                 <rect x="3" y="11" width="18" height="11" rx="2" />
                                 <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                             </svg>
-                            <?php esc_html_e( 'Go Premium', 'alertx' ); ?>
+                            <?php esc_html_e( 'Go Premium', 'restockx' ); ?>
                         </a>
                     </div>
                 </div>
@@ -150,10 +150,10 @@ $alertx_svg_allowed = array(
                             <td id="cb" class="manage-column column-cb check-column">
                                 <input id="cb-select-all" type="checkbox">
                             </td>
-                            <th><?php esc_html_e( 'Product', 'alertx' ); ?></th>
-                            <th><?php esc_html_e( 'Email', 'alertx' ); ?></th>
-                            <th><?php esc_html_e( 'Date', 'alertx' ); ?></th>
-                            <th><?php esc_html_e( 'Status', 'alertx' ); ?></th>
+                            <th><?php esc_html_e( 'Product', 'restockx' ); ?></th>
+                            <th><?php esc_html_e( 'Email', 'restockx' ); ?></th>
+                            <th><?php esc_html_e( 'Date', 'restockx' ); ?></th>
+                            <th><?php esc_html_e( 'Status', 'restockx' ); ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -164,7 +164,7 @@ $alertx_svg_allowed = array(
 
                                 // Get status with proper fallback
                                 $status = isset( $notification->status ) ? ucfirst( $notification->status ) : 'Unknown';
-                                $alertx_status_class = 'status-' . sanitize_html_class( strtolower( $status ) );
+                                $restockx_status_class = 'status-' . sanitize_html_class( strtolower( $status ) );
                                 ?>
                                 <tr>
                                     <th scope="row" class="check-column">
@@ -181,9 +181,9 @@ $alertx_svg_allowed = array(
                                                         if ( $image_url ) {
                                                             echo '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( $product->get_name() ) . '" width="44" height="44" style="vertical-align: middle; margin-right: 8px; border-radius: 4px;" />';
                                                         }
-                                                        $alertx_parent_product = wc_get_product( $product->get_parent_id() );
-                                                        if ( $alertx_parent_product ) {
-                                                            echo esc_html( $alertx_parent_product->get_name() );
+                                                        $restockx_parent_product = wc_get_product( $product->get_parent_id() );
+                                                        if ( $restockx_parent_product ) {
+                                                            echo esc_html( $restockx_parent_product->get_name() );
                                                         } else {
                                                             echo esc_html( $product->get_name() );
                                                         }
@@ -194,17 +194,17 @@ $alertx_svg_allowed = array(
                                                 <?php
                                                     // Only show attribute summary for product variations
                                                     if ( $product->is_type( 'variation' ) && method_exists( $product, 'get_attribute_summary' ) ) {
-                                                        $alertx_attribute_summary = $product->get_attribute_summary();
+                                                        $restockx_attribute_summary = $product->get_attribute_summary();
                                                         ?>
                                                         <div class="pvariant">
-                                                            <?php echo esc_html( $alertx_attribute_summary ); ?>
+                                                            <?php echo esc_html( $restockx_attribute_summary ); ?>
                                                         </div>
                                                         <?php
                                                     }
                                                 ?>
                                             </div>
                                         <?php else : ?>
-                                            <?php esc_html_e( 'Product not found', 'alertx' ); ?>
+                                            <?php esc_html_e( 'Product not found', 'restockx' ); ?>
                                         <?php endif; ?>
                                     </td>
                                     <td>
@@ -214,7 +214,7 @@ $alertx_svg_allowed = array(
                                         <?php echo esc_html( wp_date( 'd M, Y - h:i A', strtotime( $notification->date_added ) ) ); ?>
                                     </td>
                                     <td>
-                                        <span class="status-pill subscription-status <?php echo esc_attr( $alertx_status_class ); ?>">
+                                        <span class="status-pill subscription-status <?php echo esc_attr( $restockx_status_class ); ?>">
                                             <?php echo esc_html( $status ); ?>
                                         </span>
                                     </td>
@@ -223,7 +223,7 @@ $alertx_svg_allowed = array(
                         <?php else : ?>
                             <tr>
                                 <td colspan="5" class="no-info">
-                                    <?php esc_html_e( 'No notifications found!', 'alertx' ); ?>
+                                    <?php esc_html_e( 'No notifications found!', 'restockx' ); ?>
                                 </td>
                             </tr>
                         <?php endif; ?>
@@ -235,9 +235,9 @@ $alertx_svg_allowed = array(
                     $pagination_args = array( // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
                         'base' => add_query_arg( 'paged', '%#%'),
                         'format' => '',
-                        'prev_text' => __( '&laquo; Previous', 'alertx'),
-                        'next_text' => __( 'Next &raquo;', 'alertx'),
-                        'total' => ceil( $total_notifications / $alertx_items_per_page ),
+                        'prev_text' => __( '&laquo; Previous', 'restockx'),
+                        'next_text' => __( 'Next &raquo;', 'restockx'),
+                        'total' => ceil( $total_notifications / $restockx_items_per_page ),
                         'current' => $paged,
                     );
 

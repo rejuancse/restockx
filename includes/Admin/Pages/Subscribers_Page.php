@@ -1,19 +1,19 @@
 <?php
 /**
- * Subscribers page methods for the AlertX Pro admin menu.
+ * Subscribers page methods for the RestockX Pro admin menu.
  *
- * @package Alertx\Admin\Pages
+ * @package RestockX\Admin\Pages
  */
 
-namespace Alertx\Admin\Pages;
+namespace RestockX\Admin\Pages;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Trait Subscribers_Page
  *
- * Admin page methods moved out of Alertx_Menu. The trait is merged back
- * into the Alertx_Menu class, so every method keeps the exact same
+ * Admin page methods moved out of RestockX_Menu. The trait is merged back
+ * into the RestockX_Menu class, so every method keeps the exact same
  * visibility and $this behaviour as before the split.
  */
 trait Subscribers_Page {
@@ -27,11 +27,11 @@ trait Subscribers_Page {
 	 * @return array Subscriber stats array.
 	 */
 	private function get_subscribers_stats() {
-		$stats = wp_cache_get( 'subscribers_stats', 'alertx_stats' );
+		$stats = wp_cache_get( 'subscribers_stats', 'restockx_stats' );
 
 		if ( false === $stats ) {
 			$stats = $this->build_subscribers_stats();
-			wp_cache_set( 'subscribers_stats', $stats, 'alertx_stats', MINUTE_IN_SECONDS );
+			wp_cache_set( 'subscribers_stats', $stats, 'restockx_stats', MINUTE_IN_SECONDS );
 		}
 
 		return $stats;
@@ -44,7 +44,7 @@ trait Subscribers_Page {
 	 */
 	private function build_subscribers_stats() {
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'alertx_subscriptions';
+		$table_name = $wpdb->prefix . 'restockx_subscriptions';
 
 		// Total subscribers - all unique email subscribers.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom plugin table, no WP API equivalent; result is cached by get_subscribers_stats() for one minute.
@@ -133,15 +133,15 @@ trait Subscribers_Page {
 	 *
 	 * @return void
 	 */
-	public function alertx_subscribers() {
+	public function restockx_subscribers() {
 		global $wpdb;
 
 		// Export to CSV is a Premium feature; block it server-side so it
 		// cannot be triggered even by manipulating the disabled button.
 		if ( isset( $_POST['export_csv'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Blocked unconditionally in the free version; no action is performed on the request.
 			wp_die(
-				esc_html__( 'Export to CSV is available in the Premium version.', 'alertx' ),
-				esc_html__( 'Premium Feature', 'alertx' ),
+				esc_html__( 'Export to CSV is available in the Premium version.', 'restockx' ),
+				esc_html__( 'Premium Feature', 'restockx' ),
 				array(
 					'response'  => 403,
 					'back_link' => true,
@@ -150,14 +150,15 @@ trait Subscribers_Page {
 		}
 
 		// Table name for stock notifications in the database.
-		$table_name = $wpdb->prefix . 'alertx_subscriptions';
+		$table_name = $wpdb->prefix . 'restockx_subscriptions';
 
 		// Number of notifications to show per page.
-		$alertx_items_per_page = 10;
+		$restockx_items_per_page = 10;
 
 		// Get the current page number, ensuring it's valid.
-		$paged  = isset( $_GET['paged'] ) && is_numeric( $_GET['paged'] ) ? intval( $_GET['paged'] ) : 1;
-		$offset = ( $paged - 1 ) * $alertx_items_per_page;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- paged is used only for pagination.
+		$paged = isset( $_GET['paged'] ) ? absint( wp_unslash( $_GET['paged'] ) ) : 1;
+		$offset = ( $paged - 1 ) * $restockx_items_per_page;
 
 		// Fetch the total number of stock notifications to calculate pagination.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom plugin table, no WP API equivalent; admin list pagination must reflect real-time data.
@@ -174,7 +175,7 @@ trait Subscribers_Page {
 			$wpdb->prepare(
 				'SELECT * FROM %i ORDER BY date_added DESC LIMIT %d OFFSET %d',
 				$table_name,
-				$alertx_items_per_page,
+				$restockx_items_per_page,
 				$offset
 			)
 		);
@@ -183,14 +184,14 @@ trait Subscribers_Page {
 		$subscribers_stats = $this->get_subscribers_stats();
 
 		// Path to the admin page template file.
-		$template_path = ALERTX_PATH . 'views/admin-subscribers.php';
+		$template_path = RESTOCKX_PATH . 'views/admin-subscribers.php';
 
 		// Check if the template exists before including it.
 		if ( file_exists( $template_path ) ) {
 			include $template_path; // No parentheses needed for include.
 		} else {
 			// Template not found, display an error or a fallback message.
-			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'alertx' ) . '</p></div>';
+			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'restockx' ) . '</p></div>';
 		}
 	}
 }

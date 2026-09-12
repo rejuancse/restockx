@@ -1,6 +1,6 @@
 <?php
 
-namespace Alertx\Frontend;
+namespace RestockX\Frontend;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -14,7 +14,7 @@ class Add_Notify_Me_Button {
      *
      * @var string
      */
-    const OPTION_KEY = 'alertx_notify_me_settings';
+    const OPTION_KEY = 'restockx_notify_me_settings';
 
     /**
      * Tracks whether the notify UI has been rendered to avoid duplicates.
@@ -30,8 +30,8 @@ class Add_Notify_Me_Button {
      */
     public static function get_defaults() {
         return array(
-            'button_text'    => __( 'Notify Me When Available', 'alertx' ),
-            'tooltip_text'   => __( 'We will email you as soon as this product is back in stock.', 'alertx' ),
+            'button_text'    => __( 'Notify Me When Available', 'restockx' ),
+            'tooltip_text'   => __( 'We will email you as soon as this product is back in stock.', 'restockx' ),
             'text_color'     => '#ffffff',
             'bg_color'       => '#3c06c5',
             'hover_bg_color' => '#2a048a',
@@ -114,7 +114,7 @@ class Add_Notify_Me_Button {
             return '';
         }
 
-        return '<span class="alertx-btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' . $icons[ $icon ] . '</svg></span>';
+        return '<span class="restockx-btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' . $icons[ $icon ] . '</svg></span>';
     }
 
     /**
@@ -172,7 +172,7 @@ class Add_Notify_Me_Button {
         $user_email = $is_logged_in ? wp_get_current_user()->user_email : '';
 
         // Create nonce for security
-        $nonce = wp_create_nonce( 'alertx_notify_me_' . $unique_id );
+        $nonce = wp_create_nonce( 'restockx_notify_me_' . $unique_id );
 
         $button_settings = self::get_settings();
 
@@ -211,44 +211,44 @@ class Add_Notify_Me_Button {
                     // For logged-in users, show the form directly
                     // Pre-fill product_id with parent ID if all variations are out of stock
                     $initial_product_id = $show_notify_button ? $unique_id : '';
-                    echo '<div class="alertx-wrap">';
-                        echo '<div class="alertx-notify-form" data-product-id="' . esc_attr( $unique_id ) . '">
+                    echo '<div class="restockx-wrap">';
+                        echo '<div class="restockx-notify-form" data-product-id="' . esc_attr( $unique_id ) . '">
                             <div class="form-fields">';
-                                echo '<input type="hidden" class="alertx-notify-email" value="' . esc_attr( $user_email ) . '">';
-                                echo '<input type="hidden" class="alertx-notify-product-id" value="' . esc_attr( $initial_product_id ) . '">';
-                                echo '<input type="hidden" class="alertx-notify-parent-id" value="' . esc_attr( $unique_id ) . '">';
-                                echo '<input type="hidden" class="alertx-notify-nonce" value="' . esc_attr( $nonce ) . '">';
-                                echo '<button class="alertx-submit-notify">';
+                                echo '<input type="hidden" class="restockx-notify-email" value="' . esc_attr( $user_email ) . '">';
+                                echo '<input type="hidden" class="restockx-notify-product-id" value="' . esc_attr( $initial_product_id ) . '">';
+                                echo '<input type="hidden" class="restockx-notify-parent-id" value="' . esc_attr( $unique_id ) . '">';
+                                echo '<input type="hidden" class="restockx-notify-nonce" value="' . esc_attr( $nonce ) . '">';
+                                echo '<button class="restockx-submit-notify">';
                                     echo self::get_button_icon( $button_settings, 'before' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static SVG markup.
-                                    echo '<span class="alertx-notify-button-text">' . esc_html( $button_settings['button_text'] ) . '</span>';
+                                    echo '<span class="restockx-notify-button-text">' . esc_html( $button_settings['button_text'] ) . '</span>';
                                     echo self::get_button_icon( $button_settings, 'after' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static SVG markup.
                                 echo '</button>';
 
-                                echo '<div class="alertx-tooltip tooltip"><span class="tooltip-mark">?</span><span class="tooltiptext">' . esc_html( $button_settings['tooltip_text'] ) . '</span></div>';
+                                echo '<div class="restockx-tooltip tooltip"><span class="tooltip-mark">?</span><span class="tooltiptext">' . esc_html( $button_settings['tooltip_text'] ) . '</span></div>';
                             echo '</div>
                         </div>';
                     echo '</div>';
                 } else {
-                    echo '<div class="alertx-wrap">';
-                        echo '<button class="button alertx-notify-button" data-product-id="' . esc_attr( $unique_id ) . '">';
+                    echo '<div class="restockx-wrap">';
+                        echo '<button class="button restockx-notify-button" data-product-id="' . esc_attr( $unique_id ) . '">';
                             echo self::get_button_icon( $button_settings, 'before' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static SVG markup.
-                            echo '<span class="alertx-notify-button-text">' . esc_html( $button_settings['button_text'] ) . '</span>';
+                            echo '<span class="restockx-notify-button-text">' . esc_html( $button_settings['button_text'] ) . '</span>';
                             echo self::get_button_icon( $button_settings, 'after' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static SVG markup.
                         echo '</button>';
 
-                        echo '<div class="alertx-tooltip tooltip"><span class="tooltip-mark">?</span><span class="tooltiptext">' . esc_html( $button_settings['tooltip_text'] ) . '</span></div>';
+                        echo '<div class="restockx-tooltip tooltip"><span class="tooltip-mark">?</span><span class="tooltiptext">' . esc_html( $button_settings['tooltip_text'] ) . '</span></div>';
                     echo '</div>';
 
 
                     // Pre-fill product_id with parent ID if all variations are out of stock
                     $initial_product_id = $show_notify_button ? $unique_id : '';
-                    echo '<div class="alertx-notify-form notify-hidden" data-product-id="' . esc_attr( $unique_id ) . '">
+                    echo '<div class="restockx-notify-form notify-hidden" data-product-id="' . esc_attr( $unique_id ) . '">
                             <div class="form-fields">';
-                                echo '<input type="email" class="alertx-notify-email" placeholder="' . esc_attr__( 'Enter your email', 'alertx' ) . '" required>';
-                                echo '<input type="hidden" class="alertx-notify-product-id" value="' . esc_attr( $initial_product_id ) . '">';
-                                echo '<input type="hidden" class="alertx-notify-parent-id" value="' . esc_attr( $unique_id ) . '">';
-                                echo '<input type="hidden" class="alertx-notify-nonce" value="' . esc_attr( $nonce ) . '">';
-                                echo '<button class="alertx-submit-notify">' . esc_html__( 'Notify Me', 'alertx' ) . '</button>';
+                                echo '<input type="email" class="restockx-notify-email" placeholder="' . esc_attr__( 'Enter your email', 'restockx' ) . '" required>';
+                                echo '<input type="hidden" class="restockx-notify-product-id" value="' . esc_attr( $initial_product_id ) . '">';
+                                echo '<input type="hidden" class="restockx-notify-parent-id" value="' . esc_attr( $unique_id ) . '">';
+                                echo '<input type="hidden" class="restockx-notify-nonce" value="' . esc_attr( $nonce ) . '">';
+                                echo '<button class="restockx-submit-notify">' . esc_html__( 'Notify Me', 'restockx' ) . '</button>';
                             echo '</div>
                         </div>';
                 }
@@ -260,39 +260,39 @@ class Add_Notify_Me_Button {
                 echo '<div class="notify-me-button-wrap">';
                     if ( $is_logged_in ) {
                         // For logged-in users, show the form directly
-                        echo '<div class="alertx-wrap">';
-                            echo '<div class="alertx-notify-form" data-product-id="' . esc_attr( $unique_id ) . '">
+                        echo '<div class="restockx-wrap">';
+                            echo '<div class="restockx-notify-form" data-product-id="' . esc_attr( $unique_id ) . '">
                                 <div class="form-fields">';
-                                    echo '<input type="hidden" class="alertx-notify-email" value="' . esc_attr( $user_email ) . '">';
-                                    echo '<input type="hidden" class="alertx-notify-product-id" value="' . esc_attr( $unique_id ) . '">';
-                                    echo '<input type="hidden" class="alertx-notify-nonce" value="' . esc_attr( $nonce ) . '">';
-                                    echo '<button class="button alertx-submit-notify">';
+                                    echo '<input type="hidden" class="restockx-notify-email" value="' . esc_attr( $user_email ) . '">';
+                                    echo '<input type="hidden" class="restockx-notify-product-id" value="' . esc_attr( $unique_id ) . '">';
+                                    echo '<input type="hidden" class="restockx-notify-nonce" value="' . esc_attr( $nonce ) . '">';
+                                    echo '<button class="button restockx-submit-notify">';
                                         echo self::get_button_icon( $button_settings, 'before' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static SVG markup.
-                                        echo '<span class="alertx-notify-button-text">' . esc_html( $button_settings['button_text'] ) . '</span>';
+                                        echo '<span class="restockx-notify-button-text">' . esc_html( $button_settings['button_text'] ) . '</span>';
                                         echo self::get_button_icon( $button_settings, 'after' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static SVG markup.
                                     echo '</button>';
 
-                                    echo '<div class="alertx-tooltip tooltip"><span class="tooltip-mark">?</span><span class="tooltiptext">' . esc_html( $button_settings['tooltip_text'] ) . '</span></div>';
+                                    echo '<div class="restockx-tooltip tooltip"><span class="tooltip-mark">?</span><span class="tooltiptext">' . esc_html( $button_settings['tooltip_text'] ) . '</span></div>';
                                 echo '</div>';
                             echo '</div>';
                         echo '</div>';
                     } else {
-                        echo '<div class="alertx-wrap">';
-                            echo '<button class="button alertx-notify-button" data-product-id="' . esc_attr( $unique_id ) . '">';
+                        echo '<div class="restockx-wrap">';
+                            echo '<button class="button restockx-notify-button" data-product-id="' . esc_attr( $unique_id ) . '">';
                                 echo self::get_button_icon( $button_settings, 'before' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static SVG markup.
-                                echo '<span class="alertx-notify-button-text">' . esc_html( $button_settings['button_text'] ) . '</span>';
+                                echo '<span class="restockx-notify-button-text">' . esc_html( $button_settings['button_text'] ) . '</span>';
                                 echo self::get_button_icon( $button_settings, 'after' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static SVG markup.
                             echo '</button>';
 
-                            echo '<div class="alertx-tooltip tooltip"><span class="tooltip-mark">?</span><span class="tooltiptext">' . esc_html( $button_settings['tooltip_text'] ) . '</span></div>';
+                            echo '<div class="restockx-tooltip tooltip"><span class="tooltip-mark">?</span><span class="tooltiptext">' . esc_html( $button_settings['tooltip_text'] ) . '</span></div>';
                         echo '</div>';
 
-                        echo '<div class="alertx-notify-form notify-hidden" data-product-id="' . esc_attr( $unique_id ) . '">
+                        echo '<div class="restockx-notify-form notify-hidden" data-product-id="' . esc_attr( $unique_id ) . '">
                                 <div class="form-fields">';
-                                    echo '<input type="email" class="alertx-notify-email" placeholder="' . esc_attr__( 'Enter your email', 'alertx' ) . '" required>';
-                                    echo '<input type="hidden" class="alertx-notify-product-id" value="' . esc_attr( $unique_id ) . '">';
-                                    echo '<input type="hidden" class="alertx-notify-nonce" value="' . esc_attr( $nonce ) . '">';
-                                    echo '<button class="alertx-submit-notify">' . esc_html__( 'Notify Me', 'alertx' ) . '</button>';
+                                    echo '<input type="email" class="restockx-notify-email" placeholder="' . esc_attr__( 'Enter your email', 'restockx' ) . '" required>';
+                                    echo '<input type="hidden" class="restockx-notify-product-id" value="' . esc_attr( $unique_id ) . '">';
+                                    echo '<input type="hidden" class="restockx-notify-nonce" value="' . esc_attr( $nonce ) . '">';
+                                    echo '<button class="restockx-submit-notify">' . esc_html__( 'Notify Me', 'restockx' ) . '</button>';
                                 echo '</div>';
                             echo '</div>';
                     }

@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name: Alertx for WooCommerce
+ * Plugin Name: RestockX for WooCommerce
  * Description: Recover lost sales with automatic back-in-stock alerts. Customers click Notify Me on out-of-stock products and get an email when items return.
  * Author: Rejuan Ahamed
  * Version: 1.0.0
  * Requires at least: 6.2
  * Requires Plugins: woocommerce
  * Requires PHP: 7.4
- * Text Domain: alertx
+ * Text Domain: restockx
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -19,7 +19,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 /**
  * The main plugin class
  */
-final class Alertx {
+final class RestockX {
 
     /**
      * Plugin version
@@ -40,7 +40,7 @@ final class Alertx {
 
     /**
      * Initialize a singleton instance
-     * @return \Alertx
+     * @return \RestockX
      */
     public static function init() {
         static $instance = false;
@@ -58,11 +58,11 @@ final class Alertx {
      * @return void
      */
     public function define_constants() {
-        define( 'ALERTX_VERSION', self::version );
-        define( 'ALERTX_FILE', __FILE__ );
-        define( 'ALERTX_PATH', plugin_dir_path( ALERTX_FILE ) ); // Correct path to the plugin's directory
-        define( 'ALERTX_URL', plugin_dir_url( ALERTX_FILE ) );   // Correct URL for the plugin's assets
-        define( 'ALERTX_ASSETS', ALERTX_URL . 'assets' );        // URL for the plugin's assets directory
+        define( 'RESTOCKX_VERSION', self::version );
+        define( 'RESTOCKX_FILE', __FILE__ );
+        define( 'RESTOCKX_PATH', plugin_dir_path( RESTOCKX_FILE ) ); // Correct path to the plugin's directory
+        define( 'RESTOCKX_URL', plugin_dir_url( RESTOCKX_FILE ) );   // Correct URL for the plugin's assets
+        define( 'RESTOCKX_ASSETS', RESTOCKX_URL . 'assets' );        // URL for the plugin's assets directory
     }
 
     /**
@@ -71,7 +71,7 @@ final class Alertx {
      * @return void
      */
     public function activate() {
-        $installer = new Alertx\Installer();
+        $installer = new RestockX\Installer();
         $installer->run();
     }
 
@@ -81,39 +81,39 @@ final class Alertx {
      * @return void
      */
     public function init_plugin() {
-        new Alertx\Assets();
+        new RestockX\Assets();
 
         // Ensure DB schema is up to date
-        if ( class_exists( 'Alertx\Installer' ) ) {
-            $installer = new Alertx\Installer();
+        if ( class_exists( 'RestockX\Installer' ) ) {
+            $installer = new RestockX\Installer();
             $installer->maybe_upgrade_schema();
         }
 
-        new Alertx\Admin();
-        new Alertx\Frontend();
+        new RestockX\Admin();
+        new RestockX\Frontend();
     }
 }
 
 /**
  * Initilizes the main plugin
  */
-function alertx_get_stock_alert() {
-    return Alertx::init();
+function restockx_get_alert() {
+    return RestockX::init();
 }
 
 /**
  * Get the configured sender email address (Settings → Channels).
  *
- * Every outgoing AlertX email (stock alerts, confirmations and campaigns)
+ * Every outgoing RestockX email (stock alerts, confirmations and campaigns)
  * uses this address as the "From" header when it is set.
  *
  * @return string Valid email address, or empty string when not configured.
  */
-function alertx_get_sender_email() {
-    $sender = sanitize_email( (string) get_option( 'alertx_sender_email', '' ) );
+function restockx_get_sender_email() {
+    $sender = sanitize_email( (string) get_option( 'restockx_sender_email', '' ) );
 
     return is_email( $sender ) ? $sender : '';
 }
 
 // Kick-off the plugin
-alertx_get_stock_alert();
+restockx_get_alert();

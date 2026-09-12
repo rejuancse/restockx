@@ -1,6 +1,6 @@
 <?php
 
-namespace Alertx;
+namespace RestockX;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Alertx;
+namespace RestockX;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -17,62 +17,16 @@ class Admin {
      * Initialize the class
      */
     public function __construct() {
-        // global $wpdb;
-        // $this->wpdb = $wpdb;
-        // $this->table_name = $this->wpdb->prefix . 'alertx_subscriptions';
+        new Admin\RestockX_Menu();
 
-        new Admin\Alertx_Menu();
-
-        add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
         add_action( 'admin_head', array( $this, 'hide_other_plugin_notices' ) );
-    }
-
-    /**
-     * Add the dashboard widget to the WordPress admin dashboard.
-     *
-     * @return void
-     */
-    public function add_dashboard_widget() {
-        wp_add_dashboard_widget(
-            'alertxwc_dashboard_widget',
-            __('AlertX Notification Statistics', 'alertx'),
-            array($this, 'dashboard_widget_function')
-        );
-    }
-
-    /**
-     * Retrieve stock notification statistics and include the dashboard widget template.
-     *
-     * This function counts total notifications, unique products, and unique emails
-     * from the alertx_subscriptions table, then includes the corresponding template.
-     *
-     * @since   1.0.0
-     * @access  public
-     * @return  void
-     */
-    public function dashboard_widget_function() {
-        try {
-            // Retrieve stock notification statistics
-            $statistics = $this->get_stock_notification_statistics();
-
-            // Extract variables for template
-            $total_notifications = $statistics['total_notifications'];
-            $unique_products = $statistics['unique_products'];
-            $unique_emails = $statistics['unique_emails'];
-
-            // Include the dashboard widget template
-            include_once( ALERTX_PATH . 'views/dashboard-widget.php' );
-        } catch (\Exception $e) {
-            // Handle any exceptions that occur during data retrieval
-            echo '<p>An error occurred while retrieving data. Please try again later.</p>';
-        }
     }
 
     /**
      * Hide other plugin notices on our plugin pages
      *
      * This method hides all admin notices from other plugins when viewing
-     * Alertx plugin pages to provide a cleaner interface.
+     * RestockX plugin pages to provide a cleaner interface.
      *
      * @since   1.0.0
      * @access  public
@@ -93,7 +47,7 @@ class Admin {
     }
 
     /**
-     * Resolve the From / Reply-To addresses for outgoing AlertX emails.
+     * Resolve the From / Reply-To addresses for outgoing RestockX emails.
      *
      * The configured sender address (Settings → Channels) is only used as the
      * "From" header when its domain matches the site domain. Web hosts are not
@@ -107,7 +61,7 @@ class Admin {
      */
     public static function resolve_email_sender() {
         $site_domain = (string) wp_parse_url( home_url(), PHP_URL_HOST );
-        $configured  = \alertx_get_sender_email();
+        $configured  = \restockx_get_sender_email();
 
         // Normalize an optional leading "www." on both domains before comparing.
         $normalize = static function ( $domain ) {
@@ -129,61 +83,6 @@ class Admin {
             'from'     => 'no-reply@' . $site_domain,
             'reply_to' => $configured,
         );
-    }
-
-    /**
-     * Get stock notification statistics from the database.
-     *
-     * @return array An associative array containing total notifications, unique products, and unique emails.
-     */
-    protected function get_stock_notification_statistics() {
-        return [
-            'total_notifications' => $this->get_total_notifications(),
-            'unique_products' => $this->get_unique_products(),
-            'unique_emails' => $this->get_unique_emails(),
-        ];
-    }
-
-    /**
-     * Get the total number of notifications.
-     *
-     * @global wpdb $wpdb WordPress database abstraction object.
-     * @return int Total number of notifications.
-     */
-    protected function get_total_notifications() {
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'alertx_subscriptions';
-        return (int) $wpdb->get_var(
-            $wpdb->prepare( 'SELECT COUNT(*) FROM %i', $table_name )
-        ) ?: 0;
-    }
-
-    /**
-     * Get the count of unique products.
-     *
-     * @global wpdb $wpdb WordPress database abstraction object.
-     * @return int Number of unique products.
-     */
-    protected function get_unique_products() {
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'alertx_subscriptions';
-        return (int) $wpdb->get_var(
-            $wpdb->prepare( 'SELECT COUNT(DISTINCT product_id) FROM %i', $table_name )
-        ) ?: 0;
-    }
-
-    /**
-     * Get the count of unique email addresses.
-     *
-     * @global wpdb $wpdb WordPress database abstraction object.
-     * @return int Number of unique email addresses.
-     */
-    protected function get_unique_emails() {
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'alertx_subscriptions';
-        return (int) $wpdb->get_var(
-            $wpdb->prepare( 'SELECT COUNT(DISTINCT email) FROM %i', $table_name )
-        ) ?: 0;
     }
 }
 // phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, PluginCheck.Security.DirectDB.UnescapedDBParameter

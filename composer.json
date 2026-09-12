@@ -1,5 +1,5 @@
 {
-  "name": "rejuancse/alertx",
+  "name": "rejuancse/restockx",
   "description": "Recover lost sales with automatic back-in-stock alerts. Customers click Notify Me on out-of-stock products and get an email when items return.",
   "type": "wordpress-plugin",
   "license": "GPLv2",
@@ -12,7 +12,7 @@
   "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
-      "Alertx\\": "includes/"
+      "RestockX\\": "includes/"
     },
     "files": []
   },

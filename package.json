@@ -1,5 +1,5 @@
 {
-  "name": "alertx",
+  "name": "restockx",
   "description": "Recover lost sales with automatic back-in-stock alerts. Customers click Notify Me on out-of-stock products and get an email when items return.",
   "version": "1.0.0",
   "author": "Rejuan Ahamed",

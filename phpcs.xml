@@ -28,7 +28,7 @@
      <config name="minimum_supported_wp_version" value="6.2"/>
      <rule ref="WordPress">
        <!--
-       PSR-4 autoloading (composer.json: "Alertx\\": "includes/") requires
+       PSR-4 autoloading (composer.json: "RestockX\\": "includes/") requires
        file names to match class names exactly and case-sensitively, which
        conflicts with the classic hyphenated file name rules.
        -->

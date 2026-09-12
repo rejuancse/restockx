@@ -1,13 +1,13 @@
 <?php
 
-namespace Alertx;
+namespace RestockX;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Installer class
  *
- * @package Alertx
+ * @package RestockX
  * @since 1.0.0
  */
 class Installer {
@@ -20,7 +20,7 @@ class Installer {
      */
     public function run() {
         $this->add_version();
-        $this->alertx_create_tables();
+        $this->restockx_create_tables();
     }
 
     /**
@@ -31,13 +31,13 @@ class Installer {
      * @return  void
      */
     public function add_version() {
-        $installed = get_option( 'alertx_installed' );
+        $installed = get_option( 'restockx_installed' );
 
         if ( ! $installed ) {
-            update_option( 'alertx_installed', time() );
+            update_option( 'restockx_installed', time() );
         }
 
-        update_option( 'alertx_version', ALERTX_VERSION );
+        update_option( 'restockx_version', RESTOCKX_VERSION );
     }
 
     /**
@@ -47,10 +47,10 @@ class Installer {
      * @access public
      * @return void
      */
-    public function alertx_create_tables() {
+    public function restockx_create_tables() {
         global $wpdb;
 
-        $table_name = $wpdb->prefix . 'alertx_subscriptions';
+        $table_name = $wpdb->prefix . 'restockx_subscriptions';
         $charset_collate = $wpdb->get_charset_collate();
 
         $sql = "CREATE TABLE $table_name (
@@ -72,7 +72,7 @@ class Installer {
      */
     public function maybe_upgrade_schema() {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'alertx_subscriptions';
+        $table_name = $wpdb->prefix . 'restockx_subscriptions';
 
         // Check for 'status' column in subscriptions table
         $has_status = $wpdb->get_results( $wpdb->prepare( 'SHOW COLUMNS FROM %i LIKE %s', $table_name, 'status' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- One-time schema check during plugin upgrade; custom tables have no WP API equivalent.

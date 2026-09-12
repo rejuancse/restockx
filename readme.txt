@@ -1,7 +1,7 @@
-=== Alertx for WooCommerce ===
+=== RestockX for WooCommerce ===
 
 Contributors: rejuancse
-Tags: woocommerce, stock alert, back in stock, stock notification, notify me
+Tags: restock, stock alert, back in stock, stock notification, notify me
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -13,7 +13,7 @@ Recover lost sales with automatic back-in-stock alerts. Customers click Notify M
 
 == Description ==
 
-Alertx recovers lost sales on your WooCommerce store by letting interested customers subscribe to restock alerts for out-of-stock products. When a product comes back in stock, every confirmed subscriber is notified automatically by email — turning missed sales into completed orders.
+RestockX recovers lost sales on your WooCommerce store by letting interested customers subscribe to restock alerts for out-of-stock products. When a product comes back in stock, every confirmed subscriber is notified automatically by email — turning missed sales into completed orders.
 
 Customers click the "Notify Me" button on any out-of-stock product, enter their email, and confirm the subscription. Store owners get a clean admin dashboard to manage subscribers, customize emails, and export data.
 
@@ -39,7 +39,7 @@ Customers click the "Notify Me" button on any out-of-stock product, enter their 
 1. A customer visits an out-of-stock product and clicks the "Notify Me" button.
 2. They enter their email address and submit the form.
 3. Depending on your settings, they either confirm via a double opt-in email or are subscribed instantly.
-4. When you restock the product, Alertx automatically emails all confirmed subscribers with a link back to the product.
+4. When you restock the product, RestockX automatically emails all confirmed subscribers with a link back to the product.
 
 == Installation ==
 
@@ -52,23 +52,23 @@ Customers click the "Notify Me" button on any out-of-stock product, enter their 
 
 = Automatic installation =
 
-Automatic installation is the easiest option — WordPress handles the file transfer itself, and you won't need to leave your web browser. To install Alertx, log in to your WordPress dashboard, navigate to the **Plugins** menu, and click **Add New**.
+Automatic installation is the easiest option — WordPress handles the file transfer itself, and you won't need to leave your web browser. To install RestockX, log in to your WordPress dashboard, navigate to the **Plugins** menu, and click **Add New**.
 
-In the search field, type "Alertx for WooCommerce" and click **Search Plugins**. Once you find the plugin, you can view its details and install it by clicking **Install Now**. Afterwards, activate the plugin.
+In the search field, type "RestockX for WooCommerce" and click **Search Plugins**. Once you find the plugin, you can view its details and install it by clicking **Install Now**. Afterwards, activate the plugin.
 
 = Manual installation =
 
 1. Download the plugin ZIP file from WordPress.org.
 2. Go to **Dashboard > Plugins > Add New > Upload Plugin**.
-3. Choose `alertx.zip`, click **Install Now**, and then activate the plugin.
+3. Choose `restockx.zip`, click **Install Now**, and then activate the plugin.
 
-The AlertX menu will appear in your WordPress admin, where you can view subscribers, customize email templates, and configure the notify button.
+The RestockX menu will appear in your WordPress admin, where you can view subscribers, customize email templates, and configure the notify button.
 
 == Frequently Asked Questions ==
 
 = Does this plugin work with variable products? =
 
-Yes. Alertx supports variable products — the notify button appears when a product (or all of its variations) is out of stock, and subscribers are alerted when the specific variation is back in stock.
+Yes. RestockX supports variable products — the notify button appears when a product (or all of its variations) is out of stock, and subscribers are alerted when the specific variation is back in stock.
 
 = Do subscribers need to create an account? =
 
@@ -76,7 +76,7 @@ No. Logged-out customers simply enter their email address. Logged-in customers h
 
 = Can I turn off the double opt-in confirmation email? =
 
-Yes. Double opt-in is enabled by default to keep your subscriber list clean, but you can disable it from the **AlertX > Email Templates** page. Note that unsubscribe links are always included in alert emails.
+Yes. Double opt-in is enabled by default to keep your subscriber list clean, but you can disable it from the **RestockX > Email Templates** page. Note that unsubscribe links are always included in alert emails.
 
 = Is the plugin GDPR friendly? =
 
@@ -84,7 +84,7 @@ Yes. Subscriptions are confirmed by email (when double opt-in is enabled), every
 
 = Can I export my subscribers? =
 
-Yes. Go to **AlertX > Subscribers** and click the CSV export button to download the complete subscriber list.
+Yes. Go to **RestockX > Subscribers** and click the CSV export button to download the complete subscriber list.
 
 = Where can I get support? =
 
@@ -98,7 +98,7 @@ Found a bug? Please let us know by opening a topic in the support section of thi
 
 1. "Notify Me" button shown on an out-of-stock product page.
 2. Email subscription form with double opt-in confirmation message.
-3. AlertX admin dashboard with notification statistics.
+3. RestockX admin dashboard with notification statistics.
 4. Subscribers page with subscriber list, bulk actions, and CSV export.
 5. Email template editor with stock threshold setting.
 

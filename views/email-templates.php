@@ -7,41 +7,41 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 
-<div class="alertx wrap alartx-sections">
-    <?php include_once ALERTX_PATH .'/views/global/header.php'; ?>
+<div class="restockx wrap alartx-sections">
+    <?php include_once RESTOCKX_PATH .'/views/global/header.php'; ?>
 
     <section class="page">
         <div class="page-header">
 			<div>
 				<div class="page-h1">
-                    <?php esc_html_e( 'Email Template', 'alertx' ); ?>
+                    <?php esc_html_e( 'Email Template', 'restockx' ); ?>
                 </div>
 				<div class="page-desc">
-					<?php esc_html_e( 'Configure the email your customers receive when a product comes back in stock.', 'alertx' ); ?>
+					<?php esc_html_e( 'Configure the email your customers receive when a product comes back in stock.', 'restockx' ); ?>
 				</div>
 			</div>
 
 			</div>
 
         <form method="post">
-            <?php wp_nonce_field( 'alertxwc_save_settings', 'settings_nonce' ); ?>
+            <?php wp_nonce_field( 'restockxwc_save_settings', 'settings_nonce' ); ?>
 
             <div class="grid-2">
                 <!-- Email Template Section -->
                 <div class="template-guide-line">
                     <div class="page-h1">
-                        <?php esc_html_e( 'Configure Email Template', 'alertx' ); ?>
+                        <?php esc_html_e( 'Configure Email Template', 'restockx' ); ?>
                     </div>
                     <div class="page-desc">
-                        <?php esc_html_e( 'Customize the email sent to customers when a product is back in stock. You can use the following placeholders:', 'alertx' ); ?>
+                        <?php esc_html_e( 'Customize the email sent to customers when a product is back in stock. You can use the following placeholders:', 'restockx' ); ?>
                     </div>
 
                     <!-- Email template customization guidelines -->
                     <div class="guidelines">
                         <ul>
-                            <li><code class="tag-chip">{product_name}</code> - <?php esc_html_e( 'The name of the product', 'alertx' ); ?></li>
-                            <li><code class="tag-chip">{product_url}</code> - <?php esc_html_e( 'The URL of the product page', 'alertx' ); ?></li>
-                            <li><code class="tag-chip">{site_name}</code> - <?php esc_html_e( 'The name of your website', 'alertx' ); ?></li>
+                            <li><code class="tag-chip">{product_name}</code> - <?php esc_html_e( 'The name of the product', 'restockx' ); ?></li>
+                            <li><code class="tag-chip">{product_url}</code> - <?php esc_html_e( 'The URL of the product page', 'restockx' ); ?></li>
+                            <li><code class="tag-chip">{site_name}</code> - <?php esc_html_e( 'The name of your website', 'restockx' ); ?></li>
                         </ul>
                     </div>
 
@@ -64,13 +64,13 @@ defined( 'ABSPATH' ) || exit;
                 <div class="notification-threshold">
                     <div class="template-grid">
                         <div class="page-h1">
-                            <?php esc_html_e( 'Notification Threshold', 'alertx' ); ?>
+                            <?php esc_html_e( 'Notification Threshold', 'restockx' ); ?>
                         </div>
 
                         <!-- Input field for notification threshold -->
                         <div class="field">
                             <label>
-                                <?php esc_html_e( 'Notifications go out once stock reaches or exceeds this number.', 'alertx' ); ?>
+                                <?php esc_html_e( 'Notifications go out once stock reaches or exceeds this number.', 'restockx' ); ?>
                                 <span class="required">*</span>
                             </label>
 
@@ -82,7 +82,7 @@ defined( 'ABSPATH' ) || exit;
                                 min="1">
 
                             <p class="description">
-                                <?php esc_html_e( 'When stock reaches this many units, everyone on the waitlist gets emailed at once.', 'alertx' ); ?>
+                                <?php esc_html_e( 'When stock reaches this many units, everyone on the waitlist gets emailed at once.', 'restockx' ); ?>
                             </p>
                         </div>
                     </div>
@@ -90,7 +90,7 @@ defined( 'ABSPATH' ) || exit;
                     <!-- Email Settings -->
                     <div class="template-grid">
                         <div class="section-title">
-                            <?php esc_html_e( 'Email Settings', 'alertx' ); ?>
+                            <?php esc_html_e( 'Email Settings', 'restockx' ); ?>
                         </div>
 
                         <div class="template-card">
@@ -103,10 +103,10 @@ defined( 'ABSPATH' ) || exit;
 
                             <div class="template-meta">
                                 <div class="tname">
-                                    <?php esc_html_e( 'Subscription Confirmation', 'alertx' ); ?>
+                                    <?php esc_html_e( 'Subscription Confirmation', 'restockx' ); ?>
                                 </div>
                                 <div class="tdesc">
-                                    <?php esc_html_e( 'Confirms a customer has joined the waitlist', 'alertx' ); ?>
+                                    <?php esc_html_e( 'Confirms a customer has joined the waitlist', 'restockx' ); ?>
                                 </div>
                             </div>
 
@@ -130,14 +130,14 @@ defined( 'ABSPATH' ) || exit;
                             <rect x="3" y="11" width="18" height="11" rx="2" />
                             <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                         </svg>
-                        <?php esc_html_e( 'Go Premium', 'alertx' ); ?>
+                        <?php esc_html_e( 'Go Premium', 'restockx' ); ?>
                     </a>
                 </div>
             </div>
 
             <!-- Submit button to save settings -->
             <p class="submit">
-                <input type="submit" name="submit_settings" class="btn btn-primary" value="<?php esc_attr_e( 'Save Settings', 'alertx' ); ?>">
+                <input type="submit" name="submit_settings" class="btn btn-primary" value="<?php esc_attr_e( 'Save Settings', 'restockx' ); ?>">
             </p>
         </form>
     </section>

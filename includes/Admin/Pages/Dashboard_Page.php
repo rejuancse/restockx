@@ -1,19 +1,19 @@
 <?php
 /**
- * Dashboard page methods for the AlertX Pro admin menu.
+ * Dashboard page methods for the RestockX Pro admin menu.
  *
- * @package Alertx\Admin\Pages
+ * @package RestockX\Admin\Pages
  */
 
-namespace Alertx\Admin\Pages;
+namespace RestockX\Admin\Pages;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Trait Dashboard_Page
  *
- * Admin page methods moved out of Alertx_Menu. The trait is merged back
- * into the Alertx_Menu class, so every method keeps the exact same
+ * Admin page methods moved out of RestockX_Menu. The trait is merged back
+ * into the RestockX_Menu class, so every method keeps the exact same
  * visibility and $this behaviour as before the split.
  */
 trait Dashboard_Page {
@@ -26,7 +26,7 @@ trait Dashboard_Page {
 	 *
 	 * @return void
 	 */
-	public function alertx_admin_dashboard() {
+	public function restockx_admin_dashboard() {
 		// Auto-fix: Ensure restock table exists.
 		$this->ensure_restock_table_exists();
 
@@ -43,14 +43,14 @@ trait Dashboard_Page {
 		$recent_subscribers = $this->get_recent_subscribers();
 
 		// Path to the admin page template file.
-		$template_path = ALERTX_PATH . 'views/admin-dashboard.php';
+		$template_path = RESTOCKX_PATH . 'views/admin-dashboard.php';
 
 		// Check if the template exists before including it.
 		if ( file_exists( $template_path ) ) {
 			include $template_path; // No parentheses needed for include.
 		} else {
 			// Template not found, display an error or a fallback message.
-			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'alertx' ) . '</p></div>';
+			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'restockx' ) . '</p></div>';
 		}
 	}
 
@@ -59,7 +59,7 @@ trait Dashboard_Page {
 	 */
 	private function ensure_restock_table_exists() {
 		global $wpdb;
-		$restock_table = $wpdb->prefix . 'alertx_restock_tracking';
+		$restock_table = $wpdb->prefix . 'restockx_restock_tracking';
 
 		// Check if table exists.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time schema check is required before running dbDelta().
@@ -94,11 +94,11 @@ trait Dashboard_Page {
 	 * @return array Dashboard stats array.
 	 */
 	private function get_dashboard_stats() {
-		$stats = wp_cache_get( 'dashboard_stats', 'alertx_stats' );
+		$stats = wp_cache_get( 'dashboard_stats', 'restockx_stats' );
 
 		if ( false === $stats ) {
 			$stats = $this->build_dashboard_stats();
-			wp_cache_set( 'dashboard_stats', $stats, 'alertx_stats', MINUTE_IN_SECONDS );
+			wp_cache_set( 'dashboard_stats', $stats, 'restockx_stats', MINUTE_IN_SECONDS );
 		}
 
 		return $stats;
@@ -112,7 +112,7 @@ trait Dashboard_Page {
 	private function build_dashboard_stats() {
 		// Get total subscribers count.
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'alertx_subscriptions';
+		$table_name = $wpdb->prefix . 'restockx_subscriptions';
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom plugin table, no WP API equivalent; result is cached by get_dashboard_stats() for one minute.
 		$total_subscribers = $wpdb->get_var(
@@ -130,6 +130,12 @@ trait Dashboard_Page {
 				$table_name
 			)
 		);
+
+		// Get Unique Products
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom plugin table, no WP API equivalent; result is cached by get_dashboard_stats() for one minute.
+        $unique_products = (int) $wpdb->get_var(
+            $wpdb->prepare( 'SELECT COUNT(DISTINCT product_id) FROM %i', $table_name )
+        ) ?: 0;
 
 		// Get products still waiting count.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom plugin table, no WP API equivalent; result is cached by get_dashboard_stats() for one minute.
@@ -169,6 +175,29 @@ trait Dashboard_Page {
 				'sparkline'   => '<polyline points="0,18 12,19 24,14 36,16 48,9 60,11 72,3" fill="none" stroke="#D90DD9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />',
 			),
 			array(
+				'icon_class'  => 'c3',
+				'icon'        => '<svg viewBox="0 0 24 24">
+									<g fill="none" fill-rule="evenodd" stroke="none" stroke-width="1">
+									<g transform="translate(-325.000000, -80.000000)">
+									<g transform="translate(325.000000, 80.000000)">
+									<polygon fill="#FFFFFF" fill-opacity="0.01" fill-rule="nonzero" points="24 0 0 0 0 24 24 24"/>
+									<polygon points="22 7 12 2 2 7 2 17 12 22 22 17" stroke="#ffffff" stroke-linejoin="round" stroke-width="1.5"/>
+									<line stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" x1="2" x2="12" y1="7" y2="12"/>
+									<line stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" x1="12" x2="12" y1="22" y2="12"/>
+									<line stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" x1="22" x2="12" y1="7" y2="12"/>
+									<line stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" x1="17" x2="7" y1="4.5" y2="9.5"/>
+									</g>
+									</g>
+									</g>
+								</svg>',
+				'delta_class' => 'up',
+				'data_count'  => $unique_products,
+				'data_suffix' => '',
+				'value'       => $unique_products,
+				'label'       => 'Unique Products',
+				'sparkline'   => '<polyline points="0,10 12,13 24,8 36,11 48,7 60,9 72,5" fill="none" stroke="#FC301D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />',
+			),
+			array(
 				'icon_class'  => 'c4',
 				'icon'        => '<svg fill="#ffffff" viewBox="0 0 32 32" fill="none" stroke="#fff" stroke-width="1">
                             <path d="M15.888 31.977c-7.539 0-12.887-5.228-12.887-12.431 0-3.824 2.293-7.944 2.39-8.116 0.199-0.354 0.59-0.547 0.998-0.502 0.404 0.052 0.736 0.343 0.84 0.736 0.006 0.024 0.624 2.336 1.44 3.62 0.548 0.864 1.104 1.475 1.729 1.899-0.423-1.833-0.747-4.591-0.22-7.421 1.448-7.768 7.562-9.627 7.824-9.701 0.337-0.097 0.695-0.010 0.951 0.223 0.256 0.235 0.373 0.586 0.307 0.927-0.010 0.054-1.020 5.493 1.123 10.127 0.195 0.421 0.466 0.91 0.758 1.399 0.083-0.672 0.212-1.386 0.41-2.080 0.786-2.749 2.819-3.688 2.904-3.726 0.339-0.154 0.735-0.104 1.027 0.126 0.292 0.231 0.433 0.603 0.365 0.969-0.011 0.068-0.294 1.938 1.298 4.592 1.438 2.396 1.852 3.949 1.852 6.928 0 7.203-5.514 12.43-13.111 12.43zM6.115 14.615c-0.549 1.385-1.115 3.226-1.115 4.931 0 6.044 4.506 10.43 10.887 10.43 6.438 0 11.11-4.386 11.11-10.431 0-2.611-0.323-3.822-1.567-5.899-0.832-1.386-1.243-2.633-1.439-3.625-0.198 0.321-0.382 0.712-0.516 1.184-0.61 2.131-0.456 4.623-0.454 4.649 0.029 0.446-0.242 0.859-0.664 1.008s-0.892 0.002-1.151-0.364c-0.075-0.107-1.854-2.624-2.637-4.32-1.628-3.518-1.601-7.323-1.434-9.514-1.648 0.96-4.177 3.104-4.989 7.466-0.791 4.244 0.746 8.488 0.762 8.529 0.133 0.346 0.063 0.739-0.181 1.018-0.245 0.277-0.622 0.4-0.986 0.313-0.124-0.030-2.938-0.762-4.761-3.634-0.325-0.514-0.617-1.137-0.864-1.742z"></path>
@@ -194,11 +223,11 @@ trait Dashboard_Page {
 	 * @return array Demand ranking data with product info and subscriber counts
 	 */
 	public function get_demand_ranking() {
-		$demand_ranking = wp_cache_get( 'demand_ranking', 'alertx_stats' );
+		$demand_ranking = wp_cache_get( 'demand_ranking', 'restockx_stats' );
 
 		if ( false === $demand_ranking ) {
 			$demand_ranking = $this->build_demand_ranking();
-			wp_cache_set( 'demand_ranking', $demand_ranking, 'alertx_stats', MINUTE_IN_SECONDS );
+			wp_cache_set( 'demand_ranking', $demand_ranking, 'restockx_stats', MINUTE_IN_SECONDS );
 		}
 
 		return $demand_ranking;
@@ -211,7 +240,7 @@ trait Dashboard_Page {
 	 */
 	private function build_demand_ranking() {
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'alertx_subscriptions';
+		$table_name = $wpdb->prefix . 'restockx_subscriptions';
 
 		// Get products with most subscribers, ordered by count (pending and sent both).
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom plugin table, no WP API equivalent; result is cached by get_demand_ranking() for one minute.
@@ -312,11 +341,11 @@ trait Dashboard_Page {
 	 * @return array Recent activity data showing products that recently received subscriptions
 	 */
 	public function get_recent_activity() {
-		$recent_activity = wp_cache_get( 'recent_activity', 'alertx_stats' );
+		$recent_activity = wp_cache_get( 'recent_activity', 'restockx_stats' );
 
 		if ( false === $recent_activity ) {
 			$recent_activity = $this->build_recent_activity();
-			wp_cache_set( 'recent_activity', $recent_activity, 'alertx_stats', MINUTE_IN_SECONDS );
+			wp_cache_set( 'recent_activity', $recent_activity, 'restockx_stats', MINUTE_IN_SECONDS );
 		}
 
 		return $recent_activity;
@@ -329,7 +358,7 @@ trait Dashboard_Page {
 	 */
 	private function build_recent_activity() {
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'alertx_subscriptions';
+		$table_name = $wpdb->prefix . 'restockx_subscriptions';
 
 		// Get recent subscriptions grouped by product (last 5 unique products with newest subscription).
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom plugin table, no WP API equivalent; result is cached by get_recent_activity() for one minute.
@@ -429,11 +458,11 @@ trait Dashboard_Page {
 	 * @return array Recent subscribers with email, product name, status and time.
 	 */
 	public function get_recent_subscribers() {
-		$recent_subscribers = wp_cache_get( 'recent_subscribers', 'alertx_stats' );
+		$recent_subscribers = wp_cache_get( 'recent_subscribers', 'restockx_stats' );
 
 		if ( false === $recent_subscribers ) {
 			$recent_subscribers = $this->build_recent_subscribers();
-			wp_cache_set( 'recent_subscribers', $recent_subscribers, 'alertx_stats', MINUTE_IN_SECONDS );
+			wp_cache_set( 'recent_subscribers', $recent_subscribers, 'restockx_stats', MINUTE_IN_SECONDS );
 		}
 
 		return $recent_subscribers;
@@ -446,7 +475,7 @@ trait Dashboard_Page {
 	 */
 	private function build_recent_subscribers() {
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'alertx_subscriptions';
+		$table_name = $wpdb->prefix . 'restockx_subscriptions';
 
 		// Table may not exist yet on fresh installs.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Real-time schema check; result is cached by get_recent_subscribers() for one minute.
@@ -499,16 +528,16 @@ trait Dashboard_Page {
 	 *
 	 * @return void
 	 */
-	public function alertx_notifications() {
+	public function restockx_notifications() {
 		// Path to the admin page template file.
-		$template_path = ALERTX_PATH . 'views/admin-notifications.php';
+		$template_path = RESTOCKX_PATH . 'views/admin-notifications.php';
 
 		// Check if the template exists before including it.
 		if ( file_exists( $template_path ) ) {
 			include $template_path; // No parentheses needed for include.
 		} else {
 			// Template not found, display an error or a fallback message.
-			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'alertx' ) . '</p></div>';
+			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'restockx' ) . '</p></div>';
 		}
 	}
 }
