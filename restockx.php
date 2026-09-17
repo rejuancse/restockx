@@ -3,7 +3,7 @@
  * Plugin Name: RestockX
  * Description: Recover lost sales with automatic back-in-stock alerts. Customers click Notify Me on out-of-stock products and get an email when items return.
  * Author: Rejuan Ahamed
- * Version: 1.0.0
+ * Version: 1.0.1
  * Requires at least: 6.2
  * Requires Plugins: woocommerce
  * Requires PHP: 7.4
@@ -26,7 +26,7 @@ final class RestockX {
      *
      * @var string
      */
-    const version = '1.0.0';
+    const version = '1.0.1';
 
     /**
      * Class construcotr

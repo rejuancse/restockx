@@ -5,7 +5,7 @@ Tags: restock, stock alert, back in stock, stock notification, notify me
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,19 @@ Unlock all Pro features with **[RestockX Pro](https://contra.com/products/hgwSzl
 * **Rate limiting** — subscription requests are limited per email address to prevent abuse and spam.
 * **Email deliverability friendly** — sender address is kept domain-aligned (with automatic Reply-To handling) so alert emails don't get dropped by recipients' providers.
 * **Translation ready** — fully translatable via WordPress.org translate.wordpress.org.
+
+= Pro Features =
+
+Take restocking further with **[RestockX Pro](https://contra.com/products/hgwSzl7o-restock-x-for-woo-commerce)**:
+
+* **Email campaigns** — create, preview, duplicate, and manage targeted bulk email campaigns to your subscribers, with delivery status tracking for every send.
+* **Campaign scheduling** — send a campaign immediately or schedule it for any future date and time.
+* **Flexible recipients** — send to all confirmed subscribers, import recipients from a CSV file, or add specific email addresses individually.
+* **Discount codes in campaigns** — attach a coupon code with an expiry period to any campaign to turn restock alerts into instant sales.
+* **Professional email templates** — choose from four ready-made designs (Default, Modern, Minimal, and Product Showcase), each with a live template preview.
+* **Advanced merge placeholders** — personalize campaign emails with `{campaign_title}`, `{first_name}`, `{discount_code}`, `{discount_amount}`, `{discount_expiry}`, `{product_list}`, `{cta_button}`, and `{site_name}`.
+* **Button customizer with live preview** — fine-tune every detail of the "Notify Me" button (text, tooltip, colors, font, size, icon and icon position, padding, margin, border, and radius) while watching changes update in real time.
+* **Notification channel settings** — configure your sender email address and branding in one place for maximum deliverability.
 
 = How it works =
 
@@ -88,6 +101,10 @@ Yes. Subscriptions are confirmed by email (when double opt-in is enabled), every
 
 Yes. Go to **RestockX > Subscribers** and click the CSV export button to download the complete subscriber list.
 
+= What does RestockX Pro add? =
+
+RestockX Pro unlocks email campaigns with scheduling and discount codes, four professional email templates, advanced merge placeholders, a live-preview button customizer, and notification channel settings. See the [Pro version](https://contra.com/products/hgwSzl7o-restock-x-for-woo-commerce) for details.
+
 = Where can I get support? =
 
 You can get support by posting in the support section of this plugin on the WordPress plugin directory, or by email: rejuan.17bd@gmail.com
@@ -105,6 +122,11 @@ Found a bug? Please let us know by opening a topic in the support section of thi
 5. Email template editor with stock threshold setting.
 
 == Changelog ==
+
+= 1.0.1 [18/09/2026] =
+* New: Added a "Pro Features" section to the readme listing everything included in RestockX Pro (email campaigns, scheduling, discount codes, email templates, live-preview button customizer, and channel settings).
+* New: Added a "What does RestockX Pro add?" FAQ entry.
+* Updated: All "Go Premium" upgrade links now point to the RestockX Pro product page instead of the placeholder URL.
 
 = 1.0.0 =
 * Initial version released.
