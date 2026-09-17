@@ -49,14 +49,14 @@ class RestockX_Menu {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
-		add_action( 'wp_ajax_restockxwc_stock_notification', array( $this, 'handle_stock_notification' ) );
-		add_action( 'wp_ajax_nopriv_restockxwc_stock_notification', array( $this, 'handle_stock_notification' ) );
+		add_action( 'wp_ajax_restockx_stock_notification', array( $this, 'handle_stock_notification' ) );
+		add_action( 'wp_ajax_nopriv_restockx_stock_notification', array( $this, 'handle_stock_notification' ) );
 		// Double opt-in confirmation endpoint.
-		add_action( 'wp_ajax_restockxwc_stock_confirm_subscription', array( $this, 'confirm_subscription' ) );
-		add_action( 'wp_ajax_nopriv_restockxwc_stock_confirm_subscription', array( $this, 'confirm_subscription' ) );
+		add_action( 'wp_ajax_restockx_stock_confirm_subscription', array( $this, 'confirm_subscription' ) );
+		add_action( 'wp_ajax_nopriv_restockx_stock_confirm_subscription', array( $this, 'confirm_subscription' ) );
 		// Unsubscribe endpoint.
-		add_action( 'wp_ajax_restockxwc_stock_unsubscribe', array( $this, 'unsubscribe' ) );
-		add_action( 'wp_ajax_nopriv_restockxwc_stock_unsubscribe', array( $this, 'unsubscribe' ) );
+		add_action( 'wp_ajax_restockx_stock_unsubscribe', array( $this, 'unsubscribe' ) );
+		add_action( 'wp_ajax_nopriv_restockx_stock_unsubscribe', array( $this, 'unsubscribe' ) );
 		// Trigger notifications when stock status changes on products.
 		add_action( 'woocommerce_product_set_stock_status', array( $this, 'send_restockx_subscriptions' ), 10, 3 );
 		// Ensure variations also trigger notifications when stock/status changes.
@@ -75,6 +75,11 @@ class RestockX_Menu {
 	 * This method creates the main menu and a submenu under the WordPress admin dashboard.
 	 * It defines the menu pages and their corresponding callback functions.
 	 *
+	 * The premium screens (Campaigns, New Campaign and Settings) are registered as
+	 * free teasers by default. Extensions can replace a callback through the
+	 * `restockx_submenu_callback` filter to render their own full-featured page
+	 * under the same menu item (this is how RestockX Pro integrates).
+	 *
 	 * @return void
 	 */
 	public function add_admin_menu() {
@@ -92,7 +97,7 @@ class RestockX_Menu {
 			__( 'Subscribers', 'restockx' ),
 			__( 'Subscribers', 'restockx' ),
 			'manage_options',
-			'restockxwc-subscribers',
+			'restockx-subscribers',
 			array( $this, 'restockx_subscribers' )
 		);
 
@@ -101,7 +106,7 @@ class RestockX_Menu {
 			__( 'Email Templates', 'restockx' ),
 			__( 'Email Templates', 'restockx' ),
 			'manage_options',
-			'restockxwc-email-templates',
+			'restockx-email-templates',
 			array( $this, 'restockx_email_templates' )
 		);
 
@@ -110,8 +115,8 @@ class RestockX_Menu {
 			__( 'Campaigns', 'restockx' ),
 			__( 'Campaigns', 'restockx' ),
 			'manage_options',
-			'restockxwc-campaigns',
-			array( $this, 'restockxwc_campaigns' )
+			'restockx-campaigns',
+			apply_filters( 'restockx_submenu_callback', array( $this, 'restockx_campaigns' ), 'restockx-campaigns' )
 		);
 
 		add_submenu_page(
@@ -119,8 +124,8 @@ class RestockX_Menu {
 			__( 'New Campaign', 'restockx' ),
 			__( 'New Campaign', 'restockx' ),
 			'manage_options',
-			'restockxwc-new-campaign',
-			array( $this, 'restockxwc_new_campaign' )
+			'restockx-new-campaign',
+			apply_filters( 'restockx_submenu_callback', array( $this, 'restockx_new_campaign' ), 'restockx-new-campaign' )
 		);
 
 		add_submenu_page(
@@ -128,12 +133,12 @@ class RestockX_Menu {
 			__( 'Settings', 'restockx' ),
 			__( 'Settings', 'restockx' ),
 			'manage_options',
-			'restockxwc-settings',
-			array( $this, 'restockxwc_settings' )
+			'restockx-settings',
+			apply_filters( 'restockx_submenu_callback', array( $this, 'restockx_settings' ), 'restockx-settings' )
 		);
 	}
 
-	public function restockxwc_campaigns() {
+	public function restockx_campaigns() {
 		// Path to the admin page template file.
 		$template_path = RESTOCKX_PATH . 'views/admin-campaign.php';
 
@@ -146,7 +151,7 @@ class RestockX_Menu {
 		}
 	}
 
-	public function restockxwc_new_campaign() {
+	public function restockx_new_campaign() {
 		// Path to the admin page template file.
 		$template_path = RESTOCKX_PATH . 'views/admin-new-campaign.php';
 
@@ -159,7 +164,7 @@ class RestockX_Menu {
 		}
 	}
 
-	public function restockxwc_settings() {
+	public function restockx_settings() {
 		// Path to the admin page template file.
 		$template_path = RESTOCKX_PATH . 'views/admin-settings.php';
 
@@ -335,8 +340,10 @@ class RestockX_Menu {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'restockx_subscriptions';
 
-		// Check if double opt-in confirmation is required (Premium feature; always off in the free version).
-		$require_confirmation = get_option( 'restockx_require_confirmation', '0' ) === '1';
+		// Check if double opt-in confirmation is required (Premium feature —
+		// only runs when RestockX Pro is active; a leftover '1' from before
+		// Pro was deactivated never enables it in the free version).
+		$require_confirmation = get_option( 'restockx_require_confirmation', '0' ) === '1' && ! restockx_show_upgrade_cta();
 
 		// Generate confirmation token (always generate for unsubscribe functionality).
 		$token = wp_generate_password( 32, false, false );
@@ -426,7 +433,7 @@ class RestockX_Menu {
 		// Build confirmation URL using AJAX endpoint.
 		$confirm_url = add_query_arg(
 			array(
-				'action' => 'restockxwc_stock_confirm_subscription',
+				'action' => 'restockx_stock_confirm_subscription',
 				'token'  => rawurlencode( $token ),
 				'pid'    => intval( $product_id ),
 			),
@@ -717,7 +724,7 @@ class RestockX_Menu {
 		$this->track_restock_event( $product_id, $notification_count );
 
 		// Get email templates and product details.
-		$email_templates = get_option( 'restockxwc_email_templates', $this->get_default_email_templates() );
+		$email_templates = get_option( 'restockx_email_templates', $this->get_default_email_templates() );
 		$product         = wc_get_product( $product_id );
 
 		if ( ! $product ) {
@@ -754,7 +761,7 @@ class RestockX_Menu {
 			// Replace placeholders in the email template with actual values and unsubscribe link.
 			$unsubscribe_url = add_query_arg(
 				array(
-					'action' => 'restockxwc_stock_unsubscribe',
+					'action' => 'restockx_stock_unsubscribe',
 					'token'  => rawurlencode( $notification->token ),
 					'pid'    => intval( $product_id ),
 				),
@@ -851,7 +858,7 @@ class RestockX_Menu {
 
 		$product_id             = $product->get_id();
 		$stock_quantity         = $product->get_stock_quantity();
-		$notification_threshold = get_option( 'restockxwc_threshold', 1 );
+		$notification_threshold = get_option( 'restockx_threshold', 1 );
 		$stock_status           = $product->get_stock_status();
 
 		// Ensure stock quantity and notification threshold are integers.
@@ -883,7 +890,7 @@ class RestockX_Menu {
 		}
 
 		// Generate a unique transient name based on the email address.
-		$transient_name = 'restockxwc_rate_' . md5( $email );
+		$transient_name = 'restockx_rate_' . md5( $email );
 		// Retrieve the current count of requests from the transient.
 		$count = get_transient( $transient_name );
 
@@ -915,7 +922,7 @@ class RestockX_Menu {
 	public function handle_bulk_action_restockx_subscriptions() {
 		// Check for nonce verification and required POST data.
 		if ( ! isset( $_POST['submit_bulk_action'], $_POST['bulk_action_nonce'] ) ||
-		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['bulk_action_nonce'] ) ), 'restockxwc_bulk_action' ) ) {
+		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['bulk_action_nonce'] ) ), 'restockx_bulk_action' ) ) {
 			return; // Exit if nonce verification fails or POST data is missing.
 		}
 

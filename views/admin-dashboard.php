@@ -67,7 +67,7 @@ defined( 'ABSPATH' ) || exit;
 						</div>
 					</div>
 					<div class="pulse-live">
-						<a href="<?php echo esc_url( admin_url( 'admin.php?page=restockxwc-subscribers' ) ); ?>" class="section-action">
+						<a href="<?php echo esc_url( admin_url( 'admin.php?page=restockx-subscribers' ) ); ?>" class="section-action">
 							<?php esc_html_e( 'View subscribers →', 'restockx' ); ?>
 						</a>
 					</div>
@@ -112,7 +112,7 @@ defined( 'ABSPATH' ) || exit;
 							<?php esc_html_e( 'Live from the notification queue', 'restockx' ); ?>
 						</div>
 					</div>
-					<a class="section-action" href="<?php echo esc_url( admin_url( 'admin.php?page=restockxwc-subscribers' ) ); ?>">
+					<a class="section-action" href="<?php echo esc_url( admin_url( 'admin.php?page=restockx-subscribers' ) ); ?>">
 						<?php esc_html_e( 'View all', 'restockx' ); ?>
 						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
 							<path d="M9 6l6 6-6 6" />
@@ -144,6 +144,72 @@ defined( 'ABSPATH' ) || exit;
 				</div>
 			</section>
 
+			<section class="section campaign pulse-section">
+				<div class="section-head">
+					<div>
+						<div class="section-title">
+							<?php esc_html_e( 'Recent Campaign', 'restockx' ); ?>
+						</div>
+						<div class="section-desc">
+							<?php esc_html_e( 'Your 5 latest email campaigns and their delivery status', 'restockx' ); ?>
+						</div>
+					</div>
+					<?php if ( ! restockx_show_upgrade_cta() ) : ?>
+						<div class="pulse-live">
+							<a href="<?php echo esc_url( admin_url( 'admin.php?page=restockx-campaigns' ) ); ?>" class="section-action">
+								<?php esc_html_e( 'View Campaign →', 'restockx' ); ?>
+							</a>
+						</div>
+					<?php endif; ?>
+				</div>
+
+				<?php if ( restockx_show_upgrade_cta() ) : ?>
+					<div class="blur">
+						<div class="pulse-list">
+							<div class="pulse-row no-data">
+								<div class="pulse-info">
+									<div class="pname">
+										<img src="<?php echo esc_url( RESTOCKX_URL . 'assets/images/cam-list.jpg' ); ?>" alt="">
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<a class="go-premium go-premium-sm" href="https://example.com/upgrade" target="_blank" rel="noopener">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<rect x="3" y="11" width="18" height="11" rx="2"></rect>
+								<path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+							</svg>
+							<?php esc_html_e( 'Go Premium', 'restockx' ); ?>
+						</a>
+					</div>
+				<?php else : ?>
+					<div class="pulse-list">
+						<?php if ( ! empty( $recent_campaigns ) ) : ?>
+							<?php foreach ( $recent_campaigns as $campaign ) : ?>
+								<div class="pulse-row">
+									<div class="pulse-rank"><?php echo esc_html( $campaign['rank'] ); ?></div>
+									<div class="pulse-info">
+										<div class="pname"><?php echo esc_html( $campaign['title'] ); ?></div>
+										<div class="pvariant"><?php echo esc_html( $campaign['subject'] ); ?> · <?php echo esc_html( $campaign['status'] ); ?> · <?php echo esc_html( $campaign['time'] ); ?></div>
+									</div>
+									<div class="pulse-count">
+										<div class="num" data-target="<?php echo esc_attr( $campaign['emails_sent'] ); ?>"><?php echo esc_html( $campaign['emails_sent'] ); ?></div>
+										<div class="lbl"><?php esc_html_e( 'sent', 'restockx' ); ?></div>
+									</div>
+								</div>
+							<?php endforeach; ?>
+						<?php else : ?>
+							<div class="pulse-row">
+								<div class="pulse-info">
+									<div class="pname"><?php esc_html_e( 'No campaigns yet', 'restockx' ); ?></div>
+								</div>
+							</div>
+						<?php endif; ?>
+					</div>
+				<?php endif; ?>
+			</section>
+
 			<section class="section recent-subscribers">
 				<div class="section-head">
 					<div>
@@ -154,7 +220,7 @@ defined( 'ABSPATH' ) || exit;
 							<?php esc_html_e( 'Latest stock alert subscriptions with their status', 'restockx' ); ?>
 						</div>
 					</div>
-					<a class="section-action" href="<?php echo esc_url( admin_url( 'admin.php?page=restockxwc-subscribers' ) ); ?>">
+					<a class="section-action" href="<?php echo esc_url( admin_url( 'admin.php?page=restockx-subscribers' ) ); ?>">
 						<?php esc_html_e( 'View all', 'restockx' ); ?>
 						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
 							<path d="M9 6l6 6-6 6" />

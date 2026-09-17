@@ -17,6 +17,8 @@ RestockX recovers lost sales on your WooCommerce store by letting interested cus
 
 Customers click the "Notify Me" button on any out-of-stock product, enter their email, and confirm the subscription. Store owners get a clean admin dashboard to manage subscribers, customize emails, and export data.
 
+Unlock all Pro features with **[RestockX Pro](https://contra.com/products/hgwSzl7o-restock-x-for-woo-commerce)**.
+
 = Features =
 
 * **"Notify Me" button on out-of-stock products** — displayed automatically on single product pages, with support for both simple and variable products (per-variation detection).

@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 
         <form method="post">
-            <?php wp_nonce_field( 'restockxwc_save_settings', 'settings_nonce' ); ?>
+            <?php wp_nonce_field( 'restockx_save_settings', 'settings_nonce' ); ?>
 
             <div class="grid-2">
                 <!-- Email Template Section -->
@@ -112,26 +112,36 @@ defined( 'ABSPATH' ) || exit;
 
                             <div class="pro-toggle-wrap">
                                 <label class="switch-toggle">
-                                    <input type="checkbox" name="require_confirmation" value="1" disabled>
+                                    <?php $restockx_lock_premium = restockx_show_upgrade_cta(); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound ?>
+                                    <input
+                                        type="checkbox"
+                                        name="require_confirmation"
+                                        value="1"
+                                        <?php checked( get_option( 'restockx_require_confirmation', '0' ), '1' ); ?>
+                                        <?php disabled( $restockx_lock_premium ); ?>>
                                     <span class="slider round"></span>
                                 </label>
-                                <span class="pro-lock">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <rect x="3" y="11" width="18" height="11" rx="2" />
-                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                                    </svg>
-                                </span>
+                                <?php if ( $restockx_lock_premium ) : ?>
+                                    <span class="pro-lock">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="3" y="11" width="18" height="11" rx="2" />
+                                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                        </svg>
+                                    </span>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
 
-                    <a class="go-premium" href="https://example.com/upgrade" target="_blank" rel="noopener">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="11" width="18" height="11" rx="2" />
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                        </svg>
-                        <?php esc_html_e( 'Go Premium', 'restockx' ); ?>
-                    </a>
+                    <?php if ( restockx_show_upgrade_cta() ) : ?>
+                        <a class="go-premium" href="https://example.com/upgrade" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" />
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                            </svg>
+                            <?php esc_html_e( 'Go Premium', 'restockx' ); ?>
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
 

@@ -169,6 +169,7 @@
             width: 100%;
             height: 100%;
             backdrop-filter: blur(3px);
+            z-index: 1;
         }
 
         .go-premium {
@@ -184,6 +185,7 @@
             border-radius: 4px;
             transform: translate(-50%, -50%);
             margin: 0;
+            z-index: 9;
 
             svg {
                 width: 16px;
@@ -2116,7 +2118,7 @@
     }
 
     /* Dashboard Widget Styles */
-    #restockxwc_dashboard_widget .inside {
+    #restockx_dashboard_widget .inside {
         margin: 0;
         padding: 0;
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: RestockX for WooCommerce
+ * Plugin Name: RestockX
  * Description: Recover lost sales with automatic back-in-stock alerts. Customers click Notify Me on out-of-stock products and get an email when items return.
  * Author: Rejuan Ahamed
  * Version: 1.0.0
@@ -91,6 +91,14 @@ final class RestockX {
 
         new RestockX\Admin();
         new RestockX\Frontend();
+
+        /**
+         * Fires once RestockX (free) has fully loaded its core modules.
+         *
+         * Extensions such as RestockX Pro can use this action to bootstrap
+         * their own modules safely after the core plugin is ready.
+         */
+        do_action( 'restockx_loaded' );
     }
 }
 
@@ -113,6 +121,21 @@ function restockx_get_sender_email() {
     $sender = sanitize_email( (string) get_option( 'restockx_sender_email', '' ) );
 
     return is_email( $sender ) ? $sender : '';
+}
+
+/**
+ * Whether the premium upgrade CTAs should be rendered.
+ *
+ * Returns true by default (free-only install). When RestockX Pro is active it
+ * hooks this filter and returns false, which hides every "Go Premium" CTA and
+ * unlocks the premium controls at the PHP level (no CSS tricks).
+ *
+ * Extensions can also use this filter to control the upsell visibility.
+ *
+ * @return bool
+ */
+function restockx_show_upgrade_cta() {
+    return (bool) apply_filters( 'restockx_show_upgrade_cta', true );
 }
 
 // Kick-off the plugin

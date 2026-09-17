@@ -29,20 +29,24 @@ trait Email_Templates_Page {
 	public function restockx_email_templates() {
 		if ( isset( $_POST['submit_settings'] ) ) {
 			// Verify nonce for security.
-			if ( ! isset( $_POST['settings_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['settings_nonce'] ) ), 'restockxwc_save_settings' ) ) {
+			if ( ! isset( $_POST['settings_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['settings_nonce'] ) ), 'restockx_save_settings' ) ) {
 				wp_die( esc_html__( 'Security check failed.', 'restockx' ) );
 			}
 
 			if ( isset( $_POST['notification_threshold'] ) ) {
-				update_option( 'restockxwc_threshold', intval( sanitize_text_field( wp_unslash( $_POST['notification_threshold'] ) ) ) );
+				update_option( 'restockx_threshold', intval( sanitize_text_field( wp_unslash( $_POST['notification_threshold'] ) ) ) );
 			}
 
 			if ( isset( $_POST['email_templates'] ) ) {
-				update_option( 'restockxwc_email_templates', wp_kses_post( wp_unslash( $_POST['email_templates'] ) ) );
+				update_option( 'restockx_email_templates', wp_kses_post( wp_unslash( $_POST['email_templates'] ) ) );
 			}
 
-			// Save confirmation requirement setting.
-			$require_confirmation = isset( $_POST['require_confirmation'] ) ? '1' : '0';
+			// Save confirmation requirement setting. Double opt-in is a
+			// Premium feature: it only saves when RestockX Pro is active,
+			// so the disabled free toggle can never be bypassed with a
+			// crafted POST request (disabled checkboxes do not submit, and
+			// manually added values are ignored here).
+			$require_confirmation = ( isset( $_POST['require_confirmation'] ) && ! restockx_show_upgrade_cta() ) ? '1' : '0';
 			update_option( 'restockx_require_confirmation', $require_confirmation );
 
 			// Display success message.
@@ -50,8 +54,8 @@ trait Email_Templates_Page {
 		}
 
 		// Retrieve current saved options; use defaults if not set.
-		$threshold       = get_option( 'restockxwc_threshold', 1 );
-		$email_templates = get_option( 'restockxwc_email_templates', $this->get_default_email_templates() );
+		$threshold       = get_option( 'restockx_threshold', 1 );
+		$email_templates = get_option( 'restockx_email_templates', $this->get_default_email_templates() );
 
 		// Path to the settings page template.
 		$template_path = RESTOCKX_PATH . 'views/email-templates.php';

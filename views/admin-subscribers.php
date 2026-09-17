@@ -54,9 +54,10 @@ $restockx_svg_allowed = array(
         <div class="kpi-row">
             <?php if ( ! empty( $subscribers_stats ) ) : ?>
                 <?php foreach ( $subscribers_stats as $restockx_stat ) : ?>
-                    <div class="kpi-card<?php echo empty( $restockx_stat['pro'] ) ? '' : ' is-locked'; ?>">
+                    <?php $restockx_stat_locked = ! empty( $restockx_stat['pro'] ) && restockx_show_upgrade_cta(); ?>
+                    <div class="kpi-card<?php echo $restockx_stat_locked ? ' is-locked' : ''; ?>">
                         <div class="kpi-top">
-                            <?php if ( ! empty( $restockx_stat['pro'] ) ) : ?>
+                            <?php if ( $restockx_stat_locked ) : ?>
                                 <div class="kpi-value kpi-value-locked">
                                     <span class="kpi-lock" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -67,7 +68,7 @@ $restockx_svg_allowed = array(
                                 </div>
                             <?php else : ?>
                                 <div class="kpi-value"<?php echo isset( $restockx_stat['data_count'] ) ? ' data-count="' . esc_attr( $restockx_stat['data_count'] ) . '"' : ''; ?>>
-                                    <?php echo esc_html( $restockx_stat['value'] ); ?>
+                                    <?php echo esc_html( isset( $restockx_stat['value'] ) ? $restockx_stat['value'] : 0 ); ?>
                                 </div>
                             <?php endif; ?>
                             <div class="kpi-icon <?php echo esc_attr( $restockx_stat['icon_class'] ); ?>">
@@ -76,7 +77,7 @@ $restockx_svg_allowed = array(
                         </div>
                         <div class="kpi-bottom">
                             <div class="kpi-label"><?php echo esc_html( $restockx_stat['label'] ); ?></div>
-                            <?php if ( ! empty( $restockx_stat['pro'] ) ) : ?>
+                            <?php if ( ! empty( $restockx_stat['pro'] ) && restockx_show_upgrade_cta() ) : ?>
                                 <a class="go-premium go-premium-sm" href="https://example.com/upgrade" target="_blank" rel="noopener">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <rect x="3" y="11" width="18" height="11" rx="2" />
@@ -95,7 +96,7 @@ $restockx_svg_allowed = array(
             <form id="bulk-action-form" method="post">
                 <!-- Notifications List -->
                 <div class="notifications-list-tablenav">
-                    <?php wp_nonce_field( 'restockxwc_bulk_action', 'bulk_action_nonce' ); ?>
+                    <?php wp_nonce_field( 'restockx_bulk_action', 'bulk_action_nonce' ); ?>
                     <div class="bulk-actions">
                         <select name="bulk_action" id="bulk-action-selector">
                             <option value=""><?php esc_html_e( 'Bulk Actions', 'restockx' ); ?></option>
@@ -118,29 +119,42 @@ $restockx_svg_allowed = array(
                         </span>
 
                         <div class="export_csv pro-export-wrap">
-                            <button type="button" class="btn btn-secondary is-locked" disabled>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                                    <path d="M7 10l5 5 5-5" />
-                                    <path d="M12 15V3" />
-                                </svg>
-                                <?php esc_attr_e( 'Export to CSV', 'restockx' ); ?>
-                            </button>
-                            <span class="pro-lock">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <?php if ( restockx_show_upgrade_cta() ) : ?>
+                                <button type="button" class="btn btn-secondary is-locked" disabled>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                        <path d="M7 10l5 5 5-5" />
+                                        <path d="M12 15V3" />
+                                    </svg>
+                                    <?php esc_attr_e( 'Export to CSV', 'restockx' ); ?>
+                                </button>
+                                <span class="pro-lock">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                    </svg>
+                                </span>
+                            <?php else : ?>
+                                <button type="submit" name="export_csv" value="1" class="btn btn-secondary">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                        <path d="M7 10l5 5 5-5" />
+                                        <path d="M12 15V3" />
+                                    </svg>
+                                    <?php esc_attr_e( 'Export to CSV', 'restockx' ); ?>
+                                </button>
+                            <?php endif; ?>
+                        </div>
+
+                        <?php if ( restockx_show_upgrade_cta() ) : ?>
+                            <a class="go-premium go-premium-sm" href="https://example.com/upgrade" target="_blank" rel="noopener">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <rect x="3" y="11" width="18" height="11" rx="2" />
                                     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                                 </svg>
-                            </span>
-                        </div>
-
-                        <a class="go-premium go-premium-sm" href="https://example.com/upgrade" target="_blank" rel="noopener">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="11" width="18" height="11" rx="2" />
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                            </svg>
-                            <?php esc_html_e( 'Go Premium', 'restockx' ); ?>
-                        </a>
+                                <?php esc_html_e( 'Go Premium', 'restockx' ); ?>
+                            </a>
+                        <?php endif; ?>
                     </div>
                 </div>
 

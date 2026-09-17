@@ -42,6 +42,10 @@ trait Dashboard_Page {
 		// Get the 5 most recent subscribers.
 		$recent_subscribers = $this->get_recent_subscribers();
 
+		// Recent campaigns (Premium). The free plugin ships an empty list;
+		// RestockX Pro fills it via this filter when it is active.
+		$recent_campaigns = apply_filters( 'restockx_dashboard_recent_campaigns', array() );
+
 		// Path to the admin page template file.
 		$template_path = RESTOCKX_PATH . 'views/admin-dashboard.php';
 

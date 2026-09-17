@@ -115,21 +115,30 @@ trait Subscribers_Page {
                     <polyline points="16 17 21 12 16 7"></polyline>
                     <line x1="21" y1="12" x2="9" y2="12"></line>
                         </svg>',
-				// Premium feature: value is never queried or exposed in the free version.
+				// Premium feature: value is never queried or exposed in the free
+				// version. RestockX Pro fills it in through the filter below.
 				'pro'         => true,
 				'label'       => 'Unsubscribed',
 			),
 		);
 
-		return $stats;
+		/**
+		 * Filter the subscriber statistics cards.
+		 *
+		 * RestockX Pro uses this filter to replace the locked "Unsubscribed"
+		 * card with the real count. Free only ever renders the locked UI.
+		 *
+		 * @param array $stats Subscriber stats cards.
+		 */
+		return apply_filters( 'restockx_subscribers_stats', $stats );
 	}
 
 	/**
 	 * Displays the admin page for managing stock notifications.
 	 *
 	 * CSV export is a Premium feature and is blocked in the free version,
-	 * both in the UI and server-side. Fetches stock notifications from the
-	 * database and includes the admin page template to render the list.
+	 * both in the UI and server-side. RestockX Pro performs the actual
+	 * export through the `restockx_export_csv` action.
 	 *
 	 * @return void
 	 */
@@ -138,15 +147,17 @@ trait Subscribers_Page {
 
 		// Export to CSV is a Premium feature; block it server-side so it
 		// cannot be triggered even by manipulating the disabled button.
-		if ( isset( $_POST['export_csv'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Blocked unconditionally in the free version; no action is performed on the request.
-			wp_die(
-				esc_html__( 'Export to CSV is available in the Premium version.', 'restockx' ),
-				esc_html__( 'Premium Feature', 'restockx' ),
-				array(
-					'response'  => 403,
-					'back_link' => true,
-				)
-			);
+		if ( isset( $_POST['export_csv'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- The request is never processed in the free version (blocked below); Pro verifies the form nonce in its handler.
+			if ( restockx_show_upgrade_cta() ) {
+				$this->block_premium_export();
+			}
+
+			// Pro is active: it streams the CSV through this action and exits.
+			do_action( 'restockx_export_csv' );
+
+			// Still here? Pro was deactivated mid-session — fall back to the
+			// premium notice so no unprotected export ever happens.
+			$this->block_premium_export();
 		}
 
 		// Table name for stock notifications in the database.
@@ -193,5 +204,21 @@ trait Subscribers_Page {
 			// Template not found, display an error or a fallback message.
 			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'restockx' ) . '</p></div>';
 		}
+	}
+
+	/**
+	 * Block the premium CSV export with a notice.
+	 *
+	 * @return void This method always exits.
+	 */
+	private function block_premium_export() {
+		wp_die(
+			esc_html__( 'Export to CSV is available in the Premium version.', 'restockx' ),
+			esc_html__( 'Premium Feature', 'restockx' ),
+			array(
+				'response'  => 403,
+				'back_link' => true,
+			)
+		);
 	}
 }

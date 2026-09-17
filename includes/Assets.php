@@ -31,11 +31,11 @@ class Assets {
      * @ Frontend
      */
     public function frontend_script(){
-        wp_enqueue_style( 'restockxwc-frontend', RESTOCKX_URL .'/assets/dist/css/restockx-frontend.css', false, RESTOCKX_VERSION );
+        wp_enqueue_style( 'restockx-frontend', RESTOCKX_URL .'/assets/dist/css/restockx-frontend.css', false, RESTOCKX_VERSION );
 
         #JS
-        wp_enqueue_script( 'restockxwc-frontend', RESTOCKX_URL .'/assets/dist/js/restockx-frontend.js', array('jquery'), RESTOCKX_VERSION, true );
-        wp_localize_script( 'restockxwc-frontend', 'restockxwc_ajax', array(
+        wp_enqueue_script( 'restockx-frontend', RESTOCKX_URL .'/assets/dist/js/restockx-frontend.js', array('jquery'), RESTOCKX_VERSION, true );
+        wp_localize_script( 'restockx-frontend', 'restockx_ajax', array(
             'ajax_url' => admin_url( 'admin-ajax.php' ),
             'nonce' => wp_create_nonce( 'restockx_notification_nonce' )
         ) );
