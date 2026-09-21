@@ -291,6 +291,22 @@
                     font-weight: 700;
                 }
             }
+
+            .go-premium {
+                background: #fff;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+                color: #3c06c5;
+                font-size: 14px;
+                padding: 10px 15px;
+                border-radius: 30px;
+                font-weight: 500;
+                transition: .3s;
+
+                &:hover {
+                    background: #3c06c5;
+                    color: #fff;
+                }
+            }
         }
     }
 
@@ -785,6 +801,10 @@
 
         &:hover {
             color: #d90dd9;
+        }
+
+        &:focus {
+            border: none;
         }
     }
 

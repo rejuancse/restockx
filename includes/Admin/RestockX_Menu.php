@@ -1002,8 +1002,8 @@ class RestockX_Menu {
 		// RestockX pages only.
 		$restockx_pages = array(
 			'restockx',
-			'subscribers',
-			'email-templates',
+			'restockx-subscribers',
+			'restockx-email-templates',
 		);
 
 		if ( in_array( $page, $restockx_pages, true ) ) {

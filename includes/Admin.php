@@ -18,32 +18,6 @@ class Admin {
      */
     public function __construct() {
         new Admin\RestockX_Menu();
-
-        add_action( 'admin_head', array( $this, 'hide_other_plugin_notices' ) );
-    }
-
-    /**
-     * Hide other plugin notices on our plugin pages
-     *
-     * This method hides all admin notices from other plugins when viewing
-     * RestockX plugin pages to provide a cleaner interface.
-     *
-     * @since   1.0.0
-     * @access  public
-     * @return  void
-     */
-    public function hide_other_plugin_notices() {
-        // Check if we're on one of our plugin pages
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading URL parameter for conditional display, not processing form data
-        $page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-
-        if ( 'stock-availability-alert' === $page || 'stock-availability-alert-settings' === $page ) {
-            // Remove all admin notices except our own
-            remove_all_actions( 'admin_notices' );
-            remove_all_actions( 'all_admin_notices' );
-            remove_all_actions( 'network_admin_notices' );
-            remove_all_actions( 'user_admin_notices' );
-        }
     }
 
     /**
