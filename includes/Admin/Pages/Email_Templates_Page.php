@@ -79,7 +79,7 @@ trait Email_Templates_Page {
 
 		// Header section.
 		$template .= '<table class="body" style="border-collapse: collapse; border-spacing: 0; vertical-align: top; height: 100% !important; width: 100% !important; min-width: 100%; background-color: #f5f9fc; color: #444; font-family: Helvetica,sans-serif; font-weight: normal; padding: 0; margin: 0; text-align: left; font-size: 14px; line-height: 140%;" border="0" width="100%" cellspacing="0" cellpadding="0">
-            <tbody>
+            <tbody> 
                 <tr style="padding: 0; vertical-align: top; text-align: left;">
                     <td class="body-inner wp-mail-smtp" style="border-collapse: collapse !important; vertical-align: top; color: #444; font-family: Helvetica,sans-serif; font-weight: normal; padding: 0; margin: 0; font-size: 14px; line-height: 140%; text-align: center;" align="center" valign="top">
                         <table class="container" style="border-collapse: collapse; border-spacing: 0; padding: 0; vertical-align: top; width: 600px; margin: 20px auto 0; text-align: inherit;" border="0" cellspacing="0" cellpadding="0">

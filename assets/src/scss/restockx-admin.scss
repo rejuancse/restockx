@@ -66,6 +66,7 @@
     font-display: swap;
 }
 
+#toplevel_page_restockx ul li:nth-child(6),
 #toplevel_page_restockx-pro ul li:nth-child(6) {
     display: none;
 }
@@ -1476,7 +1477,7 @@
 
     .kebab:hover {
         background: #eef0f3;
-        color: #14213d;
+        color: #cf0000;
     }
 
     .menu {
