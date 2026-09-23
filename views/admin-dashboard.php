@@ -72,6 +72,7 @@ defined( 'ABSPATH' ) || exit;
 						</a>
 					</div>
 				</div>
+
 				<div class="pulse-list" id="pulseList">
 					<?php if ( ! empty( $demand_ranking ) ) : ?>
 						<?php foreach ( $demand_ranking as $restockx_item ) : ?>

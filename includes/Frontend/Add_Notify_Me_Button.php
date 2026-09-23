@@ -1,5 +1,4 @@
 <?php
-
 namespace RestockX\Frontend;
 
 defined( 'ABSPATH' ) || exit;
@@ -238,7 +237,6 @@ class Add_Notify_Me_Button {
 
                         echo '<div class="restockx-tooltip tooltip"><span class="tooltip-mark">?</span><span class="tooltiptext">' . esc_html( $button_settings['tooltip_text'] ) . '</span></div>';
                     echo '</div>';
-
 
                     // Pre-fill product_id with parent ID if all variations are out of stock
                     $initial_product_id = $show_notify_button ? $unique_id : '';

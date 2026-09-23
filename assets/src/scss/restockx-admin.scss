@@ -66,6 +66,7 @@
     font-display: swap;
 }
 
+#toplevel_page_restockx ul li:nth-child(6),
 #toplevel_page_restockx-pro ul li:nth-child(6) {
     display: none;
 }
@@ -217,15 +218,6 @@
             img {
                 width: 100%;
             }
-        }
-
-        sub {
-            position: absolute;
-            top: 14px;
-            background: #3c06c5;
-            color: #fff;
-            border-radius: 30px;
-            padding: 1px 6px;
         }
 
         .restockx-header-right {
@@ -700,20 +692,6 @@
                 display: none;
             }
 
-            .switch-toggle {
-                position: relative;
-                width: 37px;
-                height: 22px;
-            }
-
-            &:hover {
-                border-color: #d9ccf5;
-            }
-
-            &.active {
-                border-color: var(--restockx-violet);
-            }
-
             .template-thumb {
                 width: 40px;
                 height: 40px;
@@ -1007,51 +985,6 @@
         }
     }
 
-    /* settings layout */
-    .settings-layout {
-        display: grid;
-        grid-template-columns: 200px 1fr;
-        gap: 22px;
-        align-items: start;
-
-        .settings-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            background: var(--surface);
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            padding: 10px;
-            box-shadow: var(--shadow-sm);
-        }
-    }
-
-    .settings-nav-item {
-        padding: 10px 12px;
-        border-radius: 9px;
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--ink-soft);
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        text-decoration: none;
-
-        &.active {
-            background: var(--info-bg);
-            color: var(--restockx-violet);
-        }
-
-        svg {
-            width: 15px;
-            height: 15px;
-        }
-
-        .settings-panel {
-            padding: 22px;
-        }
-    }
-
     .save-bar {
         position: sticky;
         bottom: 0;
@@ -1130,77 +1063,6 @@
         font-size: 12px;
         color: var(--ink-soft);
         margin-top: 2px;
-    }
-
-    /* settings layout */
-    .settings-layout {
-        display: grid;
-        grid-template-columns: 200px 1fr;
-        gap: 22px;
-        align-items: start;
-    }
-    .settings-nav {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        padding: 10px;
-        box-shadow: var(--shadow-sm);
-    }
-    .settings-nav-item {
-        padding: 10px 12px;
-        border-radius: 9px;
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--ink-soft);
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        text-decoration: none;
-    }
-    .settings-nav-item svg {
-        width: 15px;
-        height: 15px;
-    }
-    .settings-nav-item.active {
-        background: var(--info-bg);
-        color: var(--restockx-violet);
-    }
-    .settings-panel {
-        padding: 22px;
-    }
-    .save-bar {
-        position: sticky;
-        bottom: 0;
-        background: #fff;
-        border-top: 1px solid var(--line);
-        padding: 14px 22px;
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-    }
-    .color-row {
-        display: flex;
-        gap: 10px;
-    }
-
-    /* CSV Import */
-    .csv-drop-zone {
-        border: 2px dashed #ddd;
-        border-radius: 8px;
-        padding: 30px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        background: #fafafa;
-    }
-
-    .csv-drop-zone:hover,
-    .csv-drop-zone.dragover {
-        border-color: #3c06c5;
-        background: #f0f6fc;
     }
 
     /* Email List */
@@ -1476,7 +1338,7 @@
 
     .kebab:hover {
         background: #eef0f3;
-        color: #14213d;
+        color: #cf0000;
     }
 
     .menu {
@@ -1829,7 +1691,7 @@
         position: absolute;
         width: 16px;
         height: 16px;
-        left: 0px;
+        left: 1px;
         top: 1px;
         background: #fff;
         border: 1px solid #e7e8f0;
@@ -2466,6 +2328,20 @@
             padding: 2px 4px;
             font-size: 90%;
             border-radius: 3px;
+        }
+    }
+
+    .submit.reset {
+        padding-left: 0;
+        padding-right: 0;
+        padding-bottom: 0;
+
+        .btn-primary {
+            background: #b0b0b0;
+            box-shadow: none;
+            padding: 10px 15px;
+            font-size: 12px;
+            font-weight: 400;
         }
     }
 }

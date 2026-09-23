@@ -1004,6 +1004,9 @@ class RestockX_Menu {
 			'restockx',
 			'restockx-subscribers',
 			'restockx-email-templates',
+			'restockx-campaigns',
+			'restockx-new-campaign',
+			'restockx-settings'
 		);
 
 		if ( in_array( $page, $restockx_pages, true ) ) {

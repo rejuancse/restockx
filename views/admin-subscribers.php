@@ -168,8 +168,10 @@ $restockx_svg_allowed = array(
                             <th><?php esc_html_e( 'Email', 'restockx' ); ?></th>
                             <th><?php esc_html_e( 'Date', 'restockx' ); ?></th>
                             <th><?php esc_html_e( 'Status', 'restockx' ); ?></th>
+                            <th><?php esc_html_e( 'Actions', 'restockx' ); ?></th>
                         </tr>
                     </thead>
+
                     <tbody>
                         <?php if ( ! empty( $notifications ) && function_exists( 'wc_get_product' ) ) : ?>
                             <?php foreach ( $notifications as $notification ) : // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound ?>
@@ -232,11 +234,16 @@ $restockx_svg_allowed = array(
                                             <?php echo esc_html( $status ); ?>
                                         </span>
                                     </td>
+                                    <td class="actions">
+                                        <button type="button" data-action="delete" class="kebab delete" aria-label="<?php esc_attr_e( 'Delete subscriber', 'restockx' ); ?>">
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                        </button>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else : ?>
                             <tr>
-                                <td colspan="5" class="no-info">
+                                <td colspan="6" class="no-info">
                                     <?php esc_html_e( 'No notifications found!', 'restockx' ); ?>
                                 </td>
                             </tr>

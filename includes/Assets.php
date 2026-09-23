@@ -23,8 +23,22 @@ class Assets {
 	 */
 	public function admin_script( $hook_suffix ) {
 		wp_enqueue_style( 'restockx-admin', RESTOCKX_URL .'/assets/dist/css/restockx-admin.css', false, RESTOCKX_VERSION );
-	}
 
+		// Admin JS is only needed on the RestockX pages.
+		if ( false === strpos( (string) $hook_suffix, 'restockx' ) ) {
+			return;
+		}
+
+		wp_enqueue_script( 'restockx-admin', RESTOCKX_URL .'/assets/dist/js/restock-admin.js', array(), RESTOCKX_VERSION, true );
+		wp_localize_script(
+			'restockx-admin',
+			'restockx_admin',
+			array(
+				'confirm_delete_subscriber' => __( 'Are you sure you want to delete this subscriber?', 'restockx' ),
+				'confirm_reset_template'    => __( 'Are you sure you want to reset the email template to its default content?', 'restockx' ),
+			)
+		);
+	}
 
 	/**
      * Registering necessary js and css
