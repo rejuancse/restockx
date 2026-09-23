@@ -2,21 +2,23 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: RestockX for WooCommerce 1.0.0\n"
+"Project-Id-Version: RestockX 1.0.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/restockx\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-08T07:18:54+00:00\n"
+"POT-Creation-Date: 2026-09-23T08:48:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: restockx\n"
 
 #. Plugin Name of the plugin
 #: restockx.php
-msgid "RestockX for WooCommerce"
+#: includes/Admin/RestockX_Menu.php:87
+#: includes/Admin/RestockX_Menu.php:88
+msgid "RestockX"
 msgstr ""
 
 #. Description of the plugin
@@ -29,225 +31,268 @@ msgstr ""
 msgid "Rejuan Ahamed"
 msgstr ""
 
-#: includes/Admin.php:38
-msgid "RestockX Notification Statistics"
+#: includes/Admin/Pages/Dashboard_Page.php:57
+#: includes/Admin/Pages/Dashboard_Page.php:544
+#: includes/Admin/Pages/Subscribers_Page.php:205
+#: includes/Admin/RestockX_Menu.php:150
+#: includes/Admin/RestockX_Menu.php:163
+#: includes/Admin/RestockX_Menu.php:176
+msgid "Template file not found."
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:82
-#: includes/Admin/RestockX_Menu.php:83
-msgid "RestockX"
+#: includes/Admin/Pages/Email_Templates_Page.php:34
+#: includes/Admin/Pages/Email_Templates_Page.php:47
+msgid "Security check failed."
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:92
-#: includes/Admin/RestockX_Menu.php:93
+#: includes/Admin/Pages/Email_Templates_Page.php:41
+msgid "Email template has been reset to the default."
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:67
+msgid "Settings saved."
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:82
+msgid "Settings page template not found."
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:103
+msgid "Product Back in Stock"
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:114
+msgid "Hello,"
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:116
+msgid "Great news! The product you were waiting for is now back in stock at <strong>{site_name}</strong>."
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:118
+msgid "Now Available"
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:120
+msgid "Stock is limited, so grab yours before it sells out again:"
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:122
+msgid "Buy Now"
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:124
+msgid "Thank you for your patience and interest in our products."
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:125
+msgid "Best Regards,"
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:126
+msgid "The {site_name} Team"
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:137
+msgid "All rights reserved."
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:137
+msgid "You received this email because you asked to be notified when this product was back in stock."
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:149
+msgid "If you no longer wish to receive alerts, you can"
+msgstr ""
+
+#: includes/Admin/Pages/Email_Templates_Page.php:149
+msgid "unsubscribe here"
+msgstr ""
+
+#: includes/Admin/Pages/Subscribers_Page.php:216
+msgid "Export to CSV is available in the Premium version."
+msgstr ""
+
+#: includes/Admin/Pages/Subscribers_Page.php:217
+msgid "Premium Feature"
+msgstr ""
+
+#: includes/Admin/RestockX_Menu.php:97
+#: includes/Admin/RestockX_Menu.php:98
 #: views/admin-subscribers.php:46
 msgid "Subscribers"
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:101
-#: includes/Admin/RestockX_Menu.php:102
+#: includes/Admin/RestockX_Menu.php:106
+#: includes/Admin/RestockX_Menu.php:107
 msgid "Email Templates"
 msgstr ""
 
+#: includes/Admin/RestockX_Menu.php:115
+#: includes/Admin/RestockX_Menu.php:116
+msgid "Campaigns"
+msgstr ""
+
 #: includes/Admin/RestockX_Menu.php:124
+#: includes/Admin/RestockX_Menu.php:125
+msgid "New Campaign"
+msgstr ""
+
+#: includes/Admin/RestockX_Menu.php:133
+#: includes/Admin/RestockX_Menu.php:134
+msgid "Settings"
+msgstr ""
+
+#: includes/Admin/RestockX_Menu.php:195
 msgid "Security token is missing. Please refresh the page and try again."
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:134
+#: includes/Admin/RestockX_Menu.php:205
 msgid "Security check failed. Please refresh the page and try again."
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:139
+#: includes/Admin/RestockX_Menu.php:210
 msgid "Error: Product/Variation ID not found. Please select a variation (if applicable) or refresh the page and try again."
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:149
+#: includes/Admin/RestockX_Menu.php:220
 msgid "Too many requests. Please try again later."
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:174
+#: includes/Admin/RestockX_Menu.php:245
 msgid "Invalid email address"
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:191
+#: includes/Admin/RestockX_Menu.php:262
 msgid "Invalid product ID"
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:230
+#: includes/Admin/RestockX_Menu.php:301
 msgid "You have already subscribed to notifications for this product."
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:237
+#: includes/Admin/RestockX_Menu.php:308
 msgid "Your notification subscription has been renewed for this product."
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:305
-#: includes/Admin/RestockX_Menu.php:334
-#: includes/Admin/RestockX_Menu.php:358
-#: includes/Admin/RestockX_Menu.php:413
+#: includes/Admin/RestockX_Menu.php:378
+#: includes/Admin/RestockX_Menu.php:407
+#: includes/Admin/RestockX_Menu.php:431
+#: includes/Admin/RestockX_Menu.php:486
 msgid "this product"
 msgstr ""
 
 #. translators: %s: product name
-#: includes/Admin/RestockX_Menu.php:310
+#: includes/Admin/RestockX_Menu.php:383
 #, php-format
 msgid "You have been subscribed to notifications for <strong>%s</strong>. We will notify you when it is back in stock."
 msgstr ""
 
 #. translators: %s: product name
-#: includes/Admin/RestockX_Menu.php:339
+#: includes/Admin/RestockX_Menu.php:412
 #, php-format
 msgid "Almost done! Confirm your subscription via email to get notified when <strong>%s</strong> is back in stock."
 msgstr ""
 
 #. translators: %s: Product name
-#: includes/Admin/RestockX_Menu.php:371
+#: includes/Admin/RestockX_Menu.php:444
 #, php-format
 msgid "Confirm your stock alert for %s"
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:377
-#: includes/Admin/RestockX_Menu.php:420
-#: includes/Admin/RestockX_Menu.php:667
+#: includes/Admin/RestockX_Menu.php:450
+#: includes/Admin/RestockX_Menu.php:493
+#: includes/Admin/RestockX_Menu.php:740
 msgid "Stock Alerts"
 msgstr ""
 
 #. translators: 1: Product name, 2: Confirmation URL
-#: includes/Admin/RestockX_Menu.php:382
+#: includes/Admin/RestockX_Menu.php:455
 #, php-format
 msgid "Please confirm your subscription to be notified when %1$s is back in stock. <a href=\"%2$s\">Click here to confirm</a>."
 msgstr ""
 
 #. translators: %s: Product name
-#: includes/Admin/RestockX_Menu.php:417
+#: includes/Admin/RestockX_Menu.php:490
 #, php-format
 msgid "You are subscribed: %s stock alerts"
 msgstr ""
 
 #. translators: 1: Product name, 2: Site name, 3: Product URL
-#: includes/Admin/RestockX_Menu.php:424
+#: includes/Admin/RestockX_Menu.php:497
 #, php-format
 msgid "You will receive an email as soon as <strong>%1$s</strong> is back in stock at %2$s.<br><br><a href=\"%3$s\">View product</a>"
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:452
+#: includes/Admin/RestockX_Menu.php:525
 msgid "Invalid confirmation request."
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:466
+#: includes/Admin/RestockX_Menu.php:539
 msgid "Subscription not found or already confirmed."
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:472
+#: includes/Admin/RestockX_Menu.php:545
 msgid "Your subscription has been confirmed. Thank you!"
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:483
+#: includes/Admin/RestockX_Menu.php:556
 msgid "Invalid unsubscribe request."
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:497
+#: includes/Admin/RestockX_Menu.php:570
 msgid "Subscription not found."
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:509
+#: includes/Admin/RestockX_Menu.php:582
 msgid "You have been unsubscribed from stock alerts."
 msgstr ""
 
 #. translators: %s: product name
-#: includes/Admin/RestockX_Menu.php:684
+#: includes/Admin/RestockX_Menu.php:757
 #, php-format
 msgid "Product Back in Stock: %s"
 msgstr ""
 
-#: includes/Admin/RestockX_Menu.php:890
+#: includes/Admin/RestockX_Menu.php:963
 msgid "Selected notifications have been deleted."
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard_Page.php:53
-#: includes/Admin/Pages/Dashboard_Page.php:511
-#: includes/Admin/Pages/Subscribers_Page.php:205
-msgid "Template file not found."
+#: includes/Assets.php:37
+msgid "Are you sure you want to delete this subscriber?"
 msgstr ""
 
-#: includes/Admin/Pages/Email_Templates_Page.php:33
-#: includes/Admin/Pages/Subscribers_Page.php:152
-msgid "Security check failed."
+#: includes/Assets.php:38
+msgid "Are you sure you want to reset the email template to its default content?"
 msgstr ""
 
-#: includes/Admin/Pages/Email_Templates_Page.php:49
-msgid "Settings saved."
-msgstr ""
-
-#: includes/Admin/Pages/Email_Templates_Page.php:64
-msgid "Settings page template not found."
-msgstr ""
-
-#: includes/Admin/Pages/Email_Templates_Page.php:86
-msgid "Product Back in Stock"
-msgstr ""
-
-#: includes/Admin/Pages/Email_Templates_Page.php:97
-msgid "Hello,"
-msgstr ""
-
-#: includes/Admin/Pages/Email_Templates_Page.php:98
-msgid "Great news! The product <strong>{product_name}</strong> is now back in stock at <strong>{site_name}</strong>."
-msgstr ""
-
-#: includes/Admin/Pages/Email_Templates_Page.php:99
-msgid "You can purchase it here:"
-msgstr ""
-
-#: includes/Admin/Pages/Email_Templates_Page.php:99
-msgid "Buy Now"
-msgstr ""
-
-#: includes/Admin/Pages/Email_Templates_Page.php:100
-msgid "Thank you for your patience and interest in our products."
-msgstr ""
-
-#: includes/Admin/Pages/Email_Templates_Page.php:101
-msgid "Best Regards,"
-msgstr ""
-
-#: includes/Admin/Pages/Email_Templates_Page.php:102
-msgid "The {site_name} Team"
-msgstr ""
-
-#: includes/Admin/Pages/Email_Templates_Page.php:113
-msgid "All rights reserved."
-msgstr ""
-
-#: includes/Admin/Pages/Email_Templates_Page.php:125
-msgid "If you no longer wish to receive alerts, you can"
-msgstr ""
-
-#: includes/Admin/Pages/Email_Templates_Page.php:125
-msgid "unsubscribe here"
-msgstr ""
-
-#: includes/Admin/Pages/Subscribers_Page.php:258
-#: views/admin-subscribers.php:174
-msgid "Product not found"
-msgstr ""
-
-#: includes/Frontend/Add_Notify_Me_Button.php:33
+#: includes/Frontend/Add_Notify_Me_Button.php:32
 msgid "Notify Me When Available"
 msgstr ""
 
-#: includes/Frontend/Add_Notify_Me_Button.php:34
+#: includes/Frontend/Add_Notify_Me_Button.php:33
 msgid "We will email you as soon as this product is back in stock."
 msgstr ""
 
-#: includes/Frontend/Add_Notify_Me_Button.php:247
-#: includes/Frontend/Add_Notify_Me_Button.php:292
+#: includes/Frontend/Add_Notify_Me_Button.php:245
+#: includes/Frontend/Add_Notify_Me_Button.php:290
 msgid "Enter your email"
 msgstr ""
 
-#: includes/Frontend/Add_Notify_Me_Button.php:251
-#: includes/Frontend/Add_Notify_Me_Button.php:295
+#: includes/Frontend/Add_Notify_Me_Button.php:249
+#: includes/Frontend/Add_Notify_Me_Button.php:293
 msgid "Notify Me"
+msgstr ""
+
+#: views/admin-campaign.php:23
+#: views/admin-dashboard.php:184
+#: views/admin-new-campaign.php:23
+#: views/admin-settings.php:23
+#: views/admin-subscribers.php:86
+#: views/admin-subscribers.php:155
+#: views/email-templates.php:148
+#: views/global/header.php:24
+msgid "Go Premium"
 msgstr ""
 
 #: views/admin-dashboard.php:16
@@ -271,92 +316,125 @@ msgstr ""
 msgid "View subscribers →"
 msgstr ""
 
-#: views/admin-dashboard.php:91
+#: views/admin-dashboard.php:92
 msgid "waiting"
 msgstr ""
 
-#: views/admin-dashboard.php:98
+#: views/admin-dashboard.php:99
 msgid "No demand data available"
 msgstr ""
 
-#: views/admin-dashboard.php:109
+#: views/admin-dashboard.php:110
 msgid "Recent activity"
 msgstr ""
 
-#: views/admin-dashboard.php:112
+#: views/admin-dashboard.php:113
 msgid "Live from the notification queue"
 msgstr ""
 
-#: views/admin-dashboard.php:116
-#: views/admin-dashboard.php:158
+#: views/admin-dashboard.php:117
+#: views/admin-dashboard.php:225
 msgid "View all"
 msgstr ""
 
-#: views/admin-dashboard.php:140
+#: views/admin-dashboard.php:141
 msgid "No recent activity"
 msgstr ""
 
-#: views/admin-dashboard.php:151
+#: views/admin-dashboard.php:152
+msgid "Recent Campaign"
+msgstr ""
+
+#: views/admin-dashboard.php:155
+msgid "Your 5 latest email campaigns and their delivery status"
+msgstr ""
+
+#: views/admin-dashboard.php:161
+msgid "View Campaign →"
+msgstr ""
+
+#: views/admin-dashboard.php:199
+msgid "sent"
+msgstr ""
+
+#: views/admin-dashboard.php:206
+msgid "No campaigns yet"
+msgstr ""
+
+#: views/admin-dashboard.php:218
 msgid "Recent Subscribers"
 msgstr ""
 
-#: views/admin-dashboard.php:154
+#: views/admin-dashboard.php:221
 msgid "Latest stock alert subscriptions with their status"
 msgstr ""
 
-#: views/admin-dashboard.php:186
+#: views/admin-dashboard.php:253
 msgid "No subscribers yet"
 msgstr ""
 
-#: views/admin-subscribers.php:81
+#: views/admin-subscribers.php:102
 msgid "Bulk Actions"
 msgstr ""
 
-#: views/admin-subscribers.php:82
+#: views/admin-subscribers.php:103
 msgid "Delete"
 msgstr ""
 
-#: views/admin-subscribers.php:84
+#: views/admin-subscribers.php:105
 msgid "Apply"
 msgstr ""
 
 #. Translators: %d is the number of notifications
-#: views/admin-subscribers.php:94
+#: views/admin-subscribers.php:115
 #, php-format
 msgid "%d item"
 msgid_plural "%d items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/admin-subscribers.php:108
+#: views/admin-subscribers.php:129
+#: views/admin-subscribers.php:144
 msgid "Export to CSV"
 msgstr ""
 
-#: views/admin-subscribers.php:120
+#: views/admin-subscribers.php:167
 msgid "Product"
 msgstr ""
 
-#: views/admin-subscribers.php:121
+#: views/admin-subscribers.php:168
 msgid "Email"
 msgstr ""
 
-#: views/admin-subscribers.php:122
+#: views/admin-subscribers.php:169
 msgid "Date"
 msgstr ""
 
-#: views/admin-subscribers.php:123
+#: views/admin-subscribers.php:170
 msgid "Status"
 msgstr ""
 
-#: views/admin-subscribers.php:193
+#: views/admin-subscribers.php:171
+msgid "Actions"
+msgstr ""
+
+#: views/admin-subscribers.php:223
+msgid "Product not found"
+msgstr ""
+
+#: views/admin-subscribers.php:238
+msgid "Delete subscriber"
+msgstr ""
+
+#: views/admin-subscribers.php:247
 msgid "No notifications found!"
 msgstr ""
 
-#: views/admin-subscribers.php:205
+#: views/admin-subscribers.php:259
 msgid "&laquo; Previous"
 msgstr ""
 
-#: views/admin-subscribers.php:206
+#: views/admin-subscribers.php:260
 msgid "Next &raquo;"
 msgstr ""
 
@@ -368,56 +446,60 @@ msgstr ""
 msgid "Configure the email your customers receive when a product comes back in stock."
 msgstr ""
 
-#: views/email-templates.php:33
+#: views/email-templates.php:32
 msgid "Configure Email Template"
 msgstr ""
 
-#: views/email-templates.php:36
+#: views/email-templates.php:35
 msgid "Customize the email sent to customers when a product is back in stock. You can use the following placeholders:"
 msgstr ""
 
-#: views/email-templates.php:42
+#: views/email-templates.php:41
 msgid "The name of the product"
 msgstr ""
 
-#: views/email-templates.php:43
+#: views/email-templates.php:42
 msgid "The URL of the product page"
 msgstr ""
 
-#: views/email-templates.php:44
+#: views/email-templates.php:43
 msgid "The name of your website"
 msgstr ""
 
-#: views/email-templates.php:67
+#: views/email-templates.php:63
+msgid "Reset to Default"
+msgstr ""
+
+#: views/email-templates.php:71
 msgid "Notification Threshold"
 msgstr ""
 
-#: views/email-templates.php:73
+#: views/email-templates.php:77
 msgid "Notifications go out once stock reaches or exceeds this number."
 msgstr ""
 
-#: views/email-templates.php:85
+#: views/email-templates.php:89
 msgid "When stock reaches this many units, everyone on the waitlist gets emailed at once."
 msgstr ""
 
-#: views/email-templates.php:93
+#: views/email-templates.php:98
 msgid "Email Settings"
 msgstr ""
 
-#: views/email-templates.php:106
+#: views/email-templates.php:111
 msgid "Subscription Confirmation"
 msgstr ""
 
-#: views/email-templates.php:109
+#: views/email-templates.php:114
 msgid "Confirms a customer has joined the waitlist"
 msgstr ""
 
-#: views/email-templates.php:124
+#: views/email-templates.php:156
 msgid "Save Settings"
 msgstr ""
 
 #. translators: %s: plugin version number
-#: views/global/header.php:21
+#: views/global/header.php:31
 #, php-format
 msgid "Current Version: %s"
 msgstr ""

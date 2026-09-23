@@ -1,5 +1,4 @@
 <?php
-
 namespace RestockX;
 
 defined( 'ABSPATH' ) || exit;

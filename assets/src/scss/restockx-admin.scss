@@ -2469,6 +2469,20 @@
             border-radius: 3px;
         }
     }
+
+    .submit.reset {
+        padding-left: 0;
+        padding-right: 0;
+        padding-bottom: 0;
+
+        .btn-primary {
+            background: #b0b0b0;
+            box-shadow: none;
+            padding: 10px 15px;
+            font-size: 12px;
+            font-weight: 400;
+        }
+    }
 }
 
 /* Save Button */

@@ -171,6 +171,7 @@ $restockx_svg_allowed = array(
                             <th><?php esc_html_e( 'Actions', 'restockx' ); ?></th>
                         </tr>
                     </thead>
+
                     <tbody>
                         <?php if ( ! empty( $notifications ) && function_exists( 'wc_get_product' ) ) : ?>
                             <?php foreach ( $notifications as $notification ) : // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound ?>
@@ -271,4 +272,3 @@ $restockx_svg_allowed = array(
         </div>
     </section>
 </div>
-

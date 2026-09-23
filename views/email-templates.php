@@ -20,8 +20,7 @@ defined( 'ABSPATH' ) || exit;
 					<?php esc_html_e( 'Configure the email your customers receive when a product comes back in stock.', 'restockx' ); ?>
 				</div>
 			</div>
-
-			</div>
+		</div>
 
         <form method="post">
             <?php wp_nonce_field( 'restockx_save_settings', 'settings_nonce' ); ?>
@@ -57,6 +56,11 @@ defined( 'ABSPATH' ) || exit;
                             );
                             wp_editor($email_templates, 'email_templates_editor', $editor_settings);
                         ?>
+                    </div>
+
+                    <!-- Reset email template to its default content -->
+                    <div class="submit reset">
+                        <input type="submit" name="reset_template" class="btn btn-primary" value="<?php esc_attr_e( 'Reset to Default', 'restockx' ); ?>">
                     </div>
                 </div>
 

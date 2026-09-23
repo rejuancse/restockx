@@ -27,6 +27,20 @@ trait Email_Templates_Page {
 	 * @return void
 	 */
 	public function restockx_email_templates() {
+		// Handle "Reset to Default": restore the default email template.
+		if ( isset( $_POST['reset_template'] ) ) {
+			// Verify nonce for security.
+			if ( ! isset( $_POST['settings_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['settings_nonce'] ) ), 'restockx_save_settings' ) ) {
+				wp_die( esc_html__( 'Security check failed.', 'restockx' ) );
+			}
+
+			// Removing the option makes the page fall back to the default template.
+			delete_option( 'restockx_email_templates' );
+
+			// Display reset message.
+			echo '<div class="updated"><p>' . esc_html__( 'Email template has been reset to the default.', 'restockx' ) . '</p></div>';
+		}
+
 		if ( isset( $_POST['submit_settings'] ) ) {
 			// Verify nonce for security.
 			if ( ! isset( $_POST['settings_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['settings_nonce'] ) ), 'restockx_save_settings' ) ) {

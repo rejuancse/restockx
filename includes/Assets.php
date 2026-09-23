@@ -35,10 +35,10 @@ class Assets {
 			'restockx_admin',
 			array(
 				'confirm_delete_subscriber' => __( 'Are you sure you want to delete this subscriber?', 'restockx' ),
+				'confirm_reset_template'    => __( 'Are you sure you want to reset the email template to its default content?', 'restockx' ),
 			)
 		);
 	}
-
 
 	/**
      * Registering necessary js and css
