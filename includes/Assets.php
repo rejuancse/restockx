@@ -24,6 +24,10 @@ class Assets {
 	public function admin_script( $hook_suffix ) {
 		wp_enqueue_style( 'restockx-admin', RESTOCKX_URL .'/assets/dist/css/restockx-admin.css', false, RESTOCKX_VERSION );
 
+		// Get current page. Read-only page detection for conditional asset
+		// enqueuing; no action is taken on the data, so no nonce applies.
+		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only GET param used only to identify the current admin page.
+
 		// Admin JS is only needed on the RestockX pages.
 		if ( false === strpos( (string) $hook_suffix, 'restockx' ) ) {
 			return;
@@ -38,6 +42,27 @@ class Assets {
 				'confirm_reset_template'    => __( 'Are you sure you want to reset the email template to its default content?', 'restockx' ),
 			)
 		);
+
+		// Settings page (free only): tabbed settings UI. The "Notify Me" tab
+		// is fully free; "Channels" and "Newsletter" render the premium lock
+		// screens. When Pro is active it enqueues its own settings assets.
+		if ( 'restockx-settings' === $current_page && restockx_show_upgrade_cta() ) {
+			wp_enqueue_script( 'restockx-settings', RESTOCKX_URL . '/assets/dist/js/restock-settings.js', array(), RESTOCKX_VERSION, true );
+
+			// The button settings API (defaults, fonts, icon SVGs) lives in
+			// the Add_Notify_Me_Button class.
+			$notify_icon_map = array();
+			foreach ( array( 'bell', 'clock', 'mail', 'tag' ) as $icon_key ) {
+				$notify_icon_map[ $icon_key ] = \RestockX\Frontend\Add_Notify_Me_Button::get_icon_svg( $icon_key );
+			}
+
+			wp_localize_script( 'restockx-settings', 'restockxSettings', array(
+				'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
+				'nonce'    => wp_create_nonce( 'restockx_settings_nonce' ),
+				'iconMap'  => $notify_icon_map,
+				'settings' => \RestockX\Frontend\Add_Notify_Me_Button::get_settings(),
+			) );
+		}
 	}
 
 	/**

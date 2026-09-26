@@ -1000,6 +1000,61 @@
         gap: 10px;
     }
 
+    /* settings layout (Settings → Notify Me / Channels / Newsletter) */
+    .settings-layout {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 22px;
+        align-items: start;
+    }
+    .settings-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 10px;
+        box-shadow: var(--shadow-sm);
+    }
+    .settings-nav-item {
+        padding: 10px 12px;
+        border-radius: 9px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink-soft);
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        text-decoration: none;
+    }
+    .settings-nav-item svg {
+        width: 15px;
+        height: 15px;
+    }
+    .settings-nav-item.active {
+        background: var(--info-bg);
+        color: var(--restockx-violet);
+    }
+    .settings-panel {
+        padding: 22px;
+    }
+
+    /* Premium lock badge on the Channels / Newsletter tabs (free version) */
+    .settings-nav-item .settings-nav-lock {
+        width: 12px;
+        height: 12px;
+        margin-left: auto;
+        color: var(--ink-faint);
+    }
+
+    /* Locked settings panels render the Go Premium teaser screen */
+    .settings-panel-locked .blur {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        overflow: hidden;
+    }
+
     /* forms */
     .form-group {
         display: flex;
@@ -2450,5 +2505,135 @@
             color: #3c06c5;
             text-decoration: underline;
         }
+    }
+}
+
+/**
+ * Toast notifications (restock-settings.js showToast)
+ */
+#restockx-toast-container {
+    position: fixed;
+    top: 47px;
+    right: 16px;
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.restockx-toast {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    width: 340px;
+    max-width: calc(100vw - 32px);
+    padding: 14px 40px 16px 14px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-left-width: 4px;
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+
+    &.restockx-toast-visible {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    &.restockx-toast-success {
+        border-left-color: #46b450;
+
+        .restockx-toast-icon {
+            color: #46b450;
+        }
+
+        .restockx-toast-progress {
+            background: #46b450;
+        }
+    }
+
+    &.restockx-toast-error {
+        border-left-color: #dc3232;
+
+        .restockx-toast-icon {
+            color: #dc3232;
+        }
+
+        .restockx-toast-progress {
+            background: #dc3232;
+        }
+    }
+}
+
+.restockx-toast-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+
+    svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+}
+
+.restockx-toast-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.restockx-toast-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #150a2e;
+    margin-bottom: 2px;
+}
+
+.restockx-toast-message {
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: #50575e;
+    word-wrap: break-word;
+}
+
+.restockx-toast-close {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    padding: 2px 6px;
+    border: 0;
+    background: transparent;
+    font-size: 16px;
+    line-height: 1;
+    color: #787c82;
+    cursor: pointer;
+
+    &:hover {
+        color: #150a2e;
+    }
+}
+
+.restockx-toast-progress {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    transform-origin: left;
+    animation: restockxToastProgress 4s linear forwards;
+}
+
+@keyframes restockxToastProgress {
+    from {
+        transform: scaleX(1);
+    }
+
+    to {
+        transform: scaleX(0);
     }
 }

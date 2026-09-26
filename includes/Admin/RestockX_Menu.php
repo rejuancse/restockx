@@ -21,6 +21,7 @@ class RestockX_Menu {
 	use \RestockX\Admin\Pages\Dashboard_Page;
 	use \RestockX\Admin\Pages\Subscribers_Page;
 	use \RestockX\Admin\Pages\Email_Templates_Page;
+	use \RestockX\Admin\Pages\Settings_Page;
 
 	/**
 	 * Singleton instance of the class.
@@ -67,6 +68,11 @@ class RestockX_Menu {
 		add_action( 'admin_init', array( $this, 'handle_bulk_action_restockx_subscriptions' ) );
 
 		add_action( 'admin_init', array( $this, 'restockx_page_hide_notifications' ) );
+
+		// Settings page: save handler for the free "Notify Me" tab. Priority
+		// 5 keeps it ahead of the Pro handler; while Pro is active this
+		// handler bails early and lets the Pro endpoint respond.
+		add_action( 'wp_ajax_restockx_save_settings', array( $this, 'save_notify_me_settings' ), 5 );
 	}
 
 	/**
@@ -130,6 +136,15 @@ class RestockX_Menu {
 
 		add_submenu_page(
 			'restockx',
+			__( 'Newsletter', 'restockx' ),
+			__( 'Newsletter', 'restockx' ),
+			'manage_options',
+			'restockx-newsletter',
+			apply_filters( 'restockx_submenu_callback', array( $this, 'restockx_newsletter' ), 'restockx-newsletter' )
+		);
+
+		add_submenu_page(
+			'restockx',
 			__( 'Settings', 'restockx' ),
 			__( 'Settings', 'restockx' ),
 			'manage_options',
@@ -154,6 +169,25 @@ class RestockX_Menu {
 	public function restockx_new_campaign() {
 		// Path to the admin page template file.
 		$template_path = RESTOCKX_PATH . 'views/admin-new-campaign.php';
+
+		// Check if the template exists before including it.
+		if ( file_exists( $template_path ) ) {
+			include $template_path; // No parentheses needed for include.
+		} else {
+			// Template not found, display an error or a fallback message.
+			echo '<div class="notice notice-error"><p>' . esc_html__( 'Template file not found.', 'restockx' ) . '</p></div>';
+		}
+	}
+
+	/**
+	 * Newsletter page (free): renders the Go Premium teaser screen.
+	 *
+	 * When RestockX Pro is active, the `restockx_submenu_callback` filter
+	 * swaps this callback for the premium Newsletter subscribers page.
+	 */
+	public function restockx_newsletter() {
+		// Path to the admin page template file.
+		$template_path = RESTOCKX_PATH . 'views/admin-newsletter.php';
 
 		// Check if the template exists before including it.
 		if ( file_exists( $template_path ) ) {
@@ -1006,6 +1040,7 @@ class RestockX_Menu {
 			'restockx-email-templates',
 			'restockx-campaigns',
 			'restockx-new-campaign',
+			'restockx-newsletter',
 			'restockx-settings'
 		);
 
