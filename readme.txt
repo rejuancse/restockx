@@ -123,6 +123,12 @@ Found a bug? Please let us know by opening a topic in the support section of thi
 
 == Changelog ==
 
+= 1.0.2 [23/09/2026] =
+* New: Added a "Delete" action button on each subscriber row. Admins can now delete a single subscriber directly from the Subscribers list (a confirmation prompt prevents accidental deletions).
+* New: Added an "Actions" column to the Subscribers list table.
+* New: Added a "Reset to Default" button on the Email Template page. Clicking it (after confirmation) restores the saved email template back to its default content.
+* New: Added a dedicated admin JavaScript file (restock-admin.js) for admin interactions. It is loaded only on RestockX admin pages, and all confirmation messages are translatable.
+
 = 1.0.1 [18/09/2026] =
 * New: Added a "Pro Features" section to the readme listing everything included in RestockX Pro (email campaigns, scheduling, discount codes, email templates, live-preview button customizer, and channel settings).
 * New: Added a "What does RestockX Pro add?" FAQ entry.
