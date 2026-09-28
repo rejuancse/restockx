@@ -306,7 +306,7 @@
     .page {
         display: flex;
         flex-direction: column;
-        gap: 22px;
+        gap: 20px;
         animation: fadeIn .25s ease;
 
         .page-header {
@@ -364,7 +364,7 @@
     .kpi-row {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
+        gap: 20px;
 
         .kpi-card {
             background: var(--surface);
@@ -462,14 +462,14 @@
     .grid-2 {
         display: grid;
         grid-template-columns: 1.5fr 1fr;
-        gap: 22px;
+        gap: 20px;
         align-items: start;
     }
 
     .grid-50 {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 22px;
+        gap: 20px;
         align-items: start;
     }
 
