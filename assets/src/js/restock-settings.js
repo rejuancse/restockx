@@ -1,7 +1,7 @@
 /**
  * RestockX - Admin settings page scripts.
  *
- * The "Notify Me" tab is fully free. The "Channels" and "Newsletter" tabs
+ * The "Notify Me" tab is fully free. The "Channels" and "WelcomeOffer" tabs
  * render the premium lock screens; the save bar is hidden while one of
  * those tabs is active.
  *
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const saveBar = document.querySelector('#restockx .save-bar');
 
     /**
-     * Shows or hides the save bar. Locked tabs (Channels, Newsletter) have
+     * Shows or hides the save bar. Locked tabs (Channels, WelcomeOffer) have
      * nothing to save, so the bar is hidden while they are active.
      */
     const toggleSaveBar = function (target) {

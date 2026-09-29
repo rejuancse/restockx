@@ -136,11 +136,11 @@ class RestockX_Menu {
 
 		add_submenu_page(
 			'restockx',
-			__( 'Newsletter', 'restockx' ),
-			__( 'Newsletter', 'restockx' ),
+			__( 'Welcome Offer', 'restockx' ),
+			__( 'Welcome Offer', 'restockx' ),
 			'manage_options',
-			'restockx-newsletter',
-			apply_filters( 'restockx_submenu_callback', array( $this, 'restockx_newsletter' ), 'restockx-newsletter' )
+			'restockx-welcomeoffer',
+			apply_filters( 'restockx_submenu_callback', array( $this, 'restockx_welcomeoffer' ), 'restockx-welcomeoffer' )
 		);
 
 		add_submenu_page(
@@ -180,14 +180,14 @@ class RestockX_Menu {
 	}
 
 	/**
-	 * Newsletter page (free): renders the Go Premium teaser screen.
+	 * WelcomeOffer page (free): renders the Go Premium teaser screen.
 	 *
 	 * When RestockX Pro is active, the `restockx_submenu_callback` filter
-	 * swaps this callback for the premium Newsletter subscribers page.
+	 * swaps this callback for the premium WelcomeOffer subscribers page.
 	 */
-	public function restockx_newsletter() {
+	public function restockx_welcomeoffer() {
 		// Path to the admin page template file.
-		$template_path = RESTOCKX_PATH . 'views/admin-newsletter.php';
+		$template_path = RESTOCKX_PATH . 'views/admin-welcomeoffer.php';
 
 		// Check if the template exists before including it.
 		if ( file_exists( $template_path ) ) {
@@ -1040,7 +1040,7 @@ class RestockX_Menu {
 			'restockx-email-templates',
 			'restockx-campaigns',
 			'restockx-new-campaign',
-			'restockx-newsletter',
+			'restockx-welcomeoffer',
 			'restockx-settings'
 		);
 

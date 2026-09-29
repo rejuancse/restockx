@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * Trait Settings_Page
  *
  * Hosts the free Settings screen logic. The "Notify Me" tab is fully
- * free; the "Channels" and "Newsletter" tabs render the premium lock
+ * free; the "Channels" and "WelcomeOffer" tabs render the premium lock
  * screens and are taken over by RestockX Pro when it is active.
  */
 trait Settings_Page {

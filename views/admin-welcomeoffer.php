@@ -1,9 +1,9 @@
 <?php
 /**
- * Admin Newsletter template (free version)
+ * Admin WelcomeOffer template (free version)
  *
  * Renders the Go Premium teaser screen, same pattern as the Campaign
- * pages. When RestockX Pro is active, the premium Newsletter
+ * pages. When RestockX Pro is active, the premium WelcomeOffer
  * subscribers page takes over this screen entirely.
  *
  * @version 1.0.0
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 <div id="restockx" class="restockx wrap alartx-sections">
 	<?php include_once RESTOCKX_PATH .'/views/global/header.php'; ?>
 
-    <section class="page page-newsletter">
+    <section class="page page-welcomeoffer">
         <div class="blur">
             <img src="<?php echo esc_url( RESTOCKX_URL . 'assets/images/cam-list.jpg' ); ?>" alt="">
 

@@ -44,7 +44,7 @@ class Assets {
 		);
 
 		// Settings page (free only): tabbed settings UI. The "Notify Me" tab
-		// is fully free; "Channels" and "Newsletter" render the premium lock
+		// is fully free; "Channels" and "WelcomeOffer" render the premium lock
 		// screens. When Pro is active it enqueues its own settings assets.
 		if ( 'restockx-settings' === $current_page && restockx_show_upgrade_cta() ) {
 			wp_enqueue_script( 'restockx-settings', RESTOCKX_URL . '/assets/dist/js/restock-settings.js', array(), RESTOCKX_VERSION, true );
