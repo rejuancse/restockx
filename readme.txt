@@ -5,7 +5,7 @@ Tags: restock, stock alert, back in stock, stock notification, notify me
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,20 @@ Found a bug? Please let us know by opening a topic in the support section of thi
 5. Email template editor with stock threshold setting.
 
 == Changelog ==
+= 1.0.3 [01/10/2026] =
+* New: Redesigned the Settings page with a tabbed layout — the free "Notify Me" button settings now live in their own tab, and the premium "Channels" and "Welcome Offer" tabs render Go Premium teaser screens that are automatically taken over by RestockX Pro when it is active.
+* New: Added a dedicated "Welcome Offer" submenu page under the RestockX menu (Go Premium teaser screen; replaced by the premium Welcome Offer page when Pro is active).
+* New: Added the free "Notify Me" settings save handler (AJAX) so button options can be saved without Pro; the Pro handler takes priority when Pro is active.
+* Updated: Added dedicated preview images for the premium Channels and Welcome Offer teaser screens instead of reusing the Settings screenshot.
+* Updated: Refreshed the translation template (restockx.pot) with all the new settings strings.
+* Fix: Fixed an issue where WordPress admin notifications were incorrectly hidden on RestockX admin pages.
+* Fix: Minor admin CSS and JavaScript fixes and cleanup.
+
+= 1.0.2 [23/09/2026] =
+* New: Added a "Delete" action button on each subscriber row. Admins can now delete a single subscriber directly from the Subscribers list (a confirmation prompt prevents accidental deletions).
+* New: Added an "Actions" column to the Subscribers list table.
+* New: Added a "Reset to Default" button on the Email Template page. Clicking it (after confirmation) restores the saved email template back to its default content.
+* New: Added a dedicated admin JavaScript file (restock-admin.js) for admin interactions. It is loaded only on RestockX admin pages, and all confirmation messages are translatable.
 
 = 1.0.1 [18/09/2026] =
 * New: Added a "Pro Features" section to the readme listing everything included in RestockX Pro (email campaigns, scheduling, discount codes, email templates, live-preview button customizer, and channel settings).
