@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 
     <section class="page page-welcomeoffer">
         <div class="blur">
-            <img src="<?php echo esc_url( RESTOCKX_URL . 'assets/images/cam-list.jpg' ); ?>" alt="">
+            <img src="<?php echo esc_url( RESTOCKX_URL . 'assets/images/welcome-offer.jpg' ); ?>" alt="">
 
             <?php if ( restockx_show_upgrade_cta() ) : ?>
                 <a class="go-premium" href="https://contra.com/products/hgwSzl7o-restock-x-for-woo-commerce" target="_blank" rel="noopener">

@@ -64,7 +64,7 @@ $restockx_notify_icons    = array(
                         <rect x="2" y="4" width="20" height="16" rx="2" />
                         <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                     </svg>
-                    <?php esc_html_e( 'WelcomeOffer', 'restockx' ); ?>
+                    <?php esc_html_e( 'Welcome Offer', 'restockx' ); ?>
                     <svg class="settings-nav-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="3" y="11" width="18" height="11" rx="2"></rect>
                         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
@@ -258,7 +258,7 @@ $restockx_notify_icons    = array(
                 <!-- Channels: premium tab, renders the Go Premium screen. -->
                 <div id="settings-channels" class="settings-panel settings-panel-locked" style="display:none;">
                     <div class="blur">
-                        <img src="<?php echo esc_url( RESTOCKX_URL . 'assets/images/settings.jpg' ); ?>" alt="">
+                        <img src="<?php echo esc_url( RESTOCKX_URL . 'assets/images/channel.jpg' ); ?>" alt="">
 
                         <?php if ( restockx_show_upgrade_cta() ) : ?>
                             <a class="go-premium" href="https://contra.com/products/hgwSzl7o-restock-x-for-woo-commerce" target="_blank" rel="noopener">
@@ -275,7 +275,7 @@ $restockx_notify_icons    = array(
                 <!-- WelcomeOffer: premium tab, renders the Go Premium screen. -->
                 <div id="settings-welcomeoffer" class="settings-panel settings-panel-locked" style="display:none;">
                     <div class="blur">
-                        <img src="<?php echo esc_url( RESTOCKX_URL . 'assets/images/settings.jpg' ); ?>" alt="">
+                        <img src="<?php echo esc_url( RESTOCKX_URL . 'assets/images/wlc-off.jpg' ); ?>" alt="">
 
                         <?php if ( restockx_show_upgrade_cta() ) : ?>
                             <a class="go-premium" href="https://contra.com/products/hgwSzl7o-restock-x-for-woo-commerce" target="_blank" rel="noopener">

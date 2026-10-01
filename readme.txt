@@ -122,6 +122,14 @@ Found a bug? Please let us know by opening a topic in the support section of thi
 5. Email template editor with stock threshold setting.
 
 == Changelog ==
+= 1.0.3 [01/10/2026] =
+* New: Redesigned the Settings page with a tabbed layout — the free "Notify Me" button settings now live in their own tab, and the premium "Channels" and "Welcome Offer" tabs render Go Premium teaser screens that are automatically taken over by RestockX Pro when it is active.
+* New: Added a dedicated "Welcome Offer" submenu page under the RestockX menu (Go Premium teaser screen; replaced by the premium Welcome Offer page when Pro is active).
+* New: Added the free "Notify Me" settings save handler (AJAX) so button options can be saved without Pro; the Pro handler takes priority when Pro is active.
+* Updated: Added dedicated preview images for the premium Channels and Welcome Offer teaser screens instead of reusing the Settings screenshot.
+* Updated: Refreshed the translation template (restockx.pot) with all the new settings strings.
+* Fix: Fixed an issue where WordPress admin notifications were incorrectly hidden on RestockX admin pages.
+* Fix: Minor admin CSS and JavaScript fixes and cleanup.
 
 = 1.0.2 [23/09/2026] =
 * New: Added a "Delete" action button on each subscriber row. Admins can now delete a single subscriber directly from the Subscribers list (a confirmation prompt prevents accidental deletions).
